@@ -14,14 +14,48 @@ Du point de vue du marché, la période 2019-2024 a connu une croissance de la p
 
 \subsection{Moteur de Visual Novels existants}
 
-Les moteurs de jeu-videos sont des outils permettant de faciliter la création de ces derniers.
+Les moteurs de jeu vidéo sont des outils logiciels destinés à faciliter la création de jeux, en prenant en charge les aspects techniques récurrents tels que l'affichage, la gestion des ressources ou encore la logique d'interaction.
 
-Nous pouvons parler de RenPy, un moteur de \gls{vn} utilisés par des milliers de personnes, offrant une interface graphique facile à prendre en main. RenPy permet le développement à destination des ordinateurs comme des téléphones portables.
+Dans le domaine des \gls{vn}, plusieurs moteurs existent. RenPy est un moteur de \gls{vn} utilisé par des milliers de créateurs à travers le monde, permettant de raconter des histoires interactives combinant texte, images et sons, aussi bien sur ordinateur que sur mobile. À ce jour, RenPy a été utilisé pour créer plus de 8 000 \gls{vn}, jeux et autres œuvres interactives. \cite{noauthor_renpy_nodate}
+
+RenPy propose notamment la gestion des narrations à embranchements, un système de sauvegardes, le retour en arrière dans l'histoire, des transitions de scènes variées, la lecture de vidéos, et une personnalisation complète de l'interface via son langage dédié \textit{Screen Language}. Les scripts RenPy utilisent une syntaxe proche du format d'un scénario, tout en permettant l'inclusion de blocs \gls{python} pour les utilisateurs souhaitant ajouter des fonctionnalités avancées. \cite{noauthor_renpy_nodate}
+
+Kretzschmar et Raffel estiment que la popularité de RenPy s'explique par sa gratuité, sa nature \gls{opensource} et l'étendue de sa documentation, qui permet à quiconque d'en apprendre les subtilités. \cite{kretzschmar_history_2023}
+
+Toutefois, RenPy présente une limite importante dans le cadre de ce projet: il s'agit d'un logiciel de bureau qui produit des exécutables natifs. La mise en ligne d'un projet requiert donc une étape de compilation et un hébergement spécifique, ce qui constitue une barrière technique non négligeable pour un créateur non-développeur souhaitant publier son œuvre facilement sur le web.
 
 
 
 \subsection{Approches no-code / low-code}
 
-L'objectif de ce type de programmation est de faciliter l'entrée dans la programmation. Ou de permettre à l'aide d'outils graphiques de s'abstraire de l'écriture de code.
+Les plateformes no-code permettent de créer des applications sans aucune connaissance en programmation, via des outils visuels, des modèles prédéfinis et des blocs de logique prêts à l'emploi. Les outils low-code, en revanche, autorisent l'ajout de code pour offrir davantage de contrôle, tout en restant accessibles aux non-développeurs.
 
-L'approche no-code (traduction: pas de code) et low-code (traduction: peux de code) sont très similaires, mais reste différentes. L'une demande toujours quelques connaissances en code ou du moins cela pourrait être utile, tandis que l'autre ne demande aucune connaissances et peut être utilisé directement par tous.
+Concrètement, les plateformes no-code s'appuient sur des interfaces de glisser-déposer, des ressources préfabriquées et du scripting visuel. Nous pouvons citer \textit{GDevelop}, \textit{Buildbox} et \textit{Construct} comme exemples représentatifs. Les outils low-code, tels que \textit{Unity's Bolt}, \textit{Unreal Engine's Blueprints} ou \textit{GameMaker Studio}, offrent quant à eux des modèles et des options de scripting simplifiées, avec une plus grande flexibilité. \cite{labs_rise_2024}
+
+Ces approches présentent un intérêt croissant dans l'industrie du jeu vidéo indépendant. La faiblesse des coûts de production et l'accessibilité des outils de développement ont permis à de nombreux développeurs indépendants d'entrer sur le marché, entraînant une augmentation du nombre de titres diversifiés et innovants. \cite{noauthor_visual_nodate}
+
+Cependant, ces outils restent majoritairement liés à des interfaces graphiques et des environnements de bureau. L'écriture d'une histoire directement sous forme de texte structuré, sans passer par une interface visuelle, reste une approche peu explorée dans l'écosystème actuel.
+
+
+
+\subsection{Le format JSON comme langage de description}
+
+Pour répondre à l'objectif d'une création entièrement textuelle, le choix du format de données est déterminant. \gls{json} est un format de fichier et d'échange de données ouvert, qui utilise du texte lisible par l'humain pour stocker et transmettre des objets de données sous forme de paires nom-valeur et de tableaux. Bien qu'il soit dérivé de JavaScript, \gls{json} est indépendant de tout langage de programmation: la plupart des langages modernes intègrent des outils pour générer et analyser des données au format \gls{json}.
+
+\gls{json} s'est imposé comme le standard universel d'échange de données. Nous le retrouvons dans tous les domaines du développement logiciel, qu'il s'agisse du \gls{frontend}, du \gls{backend}, des systèmes, des \glspl{intergiciel} ou des bases de données. \cite{noauthor_what_nodate}
+
+Dans le cadre de ce projet, \gls{json} présente plusieurs avantages déterminants. Sa syntaxe à base de clés et valeurs est intuitive, lisible par n'importe quel éditeur de texte, et ne nécessite aucun outil spécialisé pour être rédigée. Il constitue ainsi un choix idéal pour permettre à un amateur, même sans compétences techniques, de décrire une histoire de manière structurée, tout en garantissant que ce fichier pourra être interprété de manière fiable par le moteur.
+
+
+
+\subsection{Objectifs}
+
+L'état de l'art met en évidence plusieurs constats. Le \gls{vn} est un genre en pleine croissance, mais la création de tels jeux reste largement conditionnée à l'utilisation d'outils graphiques de bureau, à l'image de RenPy. Les approches no-code et low-code ont démocratisé la création de jeux, mais n'ont pas encore exploré la piste d'une écriture entièrement textuelle, structurée et déployable directement sur le web.
+
+L'objectif de ce travail est donc d'étudier la faisabilité d'un moteur de \gls{vn} reposant sur un fichier \gls{json} comme source de contenu, rendu directement dans un navigateur web sans nécessiter d'installation ni de compilation.
+
+
+
+\subsection{Contraintes et limites}
+
+L'absence d'interprétation sémantique du langage naturel implique que le format d'écriture devra respecter des règles précises. Un effort particulier sera fourni pour que ces règles restent suffisamment lisibles pour un auteur humain, tout en étant exploitables de manière déterministe par le moteur. Le format \gls{json} répond à cette contrainte, à condition de définir un schéma clair et documenté.
