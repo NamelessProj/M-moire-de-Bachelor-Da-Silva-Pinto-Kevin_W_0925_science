@@ -1,0 +1,145 @@
+\documentclass[12pt]{article}
+
+% Spacing between paragrphes
+\usepackage[skip=10pt plus1pt, indent=15pt]{parskip}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+% For figures and tables
+\usepackage{graphicx}
+\graphicspath{ {figures/} }
+\usepackage{array}
+
+% Glossary
+\usepackage[toc, acronym]{glossaries}
+\makeglossaries
+\input{glossary}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[]{mdframed}
+\usepackage{datetime2}
+
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{cite.bib} % note the .bib is required
+
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\DTMsetdatestyle{ddmmyyyy}
+
+\title{Mémoire de Bachelor - Da Silva Pinto Kevin}
+\author{Da Silva Pinto Kevin}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+
+        \textbf{Da Silva Pinto Kevin}
+
+        \#12-13\#\#\#\#
+
+        \vspace*{1cm}
+            
+        BACHELOR OF SCIENCE
+
+        WEB
+            
+        \vspace{5cm}
+
+        \begin{mdframed}
+            \begin{center}
+                \textbf{Dans quelle mesure une architecture de moteur de visual novel web basée sur un format de script déclaratif permet-elle à des auteurs non-développeurs de créer du contenu interactif?}
+
+                \textbf{Création d'une librairie React.js pour une meilleure accessibilité.}
+            \end{center}
+        \end{mdframed}
+            
+        \vspace{1.5cm}
+
+        Module 6FSC0XF101xB102 0925 - Travail de bachelor
+
+        Référents: Jenna Luthi, Julien Ramirez
+        
+        \vfill
+
+        SAE Genève
+
+        \today
+            
+    \end{center}
+\end{titlepage}
+
+\include{chapters/preface}
+\clearpage
+
+\include{chapters/remerciements}
+\clearpage
+
+\include{chapters/resume}
+\clearpage
+
+% =======================
+\listoffigures
+\listoftables
+% =======================
+
+% Glossaire
+\printglossaries
+\clearpage
+
+% Table des matières
+\tableofcontents
+\clearpage
+
+
+
+% ==========================
+% ======== CHAPTERS ========
+% ==========================
+
+
+
+\include{chapters/_introduction}
+
+\include{chapters/_etatDeLArt}
+
+% ================
+% Autres chapitres
+% ================
+
+\include{chapters/_methodologie}
+
+\include{chapters/_mediaProject}
+
+\include{chapters/_resultats}
+
+
+
+% ==========================
+% ==========================
+% ==========================
+
+
+
+\cite{bosser_systematic_2020}
+
+\cite{camingue_what_2021}
+
+\cite{nguyen_creating_2019}
+
+\clearpage
+
+\include{chapters/bibliographie}
+
+\end{document}
