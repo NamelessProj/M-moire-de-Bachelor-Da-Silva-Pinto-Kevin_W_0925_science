@@ -8,7 +8,7 @@ Sur le plan technique, un \gls{vn} repose sur plusieurs mécaniques fondamentale
 
 Camingue, Carstensdottir et Melcer ont relevé que neuf des trente définitions académiques du genre mentionnent la présence de narration à embranchements. Ces structures peuvent aboutir à des expériences très variées: \textit{Steins;Gate 0} (2015) propose six fins différentes, tandis que \textit{428:Shibuya Scramble} (2008) peut mener à pas moins de 85 conclusions distinctes. À l'inverse, 18\% des titres recensés ne comportent aucun embranchement narratif. \cite{camingue_what_2021}
 
-Du point de vue du marché, la période 2019-2024 a connu une croissance de la popularité du genre, porté par l'essor des plateformes de distributions comme Steam et les boutiques d'applications mobiles. Sur la plateforme Steam, nous comptons 16 985 jeux du genre sur Steam en Suisse\footnote{Nombre récupéré au 31 mars 2026}. Le marché mondial du \gls{vn} était estimé à 139 millions de dollars en 2023 et devrait atteindre 620 millions d'ici 2032, avec un taux de croissance annuel moyen de 8,5\%. \cite{noauthor_visual_nodate}
+Du point de vue du marché, la période 2019-2024 a connu une croissance de la popularité du genre, portée par l'essor des plateformes de distribution comme Steam et les boutiques d'applications mobiles. Sur la plateforme Steam, 17 446 jeux du genre sont recensés en Suisse\footnote{Nombre relevé directement sur Steam au 29 avril 2026 à 19:00}. Plusieurs rapports d'études de marché s'accordent sur une trajectoire de croissance du secteur, avec des taux de croissance annuels estimés entre 8,5\% et 10,5\% selon les sources, bien que leurs estimations de valeur absolue divergent significativement. \cite{noauthor_visual_nodate}
 
 
 
@@ -42,24 +42,29 @@ Cependant, ces outils restent majoritairement liés à des interfaces graphiques
 
 Pour répondre à l'objectif d'une création entièrement textuelle, le choix du format de données est déterminant. Plusieurs formats textuels sont aujourd'hui utilisés pour structurer des données lisibles par l'humain et interprétables par une machine.
 
+
 \subsubsection{YAML}
 
-\gls{yaml} est un format fondé sur l'indentation, réputé pour sa lisibilité. Toutefois, cette lisibilité a un coût: la syntaxe est sensible aux espaces et aux caractères spéciaux, ce qui peut engendrer des erreurs silencieuses difficiles à diagnostiquer pour un utilisateur non-développeur. De plus, les parseurs \gls{yaml} natifs ne sont pas intégrés dans les navigateurs web, ce qui imposerait l'ajout d'une dépendance externe au projet.
+\gls{yaml} est un format fondé sur l'indentation, réputé pour sa lisibilité. Toutefois, cette lisibilité a un coût: la syntaxe est sensible aux espaces et aux caractères spéciaux, ce qui peut engendrer des erreurs silencieuses difficiles à diagnostiquer pour un utilisateur non-développeur. De plus, les parseurs \gls{yaml} natifs ne sont pas intégrés dans les navigateurs web, ce qui imposerait l'ajout d'une dépendance externe au projet. \cite{noauthor_-_nodate}
+
 
 \subsubsection{TOML}
 
-\gls{toml} est un format conçu pour les fichiers de configuration, clair et explicite dans sa syntaxe. Il est cependant moins adapté à la représentation de structures hiérarchiques profondes et de tableaux imbriqués, caractéristiques à un scénario avec embranchements.
+\gls{toml} est un format conçu pour les fichiers de configuration, clair et explicite dans sa syntaxe. Il est cependant moins adapté à la représentation de structures hiérarchiques profondes et de tableaux imbriqués, caractéristiques à un scénario avec embranchements. \cite{noauthor_toml_nodate}
+
 
 \subsubsection{Ink}
 
-Ink, développé par Inkle Studios, est un langage de scripting narratif spécifiquement conçu pour la fiction interactive.
+Ink, développé par Inkle Studios, est un langage de scripting narratif spécifiquement conçu pour la fiction interactive. Sa syntaxe est expressive et proche du langage naturel, ce qui le rend attrayant pour les auteurs. Cependant, il requiert un moteur d'exécution dédié (le runtime Inkle), ce qui ajoute une dépendance externe, et sa structure reste un langage de programmation à part entière, dont l'apprentissage dépasse le cadre d'un simple format de données. \cite{noauthor_ink_nodate}'
 
 
-Pour répondre à l'objectif d'une création entièrement textuelle, le choix du format de données est déterminant. \gls{json} est un format de fichier et d'échange de données ouvert, qui utilise du texte lisible par l'humain pour stocker et transmettre des objets de données sous forme de paires nom-valeur et de tableaux. Bien qu'il soit dérivé de JavaScript, \gls{json} est indépendant de tout langage de programmation: la plupart des langages modernes intègrent des outils pour générer et analyser des données au format \gls{json}.
+\subsubsection{JSON}
 
-\gls{json} s'est imposé comme le standard universel d'échange de données. Nous le retrouvons dans tous les domaines du développement logiciel, qu'il s'agisse du \gls{frontend}, du \gls{backend}, des systèmes, des \glspl{intergiciel} ou des bases de données. \cite{noauthor_what_nodate}
+\gls{json} est un format de fichier et d'échange de données ouvert, qui utilise du texte lisible par l'humain pour stocker et transmettre des objets de données sous forme de paires clé-valeur et de tableaux. Bien qu'il soit dérivé de \gls{javascript}, \gls{json} est indépendant de tout langage de programmation: la plupart des langages modernes intègrent des outils natifs pour générer et analyser des données au format \gls{json}. \cite{noauthor_what_nodate}
 
-Dans le cadre de ce projet, \gls{json} présente plusieurs avantages déterminants. Sa syntaxe à base de clés et valeurs est intuitive, lisible par n'importe quel éditeur de texte, et ne nécessite aucun outil spécialisé pour être rédigée. Il constitue ainsi un choix idéal pour permettre à un amateur, même sans compétences techniques, de décrire une histoire de manière structurée, tout en garantissant que ce fichier pourra être interprété de manière fiable par le moteur.
+Dans le cadre de ce projet, \gls{json} présente plusieurs avantages. Sa syntaxe à base de clés et valeurs est intuitive, lisible par n'importe quel éditeur de texte, et ne nécessite aucun outil spécialisé pour être rédigée. Il constitue ainsi un choix naturel pour permettre à un auteur, même sans compétences techniques avancées, de décrire une histoire de manière structurée. En outre, \gls{json} est nativement supporté par \gls{javascript} et donc directement interprétable dans un navigateur sans aucune dépendance supplémentaire, contrairement à \gls{yaml} ou Ink.
+
+Un risque inhérent à \gls{json} réside dans sa sensibilité aux erreurs de syntaxe: une virgule manquante ou un guillemet non fermé rend le fichier invalide. Ce risque est mitigé dans ce projet par l'utilisation de la bibliothèque Zod, qui permet de valider à l'exécution non seulement la syntaxe du fichier, mais aussi la conformité de sa structure au schéma attendu par le moteur, avec des messages d'erreurs explicites.
 
 
 
