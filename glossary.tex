@@ -4,7 +4,7 @@
 
 \newacronym[description={}]{vn}{VN}{Visual Novel}
 %\newacronym[plural=vn,firstplural={Visual Novels} (VN)]{vn}{VN}{Visual Novel}
-\newacronym[description={}]{ia}{I.A.}{Intelligence Artificielle}
+%\newacronym[description={}]{ia}{I.A.}{Intelligence Artificielle}
 \newacronym[description={}]{json}{JSON}{JavaScript Object Notation}
 \newacronym[description={}]{yaml}{YAML}{YAML Ain't Markup Language}
 \newacronym[description={}]{toml}{TOML}{Tom's Obvious, Minimal Language}
@@ -20,14 +20,14 @@
     description={Modèle de développement dans lequel le code source est public et peut être consulté, modifié et redistribué par tous, selon les conditions de sa licence.}
 }
 
-\newglossaryentry{python}{
-    name={Python},
-    description={Langage de programmation polyvalent, réputé pour sa syntaxe simple et lisible, utilisé notamment pour le développement web, l’automatisation, l’analyse de données et l’intelligence artificielle.}
-}
-
 \newglossaryentry{javascript}{
     name={JavaScript},
     description={Langage de programmation principalement utilisé pour rendre les pages web interactives et dynamiques.}
+}
+
+\newglossaryentry{reactjs}{
+    name={React.js},
+    description={Bibliothèque JavaScript développée par Meta, utilisée pour construire des interfaces web interactives sous formne de composants réutilisables. Ce projet repose sur React.js pour le rendu du moteur de Visual Novel dans le navigateur.}
 }
 
 \newglossaryentry{frontend}{
@@ -40,7 +40,37 @@
     description={Partie d’une application qui gère la logique, les données et les traitements en arrière-plan.}
 }
 
-\newglossaryentry{intergiciel}{
-    name={intergiciel},
-    description={Logiciel intermédiaire qui permet à plusieurs applications, services ou systèmes de communiquer et de fonctionner ensemble.}
+\newglossaryentry{syntaxe}{
+    name={syntaxe},
+    description={Ensemble des règles formelles qu'un fichier ou un script doit respecter pour être correctement interprété par un programme. Dans ce projet, ce terme désigne notamment les règles structurelles du format JSON utilisé comme source de contenu du moteur.}
+}
+
+\newglossaryentry{parseur}{
+    name={parseur},
+    description={Programme ou composant logiciel chargé de lire un fichier texte et d'en interpréter la structure selon des règles définies. Dans ce projet, le parseur anaylse le fichier JSON du scénario et vérifie qu'il est conforme au schéma attendu avant de le transmettre au moteur.}
+}
+
+\newglossaryentry{schema}{
+    name={schéma},
+    description={Au sens informatique, description formelle de la structure attendue d'un fichier de données: quels champs sont obligatoires, quels types de valeurs sont acceptés, et comment les éléments sont organisés. Dans ce projet, le schéma JSON définit la structure que doit respecter tout fichier de scénario pour être reconnu et exécuté par le moteur.}
+}
+
+\newglossaryentry{librairie}{
+    name={librairie},
+    description={Dans le domaine du développement logiciel, ensemble de composants ou de fonctions réutilisables qu'un développeur peut intégrer dans son propre projet. À ne pas confondre avec son sens courant: il ne s'agit pas d'un lieu physique, mais d'un module logiciel distribuable.}
+}
+
+\newglossaryentry{nocode}{
+    name={no-code / low-code},
+    description={Approches de développement logiciel visant à réduire ou 
+    supprimer la nécessité d'écrire du code. Les outils no-code reposent 
+    entièrement sur des interfaces visuelles, tandis que les outils low-code 
+    permettent d'y adjoindre du code pour des besoins spécifiques. Ces 
+    approches visent à rendre la création d'applications accessible à des 
+    utilisateurs sans formation technique.}
+}
+
+\newglossaryentry{webassembly}{
+    name={WebAssembly},
+    description={Format d'instructions binaires permettant d'exécuter dans un navigateur web du code compilé depuis d'autres langages que JavaScript, avec des performances proches du natif.}
 }

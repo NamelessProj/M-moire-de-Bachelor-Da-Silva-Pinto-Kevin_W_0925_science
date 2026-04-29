@@ -1,4 +1,4 @@
-\section{Etat de l'art}
+\section{État de l'art}
 
 \subsection{Le genre Visual Novel}
 
@@ -18,15 +18,15 @@ Les moteurs de jeu vidéo sont des outils logiciels destinés à faciliter la cr
 
 Dans le domaine des \gls{vn}, plusieurs moteurs existent. RenPy est un moteur de \gls{vn} utilisé par des milliers de créateurs à travers le monde, permettant de raconter des histoires interactives combinant texte, images et sons, aussi bien sur ordinateur que sur mobile. À ce jour, RenPy a été utilisé pour créer plus de 8 000 \gls{vn}, jeux et autres œuvres interactives. \parencite{noauthor_renpy_nodate}
 
-RenPy propose notamment la gestion des narrations à embranchements, un système de sauvegardes, le retour en arrière dans l'histoire, des transitions de scènes variées, la lecture de vidéos, et une personnalisation complète de l'interface via son langage dédié \textit{Screen Language}. Les scripts RenPy utilisent une syntaxe proche du format d'un scénario, tout en permettant l'inclusion de blocs \gls{python} pour les utilisateurs souhaitant ajouter des fonctionnalités avancées. \parencite{noauthor_renpy_nodate}
+RenPy propose notamment la gestion des narrations à embranchements, un système de sauvegardes, le retour en arrière dans l'histoire, des transitions de scènes variées, la lecture de vidéos, et une personnalisation complète de l'interface via son langage dédié \textit{Screen Language}. Les scripts RenPy utilisent une \gls{syntaxe} proche du format d'un scénario, tout en permettant l'inclusion de blocs Python pour les utilisateurs souhaitant ajouter des fonctionnalités avancées. \parencite{noauthor_renpy_nodate}
 
 Kretzschmar et Raffel estiment que la popularité de RenPy s'explique par sa gratuité, sa nature \gls{opensource} et l'étendue de sa documentation, qui permet à quiconque d'en apprendre les subtilités. \parencite{kretzschmar_history_2023}
 
-Toutefois, RenPy présente plusieurs limites dans le cadre de ce projet. Bien que le moteur dispose d'une option d'export web reposant sur WebAssembly, cette fonctionnalité implique une étape de compilation via l'interface du logiciel, puis la mise en ligne manuelle des fichiers générés sur un hébergeur compatible. De plus, la documentation officielle du moteur signale des restrictions importantes liées à cet export: absence de support du multi-threading, impossibilité d'effectuer des requêtes réseau depuis le navigateur, et des contraintes de taille de fichiers imposées par les hébergeurs. \parencite{noauthor_renpy_nodate} Pour un créateur non-développeur, cette chaîne de déploiement reste une barrière technique non négligeable. L'approche retenue dans ce projet, basée sur des technologies web natives, vise à supprimer cette étape.
+Toutefois, RenPy présente plusieurs limites dans le cadre de ce projet. Bien que le moteur dispose d'une option d'export web reposant sur \gls{webassembly}, cette fonctionnalité implique une étape de compilation via l'interface du logiciel, puis la mise en ligne manuelle des fichiers générés sur un hébergeur compatible. De plus, la documentation officielle du moteur signale des restrictions importantes liées à cet export: absence de support du multi-threading, impossibilité d'effectuer des requêtes réseau depuis le navigateur, et des contraintes de taille de fichiers imposées par les hébergeurs. \parencite{noauthor_renpy_nodate} Pour un créateur non-développeur, cette chaîne de déploiement reste une barrière technique non négligeable. L'approche retenue dans ce projet, basée sur des technologies web natives, vise à supprimer cette étape.
 
 
 
-\subsection{Approches no-code / low-code}
+\subsection{Approches \gls{nocode}}
 
 Les plateformes no-code permettent de créer des applications sans aucune connaissance en programmation, via des outils visuels, des modèles prédéfinis et des blocs de logique prêts à l'emploi. Les outils low-code, en revanche, autorisent l'ajout de code pour offrir davantage de contrôle, tout en restant accessibles aux non-développeurs.
 
@@ -45,26 +45,26 @@ Pour répondre à l'objectif d'une création entièrement textuelle, le choix du
 
 \subsubsection{YAML}
 
-\gls{yaml} est un format fondé sur l'indentation, réputé pour sa lisibilité. Toutefois, cette lisibilité a un coût: la syntaxe est sensible aux espaces et aux caractères spéciaux, ce qui peut engendrer des erreurs silencieuses difficiles à diagnostiquer pour un utilisateur non-développeur. De plus, les parseurs \gls{yaml} natifs ne sont pas intégrés dans les navigateurs web, ce qui imposerait l'ajout d'une dépendance externe au projet. \parencite{noauthor_-_nodate}
+\gls{yaml} est un format fondé sur l'indentation, réputé pour sa lisibilité. Toutefois, cette lisibilité a un coût: la \gls{syntaxe} est sensible aux espaces et aux caractères spéciaux, ce qui peut engendrer des erreurs silencieuses difficiles à diagnostiquer pour un utilisateur non-développeur. De plus, les \glspl{parseur} \gls{yaml} natifs ne sont pas intégrés dans les navigateurs web, ce qui imposerait l'ajout d'une dépendance externe au projet. \parencite{noauthor_-_nodate}
 
 
 \subsubsection{TOML}
 
-\gls{toml} est un format conçu pour les fichiers de configuration, clair et explicite dans sa syntaxe. Il est cependant moins adapté à la représentation de structures hiérarchiques profondes et de tableaux imbriqués, caractéristiques à un scénario avec embranchements. \parencite{noauthor_toml_nodate}
+\gls{toml} est un format conçu pour les fichiers de configuration, clair et explicite dans sa \gls{syntaxe}. Il est cependant moins adapté à la représentation de structures hiérarchiques profondes et de tableaux imbriqués, caractéristiques à un scénario avec embranchements. \parencite{noauthor_toml_nodate}
 
 
 \subsubsection{Ink}
 
-Ink, développé par Inkle Studios, est un langage de scripting narratif spécifiquement conçu pour la fiction interactive. Sa syntaxe est expressive et proche du langage naturel, ce qui le rend attrayant pour les auteurs. Cependant, il requiert un moteur d'exécution dédié (le runtime Inkle), ce qui ajoute une dépendance externe, et sa structure reste un langage de programmation à part entière, dont l'apprentissage dépasse le cadre d'un simple format de données. \parencite{noauthor_ink_nodate}
+Ink, développé par Inkle Studios, est un langage de scripting narratif spécifiquement conçu pour la fiction interactive. Sa \gls{syntaxe} est expressive et proche du langage naturel, ce qui le rend attrayant pour les auteurs. Cependant, il requiert un moteur d'exécution dédié (le runtime Inkle), ce qui ajoute une dépendance externe, et sa structure reste un langage de programmation à part entière, dont l'apprentissage dépasse le cadre d'un simple format de données. \parencite{noauthor_ink_nodate}
 
 
 \subsubsection{JSON}
 
 \gls{json} est un format de fichier et d'échange de données ouvert, qui utilise du texte lisible par l'humain pour stocker et transmettre des objets de données sous forme de paires clé-valeur et de tableaux. Bien qu'il soit dérivé de \gls{javascript}, \gls{json} est indépendant de tout langage de programmation: la plupart des langages modernes intègrent des outils natifs pour générer et analyser des données au format \gls{json}. \parencite{noauthor_what_nodate}
 
-Dans le cadre de ce projet, \gls{json} présente plusieurs avantages. Sa syntaxe à base de clés et valeurs est intuitive, lisible par n'importe quel éditeur de texte, et ne nécessite aucun outil spécialisé pour être rédigée. Il constitue ainsi un choix naturel pour permettre à un auteur, même sans compétences techniques avancées, de décrire une histoire de manière structurée. En outre, \gls{json} est nativement supporté par \gls{javascript} et donc directement interprétable dans un navigateur sans aucune dépendance supplémentaire, contrairement à \gls{yaml} ou Ink.
+Dans le cadre de ce projet, \gls{json} présente plusieurs avantages. Sa \gls{syntaxe} à base de clés et valeurs est intuitive, lisible par n'importe quel éditeur de texte, et ne nécessite aucun outil spécialisé pour être rédigée. Il constitue ainsi un choix naturel pour permettre à un auteur, même sans compétences techniques avancées, de décrire une histoire de manière structurée. En outre, \gls{json} est nativement supporté par \gls{javascript} et donc directement interprétable dans un navigateur sans aucune dépendance supplémentaire, contrairement à \gls{yaml} ou Ink.
 
-Un risque inhérent à \gls{json} réside dans sa sensibilité aux erreurs de syntaxe: une virgule manquante ou un guillemet non fermé rend le fichier invalide. Ce risque est mitigé dans ce projet par l'utilisation de la bibliothèque Zod, qui permet de valider à l'exécution non seulement la syntaxe du fichier, mais aussi la conformité de sa structure au schéma attendu par le moteur, avec des messages d'erreurs explicites.
+Un risque inhérent à \gls{json} réside dans sa sensibilité aux erreurs de \gls{syntaxe}: une virgule manquante ou un guillemet non fermé rend le fichier invalide. Ce risque est mitigé dans ce projet par l'utilisation de la bibliothèque Zod\footnote{\Gls{librairie} \gls{javascript} de validation de données utilisée dans ce projet pour vérifier, à l'exécution, que le fichier \gls{json} fourni par l'auteur est conforme au \gls{schema} attendu par le moteur. En cas d'erreur (champ manquant, type incorrect, structure invalide), Zod retourne un message explicite indiquant précisément la source du problème.}, qui permet de valider à l'exécution non seulement la \gls{syntaxe} du fichier, mais aussi la conformité de sa structure au \gls{schema} attendu par le moteur, avec des messages d'erreurs explicites.
 
 
 
