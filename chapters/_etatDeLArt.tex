@@ -22,7 +22,7 @@ RenPy propose notamment la gestion des narrations à embranchements, un système
 
 Kretzschmar et Raffel estiment que la popularité de RenPy s'explique par sa gratuité, sa nature \gls{opensource} et l'étendue de sa documentation, qui permet à quiconque d'en apprendre les subtilités. \cite{kretzschmar_history_2023}
 
-Toutefois, RenPy présente une limite importante dans le cadre de ce projet: il s'agit d'un logiciel de bureau qui produit des exécutables natifs. La mise en ligne d'un projet requiert donc une étape de compilation et un hébergement spécifique, ce qui constitue une barrière technique non négligeable pour un créateur non-développeur souhaitant publier son œuvre facilement sur le web.
+Toutefois, RenPy présente plusieurs limites dans le cadre de ce projet. Bien que le moteur dispose d'une option d'export web reposant sur WebAssembly, cette fonctionnalité implique une étape de compilation via l'interface du logiciel, puis la mise en ligne manuelle des fichiers générés sur un hébergeur compatible. De plus, la documentation officielle du moteur signale des restrictions importantes liées à cet export: absence de support du multi-threading, impossibilité d'effectuer des requêtes réseau depuis le navigateur, et des contraintes de taille de fichiers imposées par les hébergeurs. \cite{noauthor_renpy_nodate} Pour un créateur non-développeur, cette chaîne de déploiement reste une barrière technique non négligeable. L'approche retenue dans ce projet, basée sur des technologies web natives, vise à supprimer cette étape.
 
 
 
@@ -38,7 +38,22 @@ Cependant, ces outils restent majoritairement liés à des interfaces graphiques
 
 
 
-\subsection{Le format JSON comme langage de description}
+\subsection{Formats de description de données: comparaison et choix}
+
+Pour répondre à l'objectif d'une création entièrement textuelle, le choix du format de données est déterminant. Plusieurs formats textuels sont aujourd'hui utilisés pour structurer des données lisibles par l'humain et interprétables par une machine.
+
+\subsubsection{YAML}
+
+\gls{yaml} est un format fondé sur l'indentation, réputé pour sa lisibilité. Toutefois, cette lisibilité a un coût: la syntaxe est sensible aux espaces et aux caractères spéciaux, ce qui peut engendrer des erreurs silencieuses difficiles à diagnostiquer pour un utilisateur non-développeur. De plus, les parseurs \gls{yaml} natifs ne sont pas intégrés dans les navigateurs web, ce qui imposerait l'ajout d'une dépendance externe au projet.
+
+\subsubsection{TOML}
+
+\gls{toml} est un format conçu pour les fichiers de configuration, clair et explicite dans sa syntaxe. Il est cependant moins adapté à la représentation de structures hiérarchiques profondes et de tableaux imbriqués, caractéristiques à un scénario avec embranchements.
+
+\subsubsection{Ink}
+
+Ink, développé par Inkle Studios, est un langage de scripting narratif spécifiquement conçu pour la fiction interactive.
+
 
 Pour répondre à l'objectif d'une création entièrement textuelle, le choix du format de données est déterminant. \gls{json} est un format de fichier et d'échange de données ouvert, qui utilise du texte lisible par l'humain pour stocker et transmettre des objets de données sous forme de paires nom-valeur et de tableaux. Bien qu'il soit dérivé de JavaScript, \gls{json} est indépendant de tout langage de programmation: la plupart des langages modernes intègrent des outils pour générer et analyser des données au format \gls{json}.
 
