@@ -1,6 +1,6 @@
 \section{Media Project}
 
-Le Media Project constitue la partie centrale de ce travail. Il s'agit de concevoir et de développer \textbf{NamelessStory}, un moteur de \gls{vn} \gls{opensource}, entièrement piloté par des fichiers texte au format \gls{json}. L'auteur rédige son histoire dans un fichier \gls{json} conforme au \gls{schema} défini, puis déploie sur le web, soit en compilant l'application \gls{reactjs} en fichiers statiques via \texttt{npm run build}, soit en utilisant une plateforme d'intégration continue telle que Vercel\footnote{Vercel est une plateforme de déploiement cloud spécialisée dans les applications web statiques et les frameworks \gls{javascript}. Elle automatise la compilation et la mise en ligne à chaque modification du dépôt source. \parencite{noauthor_vercel_nodate}} ou GitHub Pages\footnote{GitHub Pages est un service d'hébergement statique intégré à GitHub, permettant de publier automatiquement le contenu d'un dépôt sous forme de site web accessible via une URL publique, sans configuration serveur. \parencite{noauthor_documentation_nodate}}. Le \gls{vn} final est ainsi accessible depuis n'importe quel navigateur internet moderne, sans installation requise côté joueur. Le code source du projet est accessible publiquement sur GitHub à l'adresse suivante: \url{https://github.com/NamelessProj/NamelessStory}.
+Le Media Project constitue la partie centrale de ce travail. Il s'agit de concevoir et de développer \textbf{NamelessStory}, un moteur de \gls{vn} \gls{opensource}, entièrement piloté par des fichiers texte au format \gls{json}. L'auteur rédige son histoire dans un fichier \gls{json} conforme au \gls{schema} défini, puis déploie sur le web, soit en compilant l'application \gls{reactjs} en fichiers statiques via \texttt{npm run build}, soit en utilisant une plateforme d'intégration continue telle que Vercel\footnote{Vercel est une plateforme de déploiement cloud spécialisée dans les applications web statiques et les frameworks \gls{js}. Elle automatise la compilation et la mise en ligne à chaque modification du dépôt source. \parencite{noauthor_vercel_nodate}} ou GitHub Pages\footnote{GitHub Pages est un service d'hébergement statique intégré à GitHub, permettant de publier automatiquement le contenu d'un dépôt sous forme de site web accessible via une URL publique, sans configuration serveur. \parencite{noauthor_documentation_nodate}}. Le \gls{vn} final est ainsi accessible depuis n'importe quel navigateur internet moderne, sans installation requise côté joueur. Le code source du projet est accessible publiquement sur GitHub à l'adresse suivante: \url{https://github.com/NamelessProj/NamelessStory}.
 
 Le développement a suivi une approche itérative, chaque itération correspondant à un ensemble de fonctionnalités implémentées, testées et évaluées avant de passer à l'étape suivante.
 
@@ -36,6 +36,39 @@ Les objectifs sont définis selon la méthode de priorisation \textit{MoSCoW}\fo
 \end{table}
 
 
+\subsubsection{Stack technique et outils}
+
+Le développement de NamelessStory repose sur les technologies et outils suivants:
+
+\begin{table}[htbp]
+    \centering
+    \caption{Stack technique et outil utilisés}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{p{4cm} p{9cm}}
+        \hline
+        \textbf{Outil / Technologie} & \textbf{Rôle dans le projet} \\
+        \hline
+        \gls{reactjs} & \Gls{librairie} \gls{js} utilisée pour le rendu du moteur dans le navigateur. \\
+        \addlinespace
+        Vite & Outil de build et serveur de développement, permettant un rechargement à chaud rapide lors du développement. \\
+        \addlinespace
+        Typescript & Surcouche typée de \gls{js}, utilisée pour renforcer la robustesse du code et faciliter la détection d'erreurs. \\
+        \addlinespace
+        \gls{json} & Format de description du contenu narratif, servant de source unique de vérité pour le moteur \\
+        \addlinespace
+        GitHub & Plateforme d'hébergement du code source et la gestion des versions via Git. \\
+        \hline
+    \end{tabular}
+    \label{tab:stack}
+\end{table}
+
+
+\subsubsection{Méthode de développement}
+
+Le développement a suivi un processus itératif basé sur le cycle \textbf{PDCA} (\textit{Plan, Do, Check, Act}), tel que défini dans la méthodologie présentée au chapitre 3. Chaque itération correspond à un cycle complet: planification des fonctionnalités à implémenter, développement, évaluation par tests fonctionnels, puis décision sur les ajustements à apporter à l'itération suivante.
+
+Ce modèle a été retenu pour sa capacité à intégrer les retours d'évaluation de manière continue, sans nécessiter de redéfinir l'ensemble du périmètre à chaque étape.
+
 
 \subsection{Contraintes et limites}
 
@@ -60,3 +93,6 @@ Cependant, cette contrainte implique une limite inhérente: l'absence d'interpr�
 \subsubsection{Contrainte de périmètre}
 
 Pour des raisons de temps, le périmètre fonctionnel du moteur est limité aux mécaniques fondamentales des \gls{vn}, telles que définies dans le tableau \ref{tab:objectifs_moscow}. D'autres fonctionnalités, telles que la gestion de la musique de fond, des images de personnages ou d'un système de sauvegarde, sont identifiées comme souhaitables, mais ne font pas partie des objectifs primaires de ce travail.
+
+
+\subsection{Stack technique}
