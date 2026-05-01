@@ -1,11 +1,11 @@
-\section{Media Project}
+\section{Media Project} \label{MediaProject}
 
 Le Media Project constitue la partie centrale de ce travail. Il s'agit de concevoir et de développer \textbf{NamelessStory}, un moteur de \gls{vn} \gls{opensource}, entièrement piloté par des fichiers texte au format \gls{json}. L'auteur rédige son histoire dans un fichier \gls{json} conforme au \gls{schema} défini, puis déploie sur le web, soit en compilant l'application \gls{reactjs} en fichiers statiques via \texttt{npm run build}, soit en utilisant une plateforme d'intégration continue telle que Vercel\footnote{Vercel est une plateforme de déploiement cloud spécialisée dans les applications web statiques et les frameworks \gls{js}. Elle automatise la compilation et la mise en ligne à chaque modification du dépôt source. \parencite{noauthor_vercel_nodate}} ou GitHub Pages\footnote{GitHub Pages est un service d'hébergement statique intégré à GitHub, permettant de publier automatiquement le contenu d'un dépôt sous forme de site web accessible via une URL publique, sans configuration serveur. \parencite{noauthor_documentation_nodate}}. Le \gls{vn} final est ainsi accessible depuis n'importe quel navigateur internet moderne, sans installation requise côté joueur. Le code source du projet est accessible publiquement sur GitHub à l'adresse suivante: \url{https://github.com/NamelessProj/NamelessStory}.
 
 Le développement a suivi une approche itérative, chaque itération correspondant à un ensemble de fonctionnalités implémentées, testées et évaluées avant de passer à l'étape suivante.
 
 
-\subsection{Objectifs du Media Project}
+\subsection{Objectifs du Media Project} \label{objMediaProject}
 
 L'objectif principal de ce projet est d'offrir une alternative entièrement textuelle aux moteurs de \gls{vn} existants, facile à utiliser et à mettre en ligne. Contrairement aux solutions actuelles, telles que RenPy ou Twine, qui nécessitent l'apprentissage d'un langage de script dédié ou l'installation d'un environnement de développement, NamelessStory permet à tout auteur disposant de connaissances de base en \gls{json} de créer et de publier un \gls{vn} fonctionnel.
 
@@ -52,7 +52,7 @@ Le développement de NamelessStory repose sur les technologies et outils suivant
         \addlinespace
         Vite & Outil de build et serveur de développement, permettant un rechargement à chaud rapide lors du développement. \\
         \addlinespace
-        Typescript & Surcouche typée de \gls{js}, utilisée pour renforcer la robustesse du code et faciliter la détection d'erreurs. \\
+        \gls{ts} & Surcouche typée de \gls{js}, utilisée pour renforcer la robustesse du code et faciliter la détection d'erreurs. \\
         \addlinespace
         \gls{json} & Format de description du contenu narratif, servant de source unique de vérité pour le moteur \\
         \addlinespace

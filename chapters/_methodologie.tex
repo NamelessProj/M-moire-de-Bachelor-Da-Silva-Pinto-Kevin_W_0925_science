@@ -1,1 +1,89 @@
 \section{Méthodologie}
+
+\subsection{Vue d'ensemble}
+
+La réalisation de NamelessStory s'inscrit dans une démarche de développement logiciel structurée en cycles itératifs. L'objectif central étant de produire un moteur fonctionnel, accessible à des auteurs non-développeurs, la méthode retenue devrait permettre d'ajuster progressivement le périmètre fonctionnel en fonction des contraintes rencontrées: techniques, de format, et de temps.
+
+Le processus global s'organise autour de trois axes: un cycle de développement itératif basé sur le modèle PDCA, une priorisation des fonctionnalités dont les objectifs seront définis au chapitre \ref{objMediaProject}, et une validation fonctionnelle continue à chaque itération.
+
+
+\subsection{Cycle de développement itératif (PDCA)}
+
+Le modèle PDCA (\textit{Plan}, \textit{Do}, \textit{Check}, \textit{Act}), formalisé par W. Edwards Deming dans le cadre de l'amélioration continue des processus \parencite{deming_out_1986}, constitue le cadre méthodologique de ce projet. Chaque itération de développement suit ce cycle en quatre phases:
+
+\begin{table}[htbp]
+    \centering
+    \caption{Définition du cycle PDCA utilisée}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{p{1.5cm} p{11cm}}
+        \hline
+        \textbf{Nom} & \textbf{Description} \\
+        \hline
+        \textbf{Plan} & Définition des fonctionnalités à implémenter pour l'itération, en référence aux objectifs établis au chapitre. \\
+        \addlinespace
+        \textbf{Do} & Implémentation des fonctionnalités planifiées. \\
+        \addlinespace
+        \textbf{Check} & Évaluation du résultat par vérification fonctionnelle manuelle et, le cas échéant, par validation automatique via le \gls{parseur} Zod. \\
+        \addlinespace
+        \textbf{Act} & Ajustement des objectifs de l'itération suivante en fonction des écarts constatés. \\
+        \hline
+    \end{tabular}
+    \label{tab:defPDCA}
+\end{table}
+
+Ce modèle a été retenu pour sa capacité à intégrer les retours d'évaluation de manière continue, sans nécessiter de redéfinir l'ensemble du périmètre à chaque étape.
+
+Le développement s'est déroulé en trois étapes itérations successives, décrites en détail au chapitre \ref{MediaProject}:
+
+\begin{table}[htbp]
+    \centering
+    \caption{Objectif par itération}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{p{0.5cm} p{2.7cm} p{9.7cm}}
+        \hline
+        \textbf{N°} & \textbf{Objectif} & \textbf{Description} \\
+        \hline
+        1 & Fonctionnement du moteur & Implémentation des mécaniques fondamentales (affichage du texte, gestion des scènes, gestion des choix) et vérification du comportement attendu dans le navigateur. \\
+        \addlinespace
+        2 & Optimisation & Amélioration des performances internes, notamment par l'utilisation de Web Workers pour déléguer certains traitements hors du fil d'exécution principal, et refactorisation du code pour en augmenter la maintenabilité. \\
+        \addlinespace
+        3 & Sécurité et robustesse & Intégration de la \gls{librairie} Zod pour valider à l'exécution la conformité des fichiers \gls{json} au \gls{schema} attendu, et pour avertir l'utilisateur en cas de fichier de sauvegarde corrompu ou invalide. \\
+        \hline
+    \end{tabular}
+    \label{tab:objectifs_iterations}
+\end{table}
+
+
+\subsection{Critères d'évaluation et validation fonctionnelle}
+
+En l'absence de tests formels automatisés, la validation de chaque fonctionnalité s'est appuyée sur deux approches complémentaires.
+
+
+\subsubsection{Vérification fonctionnelle manuelle}
+
+Chaque fonctionnalité implémentée a été testée directement dans le navigateur, en condition réelle, à partir de fichiers \gls{json} représentatifs. Les cas de tests couvrent  à la fois des scénarios valides et des scénarios d'erreur intentionnellement construits (\textit{negative testing}\footnote{\textbf{Negative testing} (aussi appelé \textit{unhappy path testing}): approche de test visant à vérifier le comportement du programme face à des entrées inattendues, invalides ou erronées, par opposition au \textit{positive testing} qui couvre le comportement attendu en conditions normales. Hora définit les tests négatifs comme ceux qui vérifient «l'exécution anormale, comme les cas exceptionnels» \parencite{hora_test_2024}. Dans ce projet, les tests négatifs ont consisté à fournir au moteur des fichier \gls{json} syntaxtiquement invalides, des champs manquants ou des valeurs de mauvais type.}): suppression de virgules ou de guillemets pour casser la \gls{syntaxe} \gls{json}, omission de champs obligatoires attendus par le moteur (comme le nom du personnage parlant), et injection de valeurs de mauvais type (par exemple, un booléen à la place d'une chaîne de caractères). Ces fichiers de tests sont disponibles dans le dépôt GitHub du projet. Le critère de validation est la conformité du comportement observé avec le comportement attendu défini lors de la phase \textit{Plan} de chaque itération.
+
+
+\subsubsection{Validation par Zod}
+
+La \gls{librairie} Zod, intégrée lors de la troisième itération, valide à l'exécution la structure du fichier \gls{json} fourni par l'auteur. En cas d'écart par rapport au \gls{schema} défini: champ manquant, type incorrect, structure invalide, Zod retourne un message d'erreur explicite indiquant précisément la source du problème, ce qui constitue un mécanisme de détection d'erreurs déterministe.
+
+
+\subsection{Considérations sur la sécurité et la robustesse}
+
+Deux préoccupations ont guidé les décisions de développement au-delà de la simple fonctionnalité.
+
+
+\subsubsection{Robustesse du code}
+
+L'utilisation de \gls{ts} comme surcouche typée de \gls{js} permet de détecter à la compilation un ensemble d'erreurs de type qui seraient silencieuses en \gls{js} pur. Combiné à la validation Zod à l'exécution, ce dispositif forme une double barrière contre les états invalides du moteur.
+
+
+\subsubsection{Sécurité du code}
+
+Le moteur opère entièrement côté client, dans le navigateur, sans serveur \gls{backend}. Cette architecture supprime une surface d'attaque importante: il n'y a ni base de données exposée, ni gestion d'authentification, ni transmission de données utilisateur vers un serveur tiers. Le contenu narratif est statique et ne transite pas par un serveur applicatif. La validation des fichiers de sauvegarde par Zod permet par ailleurs d'empêcher l'injection de données malformées susceptibles de mettre le moteur dans un état indéterminé.
+
+
+\subsection{Limites méthodologiques}
+
+Cette approche présente une limite principale: l'absence de tests automatisés (\textit{unit tests}\footnote{\textbf{Test unitaire} (\textit{unit test}): test automatisé qui vérifie le comportement d'une unité de code isolée, typiquement une fonction ou un composant, indépendamment du reste du système. L'objectif est de valider que chaque unité fonctionne correctement de manière autonome. (\cite{beck_test-driven_2002};\cite{aniche_effective_2022})}, \textit{integration tests}\footnote{\textbf{Test d'intégration} (\textit{integration test}): test automatisé qui vérifie que plusieurs unités ou composants fonctionnent correctement ensemble, en testant leurs interactions et échanges de données. Il intervient après les tests unitaires et avant les tests système. \parencite{aniche_effective_2022}}). Le développement a privilégié la mise en fonctionnement progressive des fonctionnalités sur la mise en place d'une suite de tests formelle. Cette absence implique que la couverture des cas limites dépend de l'exhaustivité des tests manuels réalisés et que des régressions introduites lors d'une itération pourraient passer inaperçues. Cette limite sera reprise dans l'évaluation critique au chapitre \ref{resultats}.
