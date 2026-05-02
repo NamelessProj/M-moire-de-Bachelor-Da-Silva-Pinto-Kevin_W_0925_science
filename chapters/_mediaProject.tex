@@ -138,6 +138,13 @@ L'objectif de cette première itération était d'implémenter les mécaniques f
 % avril). C'est cette logique que tu dois narrer ici, en première personne, au passé.
 % Inclure si possible : un extrait ou une capture du schéma JSON à ce stade.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{img/NamelessStory_V1.png}
+    \caption{Affichage du dialogue - première itération de NamelessStory (Auteur 2026)}
+    \label{fig:NamelessStoryV1}
+\end{figure}
+
 
 \subsubsubsection{Check}
 
@@ -169,6 +176,13 @@ L'optimisation du rendu a porté sur l'ensemble des composants du moteur. Chaque
 En parallèle, le traitement de la mise en forme du texte a été revu pour des raisons de sécurité et de robustesse. La propriété React \texttt{dangerouslySetInnerHTML} qui permettait d'injecter directement du \acrshort{html} dans le \acrshort{dom}, a été remplacée par un couple de fonctions dédiées: \texttt{escapeHtml}, qui neutralise les caractères spéciaux avant tout traitement, et \texttt{htmlToReactNode}, qui convertit la chaîne résultante en n\oe{}uds React natifs. Cette approche supprime le risque d'injection de contenu malveillant tout en conservant la flexibilité du balisage personnalisé.
 
 Pour la sauvegarde, un \gls{webworker} dédié (\texttt{saveWorker}) a été mis en place. Le fil principal transmet l'état courant au \textit{worker} par échange de messages, celui-ci exécute \texttt{JSON.stringify()} dans son propre fil d'exécution, puis retourne la chaîne sérialisée au fil principal, qui la persiste dans le \texttt{localStorage} du navigateur. Cette communication est entièrement asynchrone: l'interface utilisateur reste réactive pendant toute la durée de l'opération, quelle que soit la taille de l'objet à sérialiser.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{img/schema_web-worker.jpeg}
+    \caption{Séparation du fil principal et du \gls{webworker} pour l'opération de sauvegarde dans NamelessStory (Auteur 2026)}
+    \label{fig:schemaWebWorker}
+\end{figure}
 
 
 \subsubsubsection{Check}
