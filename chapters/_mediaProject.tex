@@ -1,15 +1,15 @@
-\section{Media Project} \label{MediaProject}
+\section{Mise en \oe{}uvre} \label{chap:MediaProject}
 
 Le Media Project constitue la partie centrale de ce travail. Il s'agit de concevoir et de développer \textbf{NamelessStory}, un moteur de \gls{vn} \gls{opensource}, entièrement piloté par des fichiers texte au format \gls{json}. L'auteur rédige son histoire dans un fichier \gls{json} conforme au \gls{schema} défini, puis déploie sur le web, soit en compilant l'application \gls{reactjs} en fichiers statiques via \texttt{npm run build}, soit en utilisant une plateforme d'intégration continue telle que Vercel\footnote{Vercel est une plateforme de déploiement cloud spécialisée dans les applications web statiques et les frameworks \gls{js}. Elle automatise la compilation et la mise en ligne à chaque modification du dépôt source. \parencite{noauthor_vercel_nodate}} ou GitHub Pages\footnote{GitHub Pages est un service d'hébergement statique intégré à GitHub, permettant de publier automatiquement le contenu d'un dépôt sous forme de site web accessible via une URL publique, sans configuration serveur. \parencite{noauthor_documentation_nodate}}. Le \gls{vn} final est ainsi accessible depuis n'importe quel navigateur internet moderne, sans installation requise côté joueur. Le code source du projet est accessible publiquement sur GitHub à l'adresse suivante: \url{https://github.com/NamelessProj/NamelessStory}.
 
 Le développement a suivi une approche itérative, chaque itération correspondant à un ensemble de fonctionnalités implémentées, testées et évaluées avant de passer à l'étape suivante.
 
 
-\subsection{Évolution du périmètre: de la \gls{librairie} à l'application} 
+\subsection{Évolution du périmètre: de la librairie à l'application} 
 
-L'intention initiale de ce projet était de développer NamelessStory sous forme d'une \gls{librairie} \gls{reactjs} publiable sur \gls{npm}, intégrable par un développeur tiers via une simple commande d'installation. Cette approche aurait permis de distribuer le moteur comme un composant réutilisable, indépendamment de toute application hôte.
+L'intention initiale de ce projet était de développer \ns sous forme d'une \gls{librairie} \gls{reactjs} publiable sur \gls{npm}, intégrable par un développeur tiers via une simple commande d'installation. Cette approche aurait permis de distribuer le moteur comme un composant réutilisable, indépendamment de toute application hôte.
 
-Afin d'apprendre à mettre en œuvre cette architecture, deux ressources ont été consultées: une playlist YouTube d'Imran Hussain (son nom d'utilisateur \textit{Imran Codes}) en 2024, intitulée \textit{Building a React Component Library: A Senior Developer's Guide}\parencite{imran_codes_1_2024} (ciblant \gls{reactjs} 16), et un article textuel d'Alex Eagleson publié sur dev.to en novembre 2021, mis à jour en décembre 2022 \parencite{noauthor_how_2021} (ciblant \gls{reactjs} 17 et rollup\footnote{Rollup est un outil de bundling \gls{js} spécialisé dans la création de \gls{librairie} distribuables. En mode \gls{librairie} (\textit{\gls{librairie} mode}), il compile le code source en un ou plusieurs fichiers optimisés, accompagnés des définitions de types \gls{ts}, prêts à être publiés comme \gls{package} \gls{npm}. \parencite{noauthor_introduction_nodate}} V2). Les deux ressources reposaient sur la même approche: configurer rollup en mode \gls{librairie} via un fichier \texttt{rollup.config.js}, en combinant les plugins \texttt{@rollup/plugin-typescript}, \texttt{@rollup/plugin-commonjs} et \texttt{rollup-plugin-dts}.
+Afin d'apprendre à mettre en \oe{}uvre cette architecture, deux ressources ont été consultées: une playlist YouTube d'Imran Hussain (son nom d'utilisateur \textit{Imran Codes}) en 2024, intitulée \textit{Building a React Component Library: A Senior Developer's Guide}\parencite{imran_codes_1_2024} (ciblant \gls{reactjs} 16), et un article textuel d'Alex Eagleson publié sur dev.to en novembre 2021, mis à jour en décembre 2022 \parencite{noauthor_how_2021} (ciblant \gls{reactjs} 17 et rollup\footnote{Rollup est un outil de bundling \gls{js} spécialisé dans la création de \gls{librairie} distribuables. En mode \gls{librairie} (\textit{\gls{librairie} mode}), il compile le code source en un ou plusieurs fichiers optimisés, accompagnés des définitions de types \gls{ts}, prêts à être publiés comme \gls{package} \gls{npm}. \parencite{noauthor_introduction_nodate}} V2). Les deux ressources reposaient sur la même approche: configurer rollup en mode \gls{librairie} via un fichier \texttt{rollup.config.js}, en combinant les plugins \texttt{@rollup/plugin-typescript}, \texttt{@rollup/plugin-commonjs} et \texttt{rollup-plugin-dts}.
 
 Dans les deux cas, la commande de build (\texttt{npm run build}) échouait. les erreurs rencontrées relevaient de la configuration rollup, dont les exigences ont évolué avec les versions successives de l'outil. L'article d'Eagleson lui-même signale ce problème: une note intégrée au texte indique que certains outils ont été mis à jour et que les instructions telles qu'écrites ne fonctionnent plus. \parencite{noauthor_how_2021} Les commentaires des deux ressources, datant eux aussi d'environ un an, proposaient des correctifs partiels qui n'ont pas permis de résoudre le problème dans le contexte de \gls{reactjs} 19 et des versions actuelles de rollup.
 
@@ -20,9 +20,9 @@ Face à ces obstacles et aux contraintes de temps du projet, la décision a ét�
 \clearpage
 
 
-\subsection{Objectifs du Media Project} \label{objMediaProject}
+\subsection{Objectifs du Media Project} \label{sec:objMediaProject}
 
-L'objectif principal de ce projet est d'offrir une alternative entièrement textuelle aux moteurs de \gls{vn} existants, facile à utiliser et à mettre en ligne. Contrairement aux solutions actuelles, telles que RenPy ou Twine, qui nécessitent l'apprentissage d'un langage de script dédié ou l'installation d'un environnement de développement, NamelessStory permet à tout auteur disposant de connaissances de base en \gls{json} de créer et de publier un \gls{vn} fonctionnel.
+L'objectif principal de ce projet est d'offrir une alternative entièrement textuelle aux moteurs de \gls{vn} existants, facile à utiliser et à mettre en ligne. Contrairement aux solutions actuelles, telles que RenPy ou Twine, qui nécessitent l'apprentissage d'un langage de script dédié ou l'installation d'un environnement de développement, \ns permet à tout auteur disposant de connaissances de base en \gls{json} de créer et de publier un \gls{vn} fonctionnel.
 
 En proposant une solution \gls{opensource}, le projet laisse la possibilité aux personnes possédant des connaissances en développement de modifier et d'étendre les fonctionnalités selon leurs besoins. L'\gls{opensource} permet également à toute personne intéressée de contribuer activement au développement du moteur.
 
@@ -55,7 +55,7 @@ Les objectifs sont définis selon la méthode de priorisation \textit{MoSCoW}\fo
 
 \subsubsection{Stack technique et outils}
 
-Le développement de NamelessStory repose sur les technologies et outils suivants:
+Le développement de \ns repose sur les technologies et outils suivants:
 
 \begin{table}[htbp]
     \centering
@@ -82,7 +82,7 @@ Le développement de NamelessStory repose sur les technologies et outils suivant
 
 \subsubsection{Méthode de développement}
 
-Le développement a suivi un processus itératif basé sur le cycle \textbf{PDCA} (\textit{Plan, Do, Check, Act}), tel que défini dans la méthodologie présentée au chapitre \ref{devPDCA}. Chaque itération correspond à un cycle complet: planification des fonctionnalités à implémenter, développement, évaluation par tests fonctionnels, puis décision sur les ajustements à apporter à l'itération suivante.
+Le développement a suivi un processus itératif basé sur le cycle \textbf{PDCA} (\textit{Plan, Do, Check, Act}), tel que défini dans la méthodologie présentée au chapitre \ref{sec:PDCA}. Chaque itération correspond à un cycle complet: planification des fonctionnalités à implémenter, développement, évaluation par tests fonctionnels, puis décision sur les ajustements à apporter à l'itération suivante.
 
 Ce modèle a été retenu pour sa capacité à intégrer les retours d'évaluation de manière continue, sans nécessiter de redéfinir l'ensemble du périmètre à chaque étape.
 
@@ -91,7 +91,7 @@ Ce modèle a été retenu pour sa capacité à intégrer les retours d'évaluati
 
 \subsubsection{Contrainte de déploiement}
 
-Contrairement aux moteurs de jeux traditionnels qui compilent le projet en un exécutable natif, NamelessStory repose sur des technologies web. Pour créer un \gls{vn} avec ce moteur, l'auteur doit télécharger le projet, puis rédiger son histoire dans un fichier \gls{json} selon le \gls{schema} défini. Le résultat peut ensuite être mis en ligne de deux manières:
+Contrairement aux moteurs de jeux traditionnels qui compilent le projet en un exécutable natif, \ns repose sur des technologies web. Pour créer un \gls{vn} avec ce moteur, l'auteur doit télécharger le projet, puis rédiger son histoire dans un fichier \gls{json} selon le \gls{schema} défini. Le résultat peut ensuite être mis en ligne de deux manières:
 
 \begin{itemize}
     \item En compilant l'application \gls{reactjs} en fichiers statiques via la commande \texttt{npm run build}, puis en hébergeant ces fichiers sur n'importe quel serveur web ou hébergeur statique.
@@ -114,19 +114,112 @@ Pour des raisons de temps, le périmètre fonctionnel du moteur est limité aux 
 
 \subsection{Étapes de développement}
 
-a
+Le développement de \ns s'est déroulé en trois itérations successives, chacune suivant  le cycle PDCA défini au chapitre \ref{sec:PDCA}. Les objectifs de chaque itération ont été définis en amont selon la priorisation MoSCoW établie au tableau \ref{tab:objectifs_moscow}, et ajustés en fonction des résultats observés à l'issue de chaque cycle.
 
 
 \subsubsection{Première itération: les bases d'un VN}
 
-a
+
+\subsubsubsection{Plan}
+
+L'objectif de cette première itération était d'implémenter les mécaniques fondamentales du moteur: l'affichage progressif du texte (effet machine à écrire), la navigation entre scènes et la gestion des choix de dialogue. Ces trois fonctionnalités correspondent aux exigences \textit{Must} du tableau \ref{tab:objectifs_moscow}. Il s'agissait également de définir la structure du \gls{schema} \gls{json} servant de source de contenu, c'est-à-dire les types de n\oe{}uds que le moteur devrait être capable d'interpréter: dialogue, choix, scènes et personnages.
+
+
+\subsubsubsection{Do}
+
+% TODO — Cette section doit être rédigée par toi.
+% Les commits me donnent l'ordre technique, mais l'expérience vécue (pourquoi 
+% tu as commencé par tel composant, quelles décisions d'architecture tu as prises, 
+% ce qui t'a surpris ou bloqué) ne peut venir que de toi.
+% Pour t'aider à structurer : les commits montrent que tu as commencé par les 
+% composants visuels de base (BackgroundImage, CreditsPage, TitleScreen, fin 
+% février), puis le Typewriter et le traitement du texte (17–18 mars), puis 
+% l'assemblage dans VisualNovel avec gestion des scènes et des choix (mars–début 
+% avril). C'est cette logique que tu dois narrer ici, en première personne, au passé.
+% Inclure si possible : un extrait ou une capture du schéma JSON à ce stade.
+
+
+\subsubsubsection{Check}
+
+À l'issue de cette itération, les mécaniques fondamentales étaient fonctionnelles et vérifiables dans le navigateur à partir d'un fichier \gls{json} de test. Les cas valides ont été testés manuellement: progression du dialogue au clic, navigation vers une autre scène, affichage des choix et sélection d'une option. Des scénarios d'erreur ont également été construits intentionnellement (\textit{negative testing}), notamment en fournissant des fichiers \gls{json} structurellement incomplets, afin de vérifier le comportement du moteur face à des données inattendues. \parencite{hora_test_2024}
+
+% TODO — Complète ce paragraphe avec ce que tu as observé de concret :
+% qu'est-ce qui ne fonctionnait pas encore, ou fonctionnait de manière 
+% insatisfaisante, à l'issue de cette première itération ?
+
+
+\subsubsubsection{Act}
+
+% TODO — Qu'est-ce que ce bilan a décidé pour l'itération suivante ?
+% Les commits montrent qu'une série d'optimisations massives arrive le 20 avril :
+% c'est toi qui peux dire pourquoi tu as décidé de t'attaquer à cela à ce moment.
 
 
 \subsubsection{Deuxième itération: l'optimisation}
 
-a
+\subsubsubsection{Plan}
+
+L'objectif de cette itération était d'améliorer les performances et la maintenabilité du code produit lors de la première itération. Dans \gls{reactjs}, chaque mise à jour de l'état d'un composant parent déclanche un nouveau rendu de l'ensemble de l'arbre de composants enfants. Dans un moteur de \gls{vn}, où l'état global évolue à chaque ligne de dialogue, ce comportement peut provoquer des recalculs inutiles sur des composants dont les données n'ont pas changé. un second axe concernait la gestion de la sauvegarde: l'opération de sérialisation de l'état courant via \texttt{JSON.stringify()} s'exécutait sur le fil principal du navigateur. Cette opération ne pose pas de problème tant que l'objet à sérialiser reste de taille modeste. Cependant, à mesure que l'état s'enrichit (variables de jeu, historique de dialogue, données de progression), cette opération peut devenir coûteuse et bloquer l'interface le temps de son exécution. Afin d'anticiper cette limitation, la décision a été prise de déléguer cette opération à un \gls{webworker}.
 
 
-\subsubsection{Troisième itération: la sécurité}
+\subsubsubsection{Do}
 
-a
+L'optimisation du rendu a porté sur l'ensemble des composants du moteur. Chaque composant a été mémorisé via \texttt{React.memo}, ce qui permet à \gls{reactjs} de court-circuiter le rendu d'un composant si ses \textit{props} n'ont pas changé depuis le rendu précédent. Pour les calculs coûteux effectués à l'intérieur des composants, le \textit{hook} \texttt{useMemo} a été utilisé afin de mettre les résultats en cache entre les rendus. Des références (\texttt{useRef}) ont également remplacé certains états React là où une valeur devait persister sans déclencher de re-rendu. Le composant \texttt{Typewriter} a notamment fait l'objet d'une refactorisation significative: les instantanés \acrshort{html} et les délais entre caractères sont désormais précalculés en une seule passe avant le début de l'animation, évitant tout recalcul durant la frappe.
+
+En parallèle, le traitement de la mise en forme du texte a été revu pour des raisons de sécurité et de robustesse. La propriété React \texttt{dangerouslySetInnerHTML} qui permettait d'injecter directement du \acrshort{html} dans le \acrshort{dom}, a été remplacée par un couple de fonctions dédiées: \texttt{escapeHtml}, qui neutralise les caractères spéciaux avant tout traitement, et \texttt{htmlToReactNode}, qui convertit la chaîne résultante en n\oe{}uds React natifs. Cette approche supprime le risque d'injection de contenu malveillant tout en conservant la flexibilité du balisage personnalisé.
+
+Pour la sauvegarde, un \gls{webworker} dédié (\texttt{saveWorker}) a été mis en place. Le fil principal transmet l'état courant au \textit{worker} par échange de messages, celui-ci exécute \texttt{JSON.stringify()} dans son propre fil d'exécution, puis retourne la chaîne sérialisée au fil principal, qui la persiste dans le \texttt{localStorage} du navigateur. Cette communication est entièrement asynchrone: l'interface utilisateur reste réactive pendant toute la durée de l'opération, quelle que soit la taille de l'objet à sérialiser.
+
+
+\subsubsubsection{Check}
+
+% TODO — À toi de rédiger ce paragraphe.
+% Questions : est-ce que tu as observé une amélioration perceptible du comportement 
+% du moteur après ces optimisations ? Y a-t-il eu des complications lors de 
+% l'intégration du Web Worker (par exemple : Vite nécessite une configuration 
+% spécifique pour les workers, ou des problèmes de communication inter-fil) ?
+% Y a-t-il eu des régressions introduites par la refactorisation qu'il a fallu 
+% corriger ?
+
+
+\subsubsubsection{Act}
+
+% TODO — À toi.
+% Les commits montrent que la prochaine étape a été l'intégration de Zod (28 avril).
+% C'est toi qui peux dire si ce choix découlait d'un problème observé lors des 
+% tests de cette itération, ou s'il était planifié depuis le début.
+
+
+\subsubsection{Troisième itération: la sécurité et la robustesse}
+
+\subsubsubsection{Plan}
+
+L'objectif de cette itération était d'adresser la limite principale identifiée lors des itérations précédentes: l'absence de validation formelle des fichiers \acrshort{json} fournis par l'auteur. Sans mécanisme de vérification, un fichier syntaxiquement  invalide ou non conforme au \gls{schema} attendu pouvait mettre le moteur dans un état indéterminé, sans retour d'information exploitable pour l'auteur. L'intégration de la \gls{librairie} Zod, présentée au chapitre \ref{sec:zod}, constituait la réponse à cette lacune.
+
+Par ailleurs, cette itération a permis d'implémenter plusieurs fonctionnalités \textit{Can} identifiées au tableau \ref{tab:objectifs_moscow}, dont le temps disponible n'avait pas permis l'intégration lors des itérations précédentes: l'affichage des \textit{sprites} de personnages avec positionnement dynamique, les transitions entre scènes et dialogues, la gestion des polices d'écriture via des variables \acrshort{css}, et la prise en charge d'un \textit{placeholder} dynamique pour les champs de saisie.
+
+
+\subsubsubsection{Do}
+
+L'intégration de Zod s'est articulée autour de deux \glspl{schema} de validation distincts. Le premier, \texttt{storySchema}, décrit la structure attendue du fichier \acrshort{json} de scénario: types de n\oe{}uds, présence des champs obligatoires, valeurs autorisées pour les propriétés énumérées. Le second, \texttt{saveSchema}, couvre la structure des fichiers de sauvegarde afin de détecter et de rejeter tout fichier corrompu ou modifié manuellement avant qu'il ne soit transmis au moteur. En cas d'écart par rapport au \gls{schema} défini (champ manquant, type incorrect, structure invalide) Zod retourne un message d'erreur explicite indiquant précisément la localisation et la nature du problème, ce qui constitue un mécanisme de détection d'erreurs déterministe et un retour direct pour l'auteur.
+
+% TODO — Insère ici une capture d'écran ou un listing d'un message d'erreur Zod 
+% tel qu'il s'affiche à l'auteur. C'est l'élément le plus concret de cette 
+% itération.
+
+Afin de couvrir les cas d'erreur de manière systématique, des fichiers de test dédiés ont été ajoutés au dépôt dans un dossier \texttt{tests/}. Ces fichiers représentent intentionnellement des scénarios invalides: \acrshort{json} à la \gls{syntaxe} cassé (virgule manquante, guillemet non fermé), fichiers avec des champs obligatoires absents, et fichiers avec des valeurs de type incorrect. Ces fichiers sont exclus du \textit{build} de production via un \gls{plugin} Vite dédié.
+
+
+\subsubsubsection{Check}
+
+Les tests négatifs réalisés à l'issue de cette itération ont couvert l'ensemble des cas décrits ci-dessus. Dans chaque cas, Zod a retourné un message d'erreur explicite et le moteur est resté dans un état stable, confirmant le comportement attendu. La validation des fichiers de sauvegarde a également été testée en fournissant des fichiers modifiés manuellement, qui ont été correctement rejetés avec un message d'erreur remontant jusqu'à l'écran titre.
+
+% TODO — Si tu as rencontré des cas où Zod ne retournait pas exactement le 
+% message attendu, ou où le schéma a dû être ajusté après les premiers tests, 
+% mentionne-le ici. L'honnêteté sur les ajustements intermédiaires renforce 
+% la crédibilité de l'évaluation.
+
+
+\subsubsubsection{Act}
+
+À l'issue de cette itération, l'ensemble des objectifs \textit{Must} et \textit{Should} définis au tableau \ref{tab:objectifs_moscow} avaient été atteints. Plusieurs fonctionnalités \textit{Can} ont également pu être intégrées. Les fonctionnalités restantes hors périmètre (notamment un éditeur de scénario intégré et une gestion avancée des embranchements narratifs complexes) sont identifiées comme axes de développement futurs dans le chapitre \ref{chap:resultats}.

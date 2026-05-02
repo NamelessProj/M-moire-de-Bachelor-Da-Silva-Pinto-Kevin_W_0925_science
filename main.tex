@@ -29,11 +29,37 @@
 \usepackage{booktabs}
 \usepackage[]{mdframed}
 \usepackage{datetime2}
+\usepackage{titlesec}
 
 \usepackage[style=ext-authoryear, backend=biber]{biblatex}
 \addbibresource{references.bib} % note the .bib is required
 
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+
+\newcommand{\ns}{\textit{NamelessStory}\space}
+
+
+% ----------------------------------------------------------
+
+\titleclass{\subsubsubsection}{straight}[\subsection]
+
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\makeatletter
+\def\toclevel@subsubsubsection{4}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\makeatother
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+% ----------------------------------------------------------
+
 
 \DTMsetdatestyle{ddmmyyyy}
 
@@ -122,6 +148,8 @@
 \include{chapters/_mediaProject}
 
 \include{chapters/_resultats}
+
+\include{chapters/_conclusion}
 
 
 
