@@ -7,7 +7,7 @@ La réalisation de NamelessStory s'inscrit dans une démarche de développement 
 Le processus global s'organise autour de trois axes: un cycle de développement itératif basé sur le modèle PDCA, une priorisation des fonctionnalités dont les objectifs seront définis au chapitre \ref{objMediaProject}, et une validation fonctionnelle continue à chaque itération.
 
 
-\subsection{Cycle de développement itératif (PDCA)}
+\subsection{Cycle de développement itératif (PDCA)} \label{devPDCA}
 
 Le modèle PDCA (\textit{Plan}, \textit{Do}, \textit{Check}, \textit{Act}), formalisé par W. Edwards Deming dans le cadre de l'amélioration continue des processus \parencite{deming_out_1986}, constitue le cadre méthodologique de ce projet. Chaque itération de développement suit ce cycle en quatre phases:
 
@@ -33,19 +33,21 @@ Le modèle PDCA (\textit{Plan}, \textit{Do}, \textit{Check}, \textit{Act}), form
 
 Ce modèle a été retenu pour sa capacité à intégrer les retours d'évaluation de manière continue, sans nécessiter de redéfinir l'ensemble du périmètre à chaque étape.
 
-Le développement s'est déroulé en trois étapes itérations successives, décrites en détail au chapitre \ref{MediaProject}:
+\clearpage
+
+Le développement s'est déroulé en trois étapes d'itérations successives, décrites en détail au chapitre \ref{MediaProject}:
 
 \begin{table}[htbp]
     \centering
     \caption{Objectif par itération}
     \renewcommand{\arraystretch}{1.5}
-    \begin{tabular}{p{0.5cm} p{2.7cm} p{9.7cm}}
+    \begin{tabular}{p{0.5cm} p{2.7cm} p{9.5cm}}
         \hline
         \textbf{N°} & \textbf{Objectif} & \textbf{Description} \\
         \hline
         1 & Fonctionnement du moteur & Implémentation des mécaniques fondamentales (affichage du texte, gestion des scènes, gestion des choix) et vérification du comportement attendu dans le navigateur. \\
         \addlinespace
-        2 & Optimisation & Amélioration des performances internes, notamment par l'utilisation de Web Workers pour déléguer certains traitements hors du fil d'exécution principal, et refactorisation du code pour en augmenter la maintenabilité. \\
+        2 & Optimisation & Amélioration des performances internes, notamment par l'utilisation de \glspl{webworker} pour déléguer certains traitements hors du fil d'exécution principal, et refactorisation du code pour en augmenter la maintenabilité. \\
         \addlinespace
         3 & Sécurité et robustesse & Intégration de la \gls{librairie} Zod pour valider à l'exécution la conformité des fichiers \gls{json} au \gls{schema} attendu, et pour avertir l'utilisateur en cas de fichier de sauvegarde corrompu ou invalide. \\
         \hline

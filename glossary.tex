@@ -17,7 +17,7 @@
 
 \newglossaryentry{opensource}{
     name={open source},
-    description={Modèle de développement dans lequel le code source est public et peut être consulté, modifié et redistribué par tous, selon les conditions de sa licence.}
+    description={Modèle de développement dans lequel le code source est public et peut être consulté, modifié et redistribué par tous, selon les conditions de sa licence}
 }
 
 \newglossaryentry{js}{
@@ -26,7 +26,7 @@
 navigateurs web, utilisé pour rendre les pages interactives et dynamiques. 
 Il constitue la base technique de ce projet: React, la bibliothèque 
 utilisée pour le moteur, est écrite en JavaScript, et le format JSON est 
-directement interprétable par ce langage sans dépendance externe.}
+directement interprétable par ce langage sans dépendance externe}
 }
 
 \newglossaryentry{ts}{
@@ -36,32 +36,32 @@ directement interprétable par ce langage sans dépendance externe.}
 
 \newglossaryentry{reactjs}{
     name={React.js},
-    description={Bibliothèque JavaScript développée par Meta, utilisée pour construire des interfaces web interactives sous formne de composants réutilisables. Ce projet repose sur React.js pour le rendu du moteur de Visual Novel dans le navigateur.}
+    description={Bibliothèque JavaScript développée par Meta, utilisée pour construire des interfaces web interactives sous formne de composants réutilisables. Ce projet repose sur React.js pour le rendu du moteur de Visual Novel dans le navigateur}
 }
 
 \newglossaryentry{frontend}{
     name={front-end},
-    description={Partie visible d’une application ou d’un site web avec laquelle l’utilisateur interagit directement.}
+    description={Partie visible d’une application ou d’un site web avec laquelle l’utilisateur interagit directement}
 }
 
 \newglossaryentry{syntaxe}{
     name={syntaxe},
-    description={Ensemble des règles formelles qu'un fichier ou un script doit respecter pour être correctement interprété par un programme. Dans ce projet, ce terme désigne notamment les règles structurelles du format JSON utilisé comme source de contenu du moteur.}
+    description={Ensemble des règles formelles qu'un fichier ou un script doit respecter pour être correctement interprété par un programme. Dans ce projet, ce terme désigne notamment les règles structurelles du format JSON utilisé comme source de contenu du moteur}
 }
 
 \newglossaryentry{parseur}{
     name={parseur},
-    description={Programme ou composant logiciel chargé de lire un fichier texte et d'en interpréter la structure selon des règles définies. Dans ce projet, le parseur anaylse le fichier JSON du scénario et vérifie qu'il est conforme au schéma attendu avant de le transmettre au moteur.}
+    description={Programme ou composant logiciel chargé de lire un fichier texte et d'en interpréter la structure selon des règles définies. Dans ce projet, le parseur anaylse le fichier JSON du scénario et vérifie qu'il est conforme au schéma attendu avant de le transmettre au moteur}
 }
 
 \newglossaryentry{schema}{
     name={schéma},
-    description={Au sens informatique, description formelle de la structure attendue d'un fichier de données: quels champs sont obligatoires, quels types de valeurs sont acceptés, et comment les éléments sont organisés. Dans ce projet, le schéma JSON définit la structure que doit respecter tout fichier de scénario pour être reconnu et exécuté par le moteur.}
+    description={Au sens informatique, description formelle de la structure attendue d'un fichier de données: quels champs sont obligatoires, quels types de valeurs sont acceptés, et comment les éléments sont organisés. Dans ce projet, le schéma JSON définit la structure que doit respecter tout fichier de scénario pour être reconnu et exécuté par le moteur}
 }
 
 \newglossaryentry{librairie}{
     name={librairie},
-    description={Dans le domaine du développement logiciel, ensemble de composants ou de fonctions réutilisables qu'un développeur peut intégrer dans son propre projet. À ne pas confondre avec son sens courant: il ne s'agit pas d'un lieu physique, mais d'un module logiciel distribuable.}
+    description={Dans le domaine du développement logiciel, ensemble de composants ou de fonctions réutilisables qu'un développeur peut intégrer dans son propre projet. À ne pas confondre avec son sens courant: il ne s'agit pas d'un lieu physique, mais d'un module logiciel distribuable}
 }
 
 \newglossaryentry{nocode}{
@@ -71,15 +71,30 @@ directement interprétable par ce langage sans dépendance externe.}
     entièrement sur des interfaces visuelles, tandis que les outils low-code 
     permettent d'y adjoindre du code pour des besoins spécifiques. Ces 
     approches visent à rendre la création d'applications accessible à des 
-    utilisateurs sans formation technique.}
+    utilisateurs sans formation technique}
 }
 
 \newglossaryentry{webassembly}{
     name={WebAssembly},
-    description={Format d'instructions binaires permettant d'exécuter dans un navigateur web du code compilé depuis d'autres langages que JavaScript, avec des performances proches du natif.}
+    description={Format d'instructions binaires permettant d'exécuter dans un navigateur web du code compilé depuis d'autres langages que JavaScript, avec des performances proches du natif}
 }
 
 \newglossaryentry{backend}{
     name={backend},
-    description={Partie serveur d'une application web, invisible à l'utilisateur final, qui gère la logique métier, le stockage des données et les traitements nécessitant un environnement sécurisé.}
+    description={Partie serveur d'une application web, invisible à l'utilisateur final, qui gère la logique métier, le stockage des données et les traitements nécessitant un environnement sécurisé}
+}
+
+\newglossaryentry{npm}{
+    name={npm},
+    description={Gestionnaire de paquest pour JavaScript, installé avec Node.js. Il permet d'installer, de mettre à jour et de publier des librairies réutilisables (appelées \textit{packages}) dans un projet JavScript ou TypeScript. La commande \texttt{npm install} télécharge les dépendances d'un projet, et \texttt{npm run build} exécute un script de compilation défini dans le fichier \texttt{package.json}}
+}
+
+\newglossaryentry{package}{
+    name={package},
+    description={Dans le domaine du développement JavaScript, module logiciel distribué via npm, installable dans un projet par une commande. Un package peut être une librairie (comme React.js ou Zod), un outil de build (comme Vite), ou tout autre ensemble de fonctionnalités réutilisables. À ne pas confondre avec son sens courant de colis ou paquet physique}
+}
+
+\newglossaryentry{webworker}{
+    name={Web Worker},
+    description={Mécanisme natif des navigateurs web permettant d'exécuter du code JavaScript dans un fil d'exécution secondaire, séparé du fil principal gérant l'interface utilisateur. Cela permet de déléguer des traitements coûteux en calcul sans bloquer l'affichage ni les interactions de l'utilisateur. Les Web Workers communiquent avec le fil principal par échange de messages, sans accès direct au DOM. \parencite{noauthor_utilisation_2025}}
 }

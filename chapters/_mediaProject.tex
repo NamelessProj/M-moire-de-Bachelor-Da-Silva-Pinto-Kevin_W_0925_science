@@ -5,6 +5,21 @@ Le Media Project constitue la partie centrale de ce travail. Il s'agit de concev
 Le développement a suivi une approche itérative, chaque itération correspondant à un ensemble de fonctionnalités implémentées, testées et évaluées avant de passer à l'étape suivante.
 
 
+\subsection{Évolution du périmètre: de la \gls{librairie} à l'application} 
+
+L'intention initiale de ce projet était de développer NamelessStory sous forme d'une \gls{librairie} \gls{reactjs} publiable sur \gls{npm}, intégrable par un développeur tiers via une simple commande d'installation. Cette approche aurait permis de distribuer le moteur comme un composant réutilisable, indépendamment de toute application hôte.
+
+Afin d'apprendre à mettre en œuvre cette architecture, deux ressources ont été consultées: une playlist YouTube d'Imran Hussain (son nom d'utilisateur \textit{Imran Codes}) en 2024, intitulée \textit{Building a React Component Library: A Senior Developer's Guide}\parencite{imran_codes_1_2024} (ciblant \gls{reactjs} 16), et un article textuel d'Alex Eagleson publié sur dev.to en novembre 2021, mis à jour en décembre 2022 \parencite{noauthor_how_2021} (ciblant \gls{reactjs} 17 et rollup\footnote{Rollup est un outil de bundling \gls{js} spécialisé dans la création de \gls{librairie} distribuables. En mode \gls{librairie} (\textit{\gls{librairie} mode}), il compile le code source en un ou plusieurs fichiers optimisés, accompagnés des définitions de types \gls{ts}, prêts à être publiés comme \gls{package} \gls{npm}. \parencite{noauthor_introduction_nodate}} V2). Les deux ressources reposaient sur la même approche: configurer rollup en mode \gls{librairie} via un fichier \texttt{rollup.config.js}, en combinant les plugins \texttt{@rollup/plugin-typescript}, \texttt{@rollup/plugin-commonjs} et \texttt{rollup-plugin-dts}.
+
+Dans les deux cas, la commande de build (\texttt{npm run build}) échouait. les erreurs rencontrées relevaient de la configuration rollup, dont les exigences ont évolué avec les versions successives de l'outil. L'article d'Eagleson lui-même signale ce problème: une note intégrée au texte indique que certains outils ont été mis à jour et que les instructions telles qu'écrites ne fonctionnent plus. \parencite{noauthor_how_2021} Les commentaires des deux ressources, datant eux aussi d'environ un an, proposaient des correctifs partiels qui n'ont pas permis de résoudre le problème dans le contexte de \gls{reactjs} 19 et des versions actuelles de rollup.
+
+Aucune ressource plus récente, reposant sur une configuration adaptée à \gls{reactjs} 19, n'a pu être identifiée, les tutoriels disponibles utilisaient tous la même approche de configuration, devenue incompatible avec les versions actuelles de l'outillage. Il n'est pas exclu que certaines erreurs rencontrées aient résulté d'une mauvaise interprétation des étapes de configuration de ma part, cette possibilité ne peut être écartée.
+
+Face à ces obstacles et aux contraintes de temps du projet, la décision a été prise de réorienter l'architecture vers une application \gls{reactjs} autonome. Cette approche, plus directement maîtrisable, permet d'atteindre l'objectif principal du projet: rendre la création de \gls{vn} accessible via le web, sans nécessiter la distribution d'un \gls{package} \gls{npm}.
+
+\clearpage
+
+
 \subsection{Objectifs du Media Project} \label{objMediaProject}
 
 L'objectif principal de ce projet est d'offrir une alternative entièrement textuelle aux moteurs de \gls{vn} existants, facile à utiliser et à mettre en ligne. Contrairement aux solutions actuelles, telles que RenPy ou Twine, qui nécessitent l'apprentissage d'un langage de script dédié ou l'installation d'un environnement de développement, NamelessStory permet à tout auteur disposant de connaissances de base en \gls{json} de créer et de publier un \gls{vn} fonctionnel.
@@ -34,6 +49,8 @@ Les objectifs sont définis selon la méthode de priorisation \textit{MoSCoW}\fo
     \end{tabular}
     \label{tab:objectifs_moscow}
 \end{table}
+
+\clearpage
 
 
 \subsubsection{Stack technique et outils}
@@ -65,7 +82,7 @@ Le développement de NamelessStory repose sur les technologies et outils suivant
 
 \subsubsection{Méthode de développement}
 
-Le développement a suivi un processus itératif basé sur le cycle \textbf{PDCA} (\textit{Plan, Do, Check, Act}), tel que défini dans la méthodologie présentée au chapitre 3. Chaque itération correspond à un cycle complet: planification des fonctionnalités à implémenter, développement, évaluation par tests fonctionnels, puis décision sur les ajustements à apporter à l'itération suivante.
+Le développement a suivi un processus itératif basé sur le cycle \textbf{PDCA} (\textit{Plan, Do, Check, Act}), tel que défini dans la méthodologie présentée au chapitre \ref{devPDCA}. Chaque itération correspond à un cycle complet: planification des fonctionnalités à implémenter, développement, évaluation par tests fonctionnels, puis décision sur les ajustements à apporter à l'itération suivante.
 
 Ce modèle a été retenu pour sa capacité à intégrer les retours d'évaluation de manière continue, sans nécessiter de redéfinir l'ensemble du périmètre à chaque étape.
 
