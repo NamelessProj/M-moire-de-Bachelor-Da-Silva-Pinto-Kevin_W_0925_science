@@ -179,7 +179,7 @@ Pour la sauvegarde, un \gls{webworker} dédié (\texttt{saveWorker}) a été mis
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.9\linewidth]{img/schema_web-worker.jpeg}
+    \includegraphics[width=1\linewidth]{img/schema_web-worker.jpeg}
     \caption{Séparation du fil principal et du \gls{webworker} pour l'opération de sauvegarde dans NamelessStory (Auteur 2026)}
     \label{fig:schemaWebWorker}
 \end{figure}
@@ -227,6 +227,21 @@ Afin de couvrir les cas d'erreur de manière systématique, des fichiers de test
 \subsubsubsection{Check}
 
 Les tests négatifs réalisés à l'issue de cette itération ont couvert l'ensemble des cas décrits ci-dessus. Dans chaque cas, Zod a retourné un message d'erreur explicite et le moteur est resté dans un état stable, confirmant le comportement attendu. La validation des fichiers de sauvegarde a également été testée en fournissant des fichiers modifiés manuellement, qui ont été correctement rejetés avec un message d'erreur remontant jusqu'à l'écran titre.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{img/zod_invalid_syntax_1.png}
+        \caption{Erreur de syntaxe JSON}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{img/zod_missing_field_1.png}
+        \caption{Champs obligatoires omis}
+    \end{subfigure}
+    \caption{Messages d'erreur retournés par Zod lors de la validation du fichier JSON (Auteur 2026)}
+    \label{fig:zod_erreurs}
+\end{figure}
 
 % TODO — Si tu as rencontré des cas où Zod ne retournait pas exactement le 
 % message attendu, ou où le schéma a dû être ajusté après les premiers tests, 
