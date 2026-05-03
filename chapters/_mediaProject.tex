@@ -138,10 +138,18 @@ L'objectif de cette première itération était d'implémenter les mécaniques f
 % avril). C'est cette logique que tu dois narrer ici, en première personne, au passé.
 % Inclure si possible : un extrait ou une capture du schéma JSON à ce stade.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{img/NamelessStory_V1.png}
-    \caption{Affichage du dialogue - première itération de NamelessStory (Auteur 2026)}
+    \begin{subfigure}[b]{0.47\textwidth}
+        \includegraphics[width=\textwidth]{img/NamelessStory_V1_home.png}
+        \caption{Écran titre}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.47\textwidth}
+        \includegraphics[width=\textwidth]{img/NamelessStory_V1_text.png}
+        \caption{Affichage d'un dialogue}
+    \end{subfigure}
+    \caption{NamelessStory à l'issue de la première itération (Auteur 2026)}
     \label{fig:NamelessStoryV1}
 \end{figure}
 
@@ -230,12 +238,12 @@ Les tests négatifs réalisés à l'issue de cette itération ont couvert l'ense
 
 \begin{figure}
     \centering
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.47\textwidth}
         \includegraphics[width=\textwidth]{img/zod_invalid_syntax_1.png}
         \caption{Erreur de syntaxe JSON}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.47\textwidth}
         \includegraphics[width=\textwidth]{img/zod_missing_field_1.png}
         \caption{Champs obligatoires omis}
     \end{subfigure}
