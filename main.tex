@@ -31,6 +31,7 @@
 \usepackage{datetime2}
 \usepackage{titlesec}
 \usepackage{subcaption}
+\usepackage{minted}
 
 \usepackage[style=ext-authoryear, backend=biber]{biblatex}
 \addbibresource{references.bib} % note the .bib is required
@@ -39,6 +40,14 @@
 
 
 \newcommand{\ns}{\textit{NamelessStory}\space}
+
+
+% ----------------------------------------------------------
+
+\renewcommand{\listingscaption}{Extrait de code}
+\renewcommand{\listoflistingscaption}{Liste des extraits de code}
+
+% ----------------------------------------------------------
 
 
 % ----------------------------------------------------------
@@ -118,6 +127,7 @@
 % =======================
 \listoffigures
 \listoftables
+\listoflistings
 % =======================
 
 % Glossaire

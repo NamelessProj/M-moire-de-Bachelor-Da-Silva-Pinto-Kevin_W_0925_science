@@ -127,6 +127,44 @@ L'objectif de cette première itération était d'implémenter les mécaniques f
 
 \subsubsubsection{Do}
 
+J'ai commencé par créer le projet. Pour ce faire, il me fallait choisir un langage, un framework, une structure, et j'ai décidé de réaliser mon projet en \gls{reactjs}, un langage que je connais déjà et qui est parfait pour créer des projets basés sur des composants, ce qui permet de séparer chaque partie de code.
+
+Avant même de commencer à créer un seul composant, j'ai commencé à réfléchir à la structure que je souhaitais utiliser pour le fichier \gls{json} qui contiendra l'histoire. Je voulais quelque chose de personnalisable, afin de laisser un maximum de liberté aux personnes souhaitant utiliser ce projet. Pour atteindre cet objectif, il m'a fallu séparer plusieurs éléments:
+
+\begin{table}[htbp]
+    \centering
+    \caption{Séparation des éléments principaux du fichier JSON}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{p{4cm} p{9cm}}
+        \hline
+        \textbf{Objet} & \textbf{Description} \\
+        \hline
+        Les paramètres & Définitions des valeurs par défaut globales de l'application: personnalisation de l'écran titre, de la page de crédits, et des comportements d'affichage. Ces valeurs peuvent être \glslink{override}{surchargées} localement au niveau d'un dialogue. \\
+        \addlinespace
+        Les personnages & La déclaration des personnages afin d'avoir à un seul endroit tous les personnages et leurs informations. \\
+        \addlinespace
+        L'histoire & Tous les éléments qui serviront à raconter l'histoire. \\
+        \hline
+    \end{tabular}
+    \label{tab:obj_json_schema}
+\end{table}
+
+Pourquoi ces choix? Pourquoi ne pas mettre les personnages dans l'histoire? Plusieurs réponses à ces questions. Pour commencer, cela donne une structure simple et lisible, tout est séparé selon des objectifs bien précis: ce qui aide l'auteur (les paramètres), ce qui sera utilisé plusieurs fois (les personnages) et le récit. Les personnages, à l'image des variables, sont susceptibles d'apparaître dans de nombreuses scènes. Les centraliser évite ainsi toute répétition dans le fichier.
+
+\begin{listing}[htbp]
+\begin{minted}{json}
+{
+    "settings": {
+        "textSpeed": 50
+    },
+    "characters": {},
+    "story": {}
+}
+\end{minted}
+\caption{Exemple de strucutre de fichier JSON}
+\label{lst:json_example}
+\end{listing}
+
 % TODO — Cette section doit être rédigée par toi.
 % Les commits me donnent l'ordre technique, mais l'expérience vécue (pourquoi 
 % tu as commencé par tel composant, quelles décisions d'architecture tu as prises, 
