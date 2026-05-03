@@ -138,7 +138,9 @@ L'objectif de cette première itération était d'implémenter les mécaniques f
 % avril). C'est cette logique que tu dois narrer ici, en première personne, au passé.
 % Inclure si possible : un extrait ou une capture du schéma JSON à ce stade.
 
-\begin{figure}
+La figure \ref{fig:NamelessStoryV1} présente l'état du moteur à l'issue de cette première itération.
+
+\begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.47\textwidth}
         \includegraphics[width=\textwidth]{img/NamelessStory_V1_home.png}
@@ -183,7 +185,7 @@ L'optimisation du rendu a porté sur l'ensemble des composants du moteur. Chaque
 
 En parallèle, le traitement de la mise en forme du texte a été revu pour des raisons de sécurité et de robustesse. La propriété React \texttt{dangerouslySetInnerHTML} qui permettait d'injecter directement du \acrshort{html} dans le \acrshort{dom}, a été remplacée par un couple de fonctions dédiées: \texttt{escapeHtml}, qui neutralise les caractères spéciaux avant tout traitement, et \texttt{htmlToReactNode}, qui convertit la chaîne résultante en n\oe{}uds React natifs. Cette approche supprime le risque d'injection de contenu malveillant tout en conservant la flexibilité du balisage personnalisé.
 
-Pour la sauvegarde, un \gls{webworker} dédié (\texttt{saveWorker}) a été mis en place. Le fil principal transmet l'état courant au \textit{worker} par échange de messages, celui-ci exécute \texttt{JSON.stringify()} dans son propre fil d'exécution, puis retourne la chaîne sérialisée au fil principal, qui la persiste dans le \texttt{localStorage} du navigateur. Cette communication est entièrement asynchrone: l'interface utilisateur reste réactive pendant toute la durée de l'opération, quelle que soit la taille de l'objet à sérialiser.
+Pour la sauvegarde, un \gls{webworker} dédié (\texttt{saveWorker}) a été mis en place. Le fil principal transmet l'état courant au \textit{worker} par échange de messages, celui-ci exécute \texttt{JSON.stringify()} dans son propre fil d'exécution, puis retourne la chaîne sérialisée au fil principal, comme illustré à la figure \ref{fig:schemaWebWorker}. Cette communication est entièrement asynchrone: l'interface utilisateur reste réactive pendant toute la durée de l'opération, quelle que soit la taille de l'objet à sérialiser.
 
 \begin{figure}[htbp]
     \centering
@@ -234,22 +236,24 @@ Afin de couvrir les cas d'erreur de manière systématique, des fichiers de test
 
 \subsubsubsection{Check}
 
-Les tests négatifs réalisés à l'issue de cette itération ont couvert l'ensemble des cas décrits ci-dessus. Dans chaque cas, Zod a retourné un message d'erreur explicite et le moteur est resté dans un état stable, confirmant le comportement attendu. La validation des fichiers de sauvegarde a également été testée en fournissant des fichiers modifiés manuellement, qui ont été correctement rejetés avec un message d'erreur remontant jusqu'à l'écran titre.
+Les tests négatifs réalisés à l'issue de cette itération ont couvert l'ensemble des cas décrits ci-dessus. Dans chaque cas, Zod a retourné un message d'erreur explicite et le moteur est resté dans un état stable, confirmant le comportement attendu, comme illustré à la figure \ref{fig:zod_erreurs}.
 
-\begin{figure}
+\begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.47\textwidth}
-        \includegraphics[width=\textwidth]{img/zod_invalid_syntax_1.png}
+        \includegraphics[height=4.85cm]{img/zod_invalid_syntax_1.png}
         \caption{Erreur de syntaxe JSON}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.47\textwidth}
-        \includegraphics[width=\textwidth]{img/zod_missing_field_1.png}
+        \includegraphics[height=4.85cm]{img/zod_missing_field_1.png}
         \caption{Champs obligatoires omis}
     \end{subfigure}
     \caption{Messages d'erreur retournés par Zod lors de la validation du fichier JSON (Auteur 2026)}
     \label{fig:zod_erreurs}
 \end{figure}
+
+La validation des fichiers de sauvegarde a également été testée en fournissant des fichiers modifiés manuellement, qui ont été correctement rejetés avec un message d'erreur remontant jusqu'à l'écran titre.
 
 % TODO — Si tu as rencontré des cas où Zod ne retournait pas exactement le 
 % message attendu, ou où le schéma a dû être ajusté après les premiers tests, 
