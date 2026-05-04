@@ -371,7 +371,7 @@ Les figures \ref{fig:profiling_renders} et \ref{fig:profiling_maxdur} illustrent
     \label{fig:profiling_maxdur}
 \end{figure}
 
-Les mesures révèlent un résultat nuancé. Le nombre de \glspl{rendu} a diminué de 28.5\% (688 → 492), confirmant l'effet de \texttt{React.memo}: des re-rendus inutiles ont été éliminés. En revanche, la durée moyenne par render a augmenté (0.165ms → 0.321ms), et le pic maximal est passé de 3ms à 18.3ms. Ce comportement est cohérent avec la stratégie de précomputation adoptée par le composant \texttt{Typerwriter}: le coût de calcul est concentré sur le \gls{rendu} initial plutôt que distribué sur chaque caractère affiché. Pour des performances globales comparables, la version optimisée impose donc une charge moindre au fil principal du navigateur sur la durée d'une session.
+Les mesures révèlent un résultat nuancé. Le nombre de \glspl{rendu} a diminué de 28.5\% (688 → 492), confirmant l'effet de \texttt{React.memo}: des re-rendus inutiles ont été éliminés. En revanche, la durée moyenne par \gls{rendu} a augmenté (0.165ms → 0.321ms), et le pic maximal est passé de 3ms à 18.3ms. Ce comportement est cohérent avec la stratégie de précomputation adoptée par le composant \texttt{Typerwriter}: le coût de calcul est concentré sur le \gls{rendu} initial plutôt que distribué sur chaque caractère affiché. Pour des performances globales comparables, la version optimisée impose donc une charge moindre au fil principal du navigateur sur la durée d'une session.
 
 
 \subsubsubsection{Act}
