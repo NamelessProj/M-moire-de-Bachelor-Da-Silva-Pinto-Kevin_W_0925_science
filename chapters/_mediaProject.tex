@@ -32,7 +32,7 @@ Les objectifs sont définis selon la méthode de priorisation \textit{MoSCoW}\fo
     \centering
     \caption{Objectifs du Media Project selon la priorisation MoSCoW}
     \renewcommand{\arraystretch}{1.5}
-    \begin{tabular}{p{2cm} p{4cm} p{7cm}}
+    \begin{tabular}{p{2cm} p{4.5cm} p{6cm}}
         \hline
         \textbf{Priorité} & \textbf{Fonctionnalité} & \textbf{Description} \\
         \hline
@@ -267,7 +267,7 @@ Après plusieurs essais du moteur, les fonctionnalités implémentées lors de l
 
 Afin d'évaluer l'impact des optimisations sur les performances de rendu, cinq sessions de test identiques ont été enregistrées via le \textit{React DevTools Profiler}\footnote{Extension de navigateur développée par Meta Open Source permettant d'enregistrer et d'analyser les performances de rendu d'une application \gls{reactjs}, notamment la durée et la fréquence des cycles de rendu par composant. \parencite{noauthor_react_nodate}}, sur la version précédente des optimisations (commit \texttt{9831b9e}) et sur la version optimisée. Chaque session suivait la même séquence d’interactions sur le même fichier \gls{json} de test, dans le même navigateur.
 
-Les tableaux \ref{tab:profiling_before} et \ref{tab:profiling_after} présentent les quatre métriques relevées: le nombre total de renders, la durée moyenne par render, la durée maximale observée et la durée cumulée de l'ensemble des renders de la session.
+Les tableaux \ref{tab:profiling_before} et \ref{tab:profiling_after} présentent les quatre métriques relevées: le nombre total de \gls{rendu}, la durée moyenne par \gls{rendu}, la durée maximale observée et la durée cumulée de l'ensemble des \glspl{rendu} de la session.
 
 \begin{table}[htbp]
     \centering
@@ -275,7 +275,7 @@ Les tableaux \ref{tab:profiling_before} et \ref{tab:profiling_after} présentent
     \renewcommand{\arraystretch}{1.5}
     \begin{tabular}{p{0.8cm} p{2.5cm} p{2.5cm} p{2.5cm} p{2.7cm}}
         \hline
-        \textbf{N°} & \textbf{Renders} & \textbf{Durée moy.} & \textbf{Durée max.} & \textbf{Durée totale} \\
+        \textbf{N°} & \textbf{\Glspl{rendu}} & \textbf{Durée moy.} & \textbf{Durée max.} & \textbf{Durée totale} \\
         \hline
         1 & 688 & 0.165 & 2.90 & 113.70 \\
         2 & 689 & 0.166 & 2.90 & 114.50 \\
@@ -296,7 +296,7 @@ Les tableaux \ref{tab:profiling_before} et \ref{tab:profiling_after} présentent
     \renewcommand{\arraystretch}{1.5}
     \begin{tabular}{p{0.8cm} p{2.5cm} p{2.5cm} p{2.5cm} p{2.7cm}}
         \hline
-        \textbf{N°} & \textbf{Renders} & \textbf{Durée moy.} & \textbf{Durée max.} & \textbf{Durée totale} \\
+        \textbf{N°} & \textbf{\Glspl{rendu}} & \textbf{Durée moy.} & \textbf{Durée max.} & \textbf{Durée totale} \\
         \hline
         1 & 476 & 0.335 & 19.90 & 159.50 \\
         2 & 492 & 0.320 & 18.30 & 157.60 \\
@@ -311,7 +311,7 @@ Les tableaux \ref{tab:profiling_before} et \ref{tab:profiling_after} présentent
     \label{tab:profiling_after}
 \end{table}
 
-Les figures \ref{fig:profiling_renders} et \ref{fig:profiling_maxdur} illustrent respectivement l'évolution du nombre de renders et de la durée maximale entre les deux versions.
+Les figures \ref{fig:profiling_renders} et \ref{fig:profiling_maxdur} illustrent respectivement l'évolution du nombre de \gls{rendu} et de la durée maximale entre les deux versions.
 
 \begin{figure}[htbp]
     \centering
@@ -323,7 +323,7 @@ Les figures \ref{fig:profiling_renders} et \ref{fig:profiling_maxdur} illustrent
             height=8cm,
             ymin=400,
             ymax=750,
-            ylabel={Nombre de renders},
+            ylabel={Nombre de \glspl{rendu}},
             xtick=data,
             xticklabels={Session 1, Session 2, Session 3, Session 4, Session 5},
             legend style={at={(0.5,-0.18)}, anchor=north, legend columns=2},
@@ -338,7 +338,7 @@ Les figures \ref{fig:profiling_renders} et \ref{fig:profiling_maxdur} illustrent
         \legend{Avant optimisation, Après optimisation}
         \end{axis}
     \end{tikzpicture}
-    \caption{Nombre de renders par session avant et après optimisation (commit \texttt{9831b9e}) mesuré via React DevTools Profiler (Auteur 2026)}
+    \caption{Nombre de \glspl{rendu} par session avant et après optimisation (commit \texttt{9831b9e}) mesuré via React DevTools Profiler (Auteur 2026)}
     \label{fig:profiling_renders}
 \end{figure}
 
@@ -367,11 +367,11 @@ Les figures \ref{fig:profiling_renders} et \ref{fig:profiling_maxdur} illustrent
         \legend{Avant optimisation, Après optimisation}
         \end{axis}
     \end{tikzpicture}
-    \caption{Durée maximale de render par session avant et après optimisation (commit \texttt{9831b9e}) mesuré via React DevTools Profiler (Auteur 2026)}
+    \caption{Durée maximale de \gls{rendu} par session avant et après optimisation (commit \texttt{9831b9e}) mesuré via React DevTools Profiler (Auteur 2026)}
     \label{fig:profiling_maxdur}
 \end{figure}
 
-Les mesures révèlent un résultat nuancé. Le nombre de renders a diminué de 28.5\% (688 → 492), confirmant l'effet de \texttt{React.memo}: des re-rendus inutiles ont été éliminés. En revanche, la durée moyenne par render a augmenté (0.165ms → 0.321ms), et le pic maximal est passé de 3ms à 18.3ms. Ce comportement est cohérent avec la stratégie de précomputation adoptée par le composant \texttt{Typerwriter}: le coût de calcul est concentré sur le render initial plutôt que distribué sur chaque caractère affiché. Pour des performances globales comparables, la version optimisée impose donc une charge moindre au fil principal du navigateur sur la durée d'une session.
+Les mesures révèlent un résultat nuancé. Le nombre de \glspl{rendu} a diminué de 28.5\% (688 → 492), confirmant l'effet de \texttt{React.memo}: des re-rendus inutiles ont été éliminés. En revanche, la durée moyenne par render a augmenté (0.165ms → 0.321ms), et le pic maximal est passé de 3ms à 18.3ms. Ce comportement est cohérent avec la stratégie de précomputation adoptée par le composant \texttt{Typerwriter}: le coût de calcul est concentré sur le \gls{rendu} initial plutôt que distribué sur chaque caractère affiché. Pour des performances globales comparables, la version optimisée impose donc une charge moindre au fil principal du navigateur sur la durée d'une session.
 
 
 \subsubsubsection{Act}
