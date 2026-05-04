@@ -226,16 +226,16 @@ La figure \ref{fig:NamelessStoryV1} présente l'état du moteur à l'issue de ce
 
 À l'issue de cette itération, les mécaniques fondamentales étaient fonctionnelles et vérifiables dans le navigateur à partir d'un fichier \gls{json} de test. Les cas valides ont été testés manuellement: progression du dialogue au clic, navigation vers une autre scène, affichage des choix et sélection d'une option. Des scénarios d'erreur ont également été construits intentionnellement (\textit{negative testing}), notamment en fournissant des fichiers \gls{json} structurellement incomplets, afin de vérifier le comportement du moteur face à des données inattendues. \parencite{hora_test_2024}
 
-% TODO — Complète ce paragraphe avec ce que tu as observé de concret :
-% qu'est-ce qui ne fonctionnait pas encore, ou fonctionnait de manière 
-% insatisfaisante, à l'issue de cette première itération ?
+Ces tests ont révélé que le moteur adoptait un comportement indéfini face à des données manquantes ou erronées, sans retourner d'informations exploitables à l'auteur: pas de message d'erreur, aucun moyen de savoir quoi corriger.
+
+M’étant principalement focalisé sur les fonctionnalités, le style laissait encore à désirer. L'essentiel pour moi à ce stade du projet était d'avoir des éléments affichés à l'écran, pas nécessairement qu'ils soient jolis.
 
 
 \subsubsubsection{Act}
 
-% TODO — Qu'est-ce que ce bilan a décidé pour l'itération suivante ?
-% Les commits montrent qu'une série d'optimisations massives arrive le 20 avril :
-% c'est toi qui peux dire pourquoi tu as décidé de t'attaquer à cela à ce moment.
+Ayant une base fonctionnelle, deux options s'offraient à moi pour la suite: traiter le problème des messages d'erreur ou optimiser les performances du moteur. Ne possédant pas encore les connaissances nécessaires en matière de robustesse et de validation, j'ai choisi de m'engager dans un travail d'optimisation afin de garantir que le moteur évite les recalculs inutiles et exploite efficacement les ressources du navigateur.
+
+Ne possédant pas les connaissances nécessaires en matière de robustesse et de validation à ce moment, j'ai décidé de plutôt m'engager dans un travail intensif d'optimisation, afin d'assurer que le moteur fonctionne le plus efficacement possible en évitant l'usage de ressources inutiles.
 
 
 \subsubsection{Deuxième itération: l'optimisation}
