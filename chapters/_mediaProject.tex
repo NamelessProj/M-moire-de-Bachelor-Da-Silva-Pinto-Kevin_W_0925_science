@@ -127,7 +127,7 @@ L'objectif de cette première itération était d'implémenter les mécaniques f
 
 \subsubsubsection{Do}
 
-J'ai commencé par créer le projet. Pour ce faire, il me fallait choisir un langage, un framework, une structure, et j'ai décidé de réaliser mon projet en \gls{reactjs}, un langage que je connais déjà et qui est parfait pour créer des projets basés sur des composants, ce qui permet de séparer chaque partie de code.
+J'ai commencé par créer le projet. Pour ce faire, il me fallait choisir un langage, un framework, une structure, et j'ai décidé de réaliser mon projet en \gls{reactjs}, une \gls{librairie} \gls{js} que je connais déjà et qui est parfait pour créer des projets basés sur des composants, ce qui permet de séparer chaque partie de code.
 
 Avant même de commencer à créer un seul composant, j'ai commencé à réfléchir à la structure que je souhaitais utiliser pour le fichier \gls{json} qui contiendra l'histoire. Je voulais quelque chose de personnalisable, afin de laisser un maximum de liberté aux personnes souhaitant utiliser ce projet. Pour atteindre cet objectif, il m'a fallu séparer plusieurs éléments:
 
@@ -149,21 +149,58 @@ Avant même de commencer à créer un seul composant, j'ai commencé à réfléc
     \label{tab:obj_json_schema}
 \end{table}
 
-Pourquoi ces choix? Pourquoi ne pas mettre les personnages dans l'histoire? Plusieurs réponses à ces questions. Pour commencer, cela donne une structure simple et lisible, tout est séparé selon des objectifs bien précis: ce qui aide l'auteur (les paramètres), ce qui sera utilisé plusieurs fois (les personnages) et le récit. Les personnages, à l'image des variables, sont susceptibles d'apparaître dans de nombreuses scènes. Les centraliser évite ainsi toute répétition dans le fichier.
+Pourquoi ces choix? Pourquoi ne pas mettre les personnages dans l'histoire? Plusieurs réponses à ces questions. Pour commencer, cela donne une structure simple et lisible, tout est séparé selon des objectifs bien précis: ce qui aide l'auteur (les paramètres), ce qui sera utilisé plusieurs fois (les personnages) et le récit. Les personnages, à l'image des variables, sont susceptibles d'apparaître dans de nombreuses scènes. Les centraliser évite ainsi toute répétition dans le fichier. 
 
 \begin{listing}[htbp]
 \begin{minted}{json}
 {
     "settings": {
-        "textSpeed": 50
+        "startingScene": "start",
+        "textSpeed": 45
     },
-    "characters": {},
-    "story": {}
+    "characters": {
+        "Alice": {
+            "name": "Alice",
+            "fullName": "Alice Wonderland",
+            "color": "#e07ae0"
+        }
+    },
+    "story": {
+        "start": {
+            "background": "bg.png",
+            "dialogues": [
+                {
+                    "name": "Alice",
+                    "text": "Hello, world."
+                },
+                {
+                    "name": "Alice",
+                    "text": "Where shall we go?",
+                    "options": [
+                        { "text": "The library", "next": "library" },
+                        { "text": "The park", "next": "park" }
+                    ]
+                }
+            ]
+        }
+    }
 }
 \end{minted}
-\caption{Exemple de strucutre de fichier JSON}
+\caption{Exemple de structure de fichier JSON}
 \label{lst:json_example}
 \end{listing}
+
+Au fur et à mesure des itérations, le schéma s'enrichira afin de proposer davantage d'options. 
+
+Une fois la structure définie, il me fallait commencer le développement. Pour ce faire, il fallait choisir par quoi commencer, et j'ai décidé de commencer par les composants visuels de base. C'est à dire par l'écran de titre, l'écran des crédits et un composant d'image de fond.
+
+Comme la page de titre, les crédits et les scènes auront des images de fond. Pour rendre cet usage plus simple, j'ai pris la décision d'en faire un composant à part entière pour m'éviter des répétitions.
+
+La raison pour laquelle j'ai commencé par les écrans de titre et de crédits au lieu du c\oe{}ur du projet, le \gls{vn}, est que je voulais d'abord me consacrer aux éléments simples qui n'allaient pas avoir beaucoup d'évolution. Une fois ces écrans réalisés, je pouvais me consacrer entièrement au \gls{vn} tout en sachant que les autres écrans étaient déjà faits.
+
+Une fois ces éléments réalisés, j'ai commencé à travailler sur le composant que je considère comme le plus important: l'affichage du texte, avec l'effet machine à écrire. Pour rendre ce composant plus puissant, mon intention était de faire en sorte qu'il puisse \glslink{parseur}{parser} des balises \acrshort{html} et de pouvoir mettre en place une \gls{syntaxe} de pauses afin de donner du tonus aux textes. J'ai donc créé un système de \gls{tokenisation} du texte. L'idée est simple: avant l'affichage, le texte brut est découpé en unités atomiques, les \textit{tokens}, qui peuvent être soit du texte ordinaire, soit des balises \acrshort{html}, ou encore des temps de pause. Cette séparation permet à l'effet machine à écrire de n'animer que les caractères visibles, sans traiter les balises comme du texte à afficher. Sans cette étape intermédiaire, afficher \texttt{<b>mot</b>} caractère par caractère aurait risqué de produire des balises partielles visibles à l'écran, ou un \acrshort{html} mal formé.
+
+Une fois tous ces éléments fonctionnels, le temps était venu pour moi de mettre en place la logique première des \gls{vn}, une navigation entre dialogues et entre scènes. J'ai créé un composant de dialogue, contenant le texte et, par la suite, également le nom de la personne qui parle. J'ai aussi créé le composant de scène, dans lequel le texte et l'image de fond sont réunis. Pour l'interactivité, lors d'un clic ou lorsque le joueur appuie sur la touche \textit{Entrée}, soit le dialogue change pour le prochain de la scène courante, soit, si nous sommes au dernier dialogue de la scène, nous sommes amenés au premier dialogue de la prochaine scène.
 
 % TODO — Cette section doit être rédigée par toi.
 % Les commits me donnent l'ordre technique, mais l'expérience vécue (pourquoi 
@@ -214,14 +251,14 @@ La figure \ref{fig:NamelessStoryV1} présente l'état du moteur à l'issue de ce
 
 \subsubsubsection{Plan}
 
-L'objectif de cette itération était d'améliorer les performances et la maintenabilité du code produit lors de la première itération. Dans \gls{reactjs}, chaque mise à jour de l'état d'un composant parent déclanche un nouveau rendu de l'ensemble de l'arbre de composants enfants. Dans un moteur de \gls{vn}, où l'état global évolue à chaque ligne de dialogue, ce comportement peut provoquer des recalculs inutiles sur des composants dont les données n'ont pas changé. un second axe concernait la gestion de la sauvegarde: l'opération de sérialisation de l'état courant via \texttt{JSON.stringify()} s'exécutait sur le fil principal du navigateur. Cette opération ne pose pas de problème tant que l'objet à sérialiser reste de taille modeste. Cependant, à mesure que l'état s'enrichit (variables de jeu, historique de dialogue, données de progression), cette opération peut devenir coûteuse et bloquer l'interface le temps de son exécution. Afin d'anticiper cette limitation, la décision a été prise de déléguer cette opération à un \gls{webworker}.
+L'objectif de cette itération était d'améliorer les performances et la maintenabilité du code produit lors de la première itération. Dans \gls{reactjs}, chaque mise à jour de l'état d'un composant parent déclenche un nouveau rendu de l'ensemble de l'arbre de composants enfants. Dans un moteur de \gls{vn}, où l'état global évolue à chaque ligne de dialogue, ce comportement peut provoquer des recalculs inutiles sur des composants dont les données n'ont pas changé. un second axe concernait la gestion de la sauvegarde: l'opération de sérialisation de l'état courant via \texttt{JSON.stringify()} s'exécutait sur le fil principal du navigateur. Cette opération ne pose pas de problème tant que l'objet à sérialiser reste de taille modeste. Cependant, à mesure que l'état s'enrichit (variables de jeu, historique de dialogue, données de progression), cette opération peut devenir coûteuse et bloquer l'interface le temps de son exécution. Afin d'anticiper cette limitation, la décision a été prise de déléguer cette opération à un \gls{webworker}.
 
 
 \subsubsubsection{Do}
 
-L'optimisation du rendu a porté sur l'ensemble des composants du moteur. Chaque composant a été mémorisé via \texttt{React.memo}, ce qui permet à \gls{reactjs} de court-circuiter le rendu d'un composant si ses \textit{props} n'ont pas changé depuis le rendu précédent. Pour les calculs coûteux effectués à l'intérieur des composants, le \textit{hook} \texttt{useMemo} a été utilisé afin de mettre les résultats en cache entre les rendus. Des références (\texttt{useRef}) ont également remplacé certains états React là où une valeur devait persister sans déclencher de re-rendu. Le composant \texttt{Typewriter} a notamment fait l'objet d'une refactorisation significative: les instantanés \acrshort{html} et les délais entre caractères sont désormais précalculés en une seule passe avant le début de l'animation, évitant tout recalcul durant la frappe.
+L'optimisation du rendu a porté sur l'ensemble des composants du moteur. Chaque composant a été mémorisé via \texttt{React.memo}, ce qui permet à \gls{reactjs} de court-circuiter le rendu d'un composant si ses \textit{props} n'ont pas changé depuis le rendu précédent. Pour les calculs coûteux effectués à l'intérieur des composants, le \textit{hook} \texttt{useMemo} a été utilisé afin de mettre les résultats en cache entre les rendus. Des références (\texttt{useRef}) ont également remplacé certains états React où une valeur devait persister sans déclencher de re-rendu. Le composant \texttt{Typewriter} a notamment fait l'objet d'une refactorisation significative: les instantanés \acrshort{html} et les délais entre caractères sont désormais précalculés en une seule passe avant le début de l'animation, évitant tout recalcul durant la frappe.
 
-En parallèle, le traitement de la mise en forme du texte a été revu pour des raisons de sécurité et de robustesse. La propriété React \texttt{dangerouslySetInnerHTML} qui permettait d'injecter directement du \acrshort{html} dans le \acrshort{dom}, a été remplacée par un couple de fonctions dédiées: \texttt{escapeHtml}, qui neutralise les caractères spéciaux avant tout traitement, et \texttt{htmlToReactNode}, qui convertit la chaîne résultante en n\oe{}uds React natifs. Cette approche supprime le risque d'injection de contenu malveillant tout en conservant la flexibilité du balisage personnalisé.
+En parallèle, le traitement de la mise en forme du texte a été revu pour des raisons de sécurité et de robustesse. La propriété React \texttt{dangerouslySetInnerHTML} qui permettait d'injecter directement du \acrshort{html} dans le \acrshort{dom}, a été remplacée par un couple de fonctions dédiées: \texttt{escapeHtml}, qui neutralise les caractères spéciaux avant tout traitement, et \texttt{htmlToReactNode}, qui convertit la chaîne résultante en n\oe{}uds React natifs. Cette approche supprime le risque d'injection de contenu malveillant tout en conservant la flexibilité du balisage personnalisé. Pour garder cette personnalisation des balises dans le texte, un \gls{parseur} Markdown a été mis en place.
 
 Pour la sauvegarde, un \gls{webworker} dédié (\texttt{saveWorker}) a été mis en place. Le fil principal transmet l'état courant au \textit{worker} par échange de messages, celui-ci exécute \texttt{JSON.stringify()} dans son propre fil d'exécution, puis retourne la chaîne sérialisée au fil principal, comme illustré à la figure \ref{fig:schemaWebWorker}. Cette communication est entièrement asynchrone: l'interface utilisateur reste réactive pendant toute la durée de l'opération, quelle que soit la taille de l'objet à sérialiser.
 
