@@ -127,7 +127,7 @@ L'objectif de cette première itération était d'implémenter les mécaniques f
 
 \subsubsubsection{Do}
 
-J'ai commencé par créer le projet. Pour ce faire, il me fallait choisir un langage, un framework, une structure, et j'ai décidé de réaliser mon projet en \gls{reactjs}, une \gls{librairie} \gls{js} que je connais déjà et qui est parfait pour créer des projets basés sur des composants, ce qui permet de séparer chaque partie de code.
+J'ai commencé par créer le projet. Pour ce faire, il me fallait choisir un langage, un framework, une structure, et j'ai décidé de réaliser mon projet en \gls{reactjs}, une \gls{librairie} \gls{js} que je connais déjà et qui est parfaite pour créer des projets basés sur des composants, ce qui permet de séparer chaque partie de code.
 
 Avant même de commencer à créer un seul composant, j'ai commencé à réfléchir à la structure que je souhaitais utiliser pour le fichier \gls{json} qui contiendra l'histoire. Je voulais quelque chose de personnalisable, afin de laisser un maximum de liberté aux personnes souhaitant utiliser ce projet. Pour atteindre cet objectif, il m'a fallu séparer plusieurs éléments:
 
@@ -192,7 +192,7 @@ Pourquoi ces choix? Pourquoi ne pas mettre les personnages dans l'histoire? Plus
 
 Au fur et à mesure des itérations, le schéma s'enrichira afin de proposer davantage d'options. 
 
-Une fois la structure définie, il me fallait commencer le développement. Pour ce faire, il fallait choisir par quoi commencer, et j'ai décidé de commencer par les composants visuels de base. C'est à dire par l'écran de titre, l'écran des crédits et un composant d'image de fond.
+Une fois la structure définie, il me fallait commencer le développement. Pour ce faire, il fallait choisir par quoi commencer, et j'ai décidé de commencer par les composants visuels de base. C'est-à-dire par l'écran de titre, l'écran des crédits et un composant d'image de fond.
 
 Comme la page de titre, les crédits et les scènes auront des images de fond. Pour rendre cet usage plus simple, j'ai pris la décision d'en faire un composant à part entière pour m'éviter des répétitions.
 
@@ -200,18 +200,9 @@ La raison pour laquelle j'ai commencé par les écrans de titre et de crédits a
 
 Une fois ces éléments réalisés, j'ai commencé à travailler sur le composant que je considère comme le plus important: l'affichage du texte, avec l'effet machine à écrire. Pour rendre ce composant plus puissant, mon intention était de faire en sorte qu'il puisse \glslink{parseur}{parser} des balises \acrshort{html} et de pouvoir mettre en place une \gls{syntaxe} de pauses afin de donner du tonus aux textes. J'ai donc créé un système de \gls{tokenisation} du texte. L'idée est simple: avant l'affichage, le texte brut est découpé en unités atomiques, les \textit{tokens}, qui peuvent être soit du texte ordinaire, soit des balises \acrshort{html}, ou encore des temps de pause. Cette séparation permet à l'effet machine à écrire de n'animer que les caractères visibles, sans traiter les balises comme du texte à afficher. Sans cette étape intermédiaire, afficher \texttt{<b>mot</b>} caractère par caractère aurait risqué de produire des balises partielles visibles à l'écran, ou un \acrshort{html} mal formé.
 
-Une fois tous ces éléments fonctionnels, le temps était venu pour moi de mettre en place la logique première des \gls{vn}, une navigation entre dialogues et entre scènes. J'ai créé un composant de dialogue, contenant le texte et, par la suite, également le nom de la personne qui parle. J'ai aussi créé le composant de scène, dans lequel le texte et l'image de fond sont réunis. Pour l'interactivité, lors d'un clic ou lorsque le joueur appuie sur la touche \textit{Entrée}, soit le dialogue change pour le prochain de la scène courante, soit, si nous sommes au dernier dialogue de la scène, nous sommes amenés au premier dialogue de la prochaine scène.
+Une fois tous ces éléments fonctionnels, le temps était venu pour moi de mettre en place la logique première des \gls{vn}, une navigation entre dialogues et entre scènes. J'ai créé un composant de dialogue, contenant le texte et, par la suite, également le nom de la personne qui parle. J'ai aussi créé le composant de scène, dans lequel le texte et l'image de fond sont réunis. Pour l'interactivité, lors d'un clic ou lorsque le joueur appuie sur la touche \textit{Entrée}, soit le dialogue change pour le prochain de la scène courante, soit, si nous sommes au dernier dialogue de la scène, nous sommes amenés à la scène définie par la clé \texttt{next} du dernier dialogue, ou à la page des crédits si cette clé est absente ou si la valeur de la clé est \texttt{"\_\_end\_\_"}.
 
-% TODO — Cette section doit être rédigée par toi.
-% Les commits me donnent l'ordre technique, mais l'expérience vécue (pourquoi 
-% tu as commencé par tel composant, quelles décisions d'architecture tu as prises, 
-% ce qui t'a surpris ou bloqué) ne peut venir que de toi.
-% Pour t'aider à structurer : les commits montrent que tu as commencé par les 
-% composants visuels de base (BackgroundImage, CreditsPage, TitleScreen, fin 
-% février), puis le Typewriter et le traitement du texte (17–18 mars), puis 
-% l'assemblage dans VisualNovel avec gestion des scènes et des choix (mars–début 
-% avril). C'est cette logique que tu dois narrer ici, en première personne, au passé.
-% Inclure si possible : un extrait ou une capture du schéma JSON à ce stade.
+Un autre élément ajouté fut la possibilité de faire des choix. J'ai veillé à ce que des boutons puissent apparaître à l'écran, permettant au joueur de choisir quelle voie suivre. Parmi les possibilités, le joueur peut se retrouver dans une autre scène, à un autre dialogue de la scène courante ou à un dialogue précis d'une autre scène. L'auteur peut également choisir d'amener le joueur sur la page des crédits en mettant \texttt{"\_\_end\_\_"} comme valeur dans la clé \texttt{next}.
 
 La figure \ref{fig:NamelessStoryV1} présente l'état du moteur à l'issue de cette première itération.
 
@@ -258,7 +249,7 @@ L'objectif de cette itération était d'améliorer les performances et la mainte
 
 L'optimisation du rendu a porté sur l'ensemble des composants du moteur. Chaque composant a été mémorisé via \texttt{React.memo}, ce qui permet à \gls{reactjs} de court-circuiter le rendu d'un composant si ses \textit{props} n'ont pas changé depuis le rendu précédent. Pour les calculs coûteux effectués à l'intérieur des composants, le \textit{hook} \texttt{useMemo} a été utilisé afin de mettre les résultats en cache entre les rendus. Des références (\texttt{useRef}) ont également remplacé certains états React où une valeur devait persister sans déclencher de re-rendu. Le composant \texttt{Typewriter} a notamment fait l'objet d'une refactorisation significative: les instantanés \acrshort{html} et les délais entre caractères sont désormais précalculés en une seule passe avant le début de l'animation, évitant tout recalcul durant la frappe.
 
-En parallèle, le traitement de la mise en forme du texte a été revu pour des raisons de sécurité et de robustesse. La propriété React \texttt{dangerouslySetInnerHTML} qui permettait d'injecter directement du \acrshort{html} dans le \acrshort{dom}, a été remplacée par un couple de fonctions dédiées: \texttt{escapeHtml}, qui neutralise les caractères spéciaux avant tout traitement, et \texttt{htmlToReactNode}, qui convertit la chaîne résultante en n\oe{}uds React natifs. Cette approche supprime le risque d'injection de contenu malveillant tout en conservant la flexibilité du balisage personnalisé. Pour garder cette personnalisation des balises dans le texte, un \gls{parseur} Markdown a été mis en place.
+En parallèle, le traitement de la mise en forme du texte a été revu pour des raisons de sécurité et de robustesse. La propriété React \texttt{dangerouslySetInnerHTML} qui permettait d'injecter directement du \acrshort{html} dans le \acrshort{dom}, a été remplacée par un couple de fonctions dédiées: \texttt{escapeHtml}, qui neutralise les caractères spéciaux avant tout traitement, et \texttt{htmlToReactNode}, qui convertit la chaîne résultante en n\oe{}uds React natifs. Cette approche supprime le risque d'injection de contenu malveillant tout en conservant la flexibilité du balisage personnalisé. Pour garder cette personnalisation des balises dans le texte, un \gls{parseur} inspiré de \gls{markdown} a été mis en place.
 
 Pour la sauvegarde, un \gls{webworker} dédié (\texttt{saveWorker}) a été mis en place. Le fil principal transmet l'état courant au \textit{worker} par échange de messages, celui-ci exécute \texttt{JSON.stringify()} dans son propre fil d'exécution, puis retourne la chaîne sérialisée au fil principal, comme illustré à la figure \ref{fig:schemaWebWorker}. Cette communication est entièrement asynchrone: l'interface utilisateur reste réactive pendant toute la durée de l'opération, quelle que soit la taille de l'objet à sérialiser.
 
