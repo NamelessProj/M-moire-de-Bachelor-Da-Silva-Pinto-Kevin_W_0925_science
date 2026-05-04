@@ -127,7 +127,7 @@ L'objectif de cette première itération était d'implémenter les mécaniques f
 
 \subsubsubsection{Do}
 
-J'ai commencé par créer le projet. Pour ce faire, il me fallait choisir un langage, un framework, une structure, et j'ai décidé de réaliser mon projet en \gls{reactjs}, une \gls{librairie} \gls{js} que je connais déjà et qui est parfaite pour créer des projets basés sur des composants, ce qui permet de séparer chaque partie de code.
+J'ai commencé par créer le projet. Pour ce faire, il me fallait choisir un langage, un \gls{framework} et une structure. Pour le langage, j'ai opté pour \gls{ts}, afin de bénéficier d'un typage statique offrant une sécurité dès la phase de développement, avant même l'exécution. Concernant le \gls{framework}, j'ai hésité avec Next.js\footnote{Next.js est un \gls{framework} \gls{reactjs} orienté rendu serveur, développé par Vercel \parencite{noauthor_nextjs_nodate}}, mais ce dernier aurait été surdimensionné pour ce projet: \nsits ne nécessite aucun traitement côté serveur (\textit{\gls{backend}}), tout étant calculé dans le \gls{frontend}. J'ai donc opté pour \gls{reactjs}, une \gls{librairie} \gls{js} que je connais déjà et qui est parfaitement adaptée à la création de ce projet basé sur des composants, ce qui permet de séparer chaque partie du code.
 
 Avant même de commencer à créer un seul composant, j'ai commencé à réfléchir à la structure que je souhaitais utiliser pour le fichier \gls{json} qui contiendra l'histoire. Je voulais quelque chose de personnalisable, afin de laisser un maximum de liberté aux personnes souhaitant utiliser ce projet. Pour atteindre cet objectif, il m'a fallu séparer plusieurs éléments:
 
@@ -190,7 +190,7 @@ Pourquoi ces choix? Pourquoi ne pas mettre les personnages dans l'histoire? Plus
 \label{lst:json_example}
 \end{listing}
 
-Au fur et à mesure des itérations, le schéma s'enrichira afin de proposer davantage d'options. 
+Au fur et à mesure des itérations, le \gls{schema} s'enrichira afin de proposer davantage d'options. 
 
 Une fois la structure définie, il me fallait commencer le développement. Pour ce faire, il fallait choisir par quoi commencer, et j'ai décidé de commencer par les composants visuels de base. C'est-à-dire par l'écran de titre, l'écran des crédits et un composant d'image de fond.
 
