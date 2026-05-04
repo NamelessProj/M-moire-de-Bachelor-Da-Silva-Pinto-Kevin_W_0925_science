@@ -23,7 +23,7 @@ Le modèle PDCA (\textit{Plan}, \textit{Do}, \textit{Check}, \textit{Act}), form
         \addlinespace
         \textbf{Do} & Implémentation des fonctionnalités planifiées. \\
         \addlinespace
-        \textbf{Check} & Évaluation du résultat par vérification fonctionnelle manuelle et, le cas échéant, par validation automatique via le \gls{parseur} Zod. \\
+        \textbf{Check} & Évaluation du résultat par vérification fonctionnelle manuelle et, le cas échéant, par validation automatique via le \gls{parseur} \gls{zod}. \\
         \addlinespace
         \textbf{Act} & Ajustement des objectifs de l'itération suivante en fonction des écarts constatés. \\
         \hline
@@ -49,7 +49,7 @@ Le développement s'est déroulé en trois étapes d'itérations successives, d�
         \addlinespace
         2 & Optimisation & Amélioration des performances internes, notamment par l'utilisation de \glspl{webworker} pour déléguer certains traitements hors du fil d'exécution principal, et refactorisation du code pour en augmenter la maintenabilité. \\
         \addlinespace
-        3 & Sécurité et robustesse & Intégration de la \gls{librairie} Zod pour valider à l'exécution la conformité des fichiers \gls{json} au \gls{schema} attendu, et pour avertir l'utilisateur en cas de fichier de sauvegarde corrompu ou invalide. \\
+        3 & Sécurité et robustesse & Intégration de la \gls{librairie} \gls{zod} pour valider à l'exécution la conformité des fichiers \gls{json} au \gls{schema} attendu, et pour avertir l'utilisateur en cas de fichier de sauvegarde corrompu ou invalide. \\
         \hline
     \end{tabular}
     \label{tab:objectifs_iterations}
@@ -68,7 +68,7 @@ Chaque fonctionnalité implémentée a été testée directement dans le navigat
 
 \subsubsection{Validation par Zod} \label{sec:zod}
 
-La \gls{librairie} Zod, intégrée lors de la troisième itération, valide à l'exécution la structure du fichier \gls{json} fourni par l'auteur. En cas d'écart par rapport au \gls{schema} défini: champ manquant, type incorrect, structure invalide, Zod retourne un message d'erreur explicite indiquant précisément la source du problème, ce qui constitue un mécanisme de détection d'erreurs déterministe.
+La \gls{librairie} \gls{zod}, intégrée lors de la troisième itération, valide à l'exécution la structure du fichier \gls{json} fourni par l'auteur. En cas d'écart par rapport au \gls{schema} défini: champ manquant, type incorrect, structure invalide, \gls{zod} retourne un message d'erreur explicite indiquant précisément la source du problème, ce qui constitue un mécanisme de détection d'erreurs déterministe.
 
 
 \subsection{Considérations sur la sécurité et la robustesse}
@@ -78,12 +78,12 @@ Deux préoccupations ont guidé les décisions de développement au-delà de la 
 
 \subsubsection{Robustesse du code}
 
-L'utilisation de \gls{ts} comme surcouche typée de \gls{js} permet de détecter à la compilation un ensemble d'erreurs de type qui seraient silencieuses en \gls{js} pur. Combiné à la validation Zod à l'exécution, ce dispositif forme une double barrière contre les états invalides du moteur.
+L'utilisation de \gls{ts} comme surcouche typée de \gls{js} permet de détecter à la compilation un ensemble d'erreurs de type qui seraient silencieuses en \gls{js} pur. Combiné à la validation \gls{zod} à l'exécution, ce dispositif forme une double barrière contre les états invalides du moteur.
 
 
 \subsubsection{Sécurité du code}
 
-Le moteur opère entièrement côté client, dans le navigateur, sans serveur \gls{backend}. Cette architecture supprime une surface d'attaque importante: il n'y a ni base de données exposée, ni gestion d'authentification, ni transmission de données utilisateur vers un serveur tiers. Le contenu narratif est statique et ne transite pas par un serveur applicatif. La validation des fichiers de sauvegarde par Zod permet par ailleurs d'empêcher l'injection de données malformées susceptibles de mettre le moteur dans un état indéterminé.
+Le moteur opère entièrement côté client, dans le navigateur, sans serveur \gls{backend}. Cette architecture supprime une surface d'attaque importante: il n'y a ni base de données exposée, ni gestion d'authentification, ni transmission de données utilisateur vers un serveur tiers. Le contenu narratif est statique et ne transite pas par un serveur applicatif. La validation des fichiers de sauvegarde par \gls{zod} permet par ailleurs d'empêcher l'injection de données malformées susceptibles de mettre le moteur dans un état indéterminé.
 
 
 \subsection{Limites méthodologiques}

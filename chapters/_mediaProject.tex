@@ -376,24 +376,23 @@ Les mesures révèlent un résultat nuancé. Le nombre de \glspl{rendu} a diminu
 
 \subsubsubsection{Act}
 
-% TODO — À toi.
-% Les commits montrent que la prochaine étape a été l'intégration de Zod (28 avril).
-% C'est toi qui peux dire si ce choix découlait d'un problème observé lors des 
-% tests de cette itération, ou s'il était planifié depuis le début.
+Les optimisations apportées lors de cette itération ayant atteint leur objectif principal, l'axe de travail suivant était déjà identifié depuis la première itération: le traitement des erreurs et la validation des données. Le moteur étant désormais performant, il convenait de s'assurer qu'il soit également robuste face à des fichiers \gls{json} invalides ou incomplets. La troisième itération a donc été consacrée à la recherche et à la mise en place d'un système de validation du \gls{schema}.
 
 
 \subsubsection{Troisième itération: la sécurité et la robustesse}
 
 \subsubsubsection{Plan}
 
-L'objectif de cette itération était d'adresser la limite principale identifiée lors des itérations précédentes: l'absence de validation formelle des fichiers \acrshort{json} fournis par l'auteur. Sans mécanisme de vérification, un fichier syntaxiquement  invalide ou non conforme au \gls{schema} attendu pouvait mettre le moteur dans un état indéterminé, sans retour d'information exploitable pour l'auteur. L'intégration de la \gls{librairie} Zod, présentée au chapitre \ref{sec:zod}, constituait la réponse à cette lacune.
+L'objectif de cette itération était d'adresser la limite principale identifiée lors des itérations précédentes: l'absence de validation formelle des fichiers \acrshort{json} fournis par l'auteur. Sans mécanisme de vérification, un fichier syntaxiquement  invalide ou non conforme au \gls{schema} attendu pouvait mettre le moteur dans un état indéterminé, sans retour d'information exploitable pour l'auteur. L'intégration de la \gls{librairie} \gls{zod}, présentée au chapitre \ref{sec:zod}, constituait la réponse à cette lacune.
+
+Par ailleurs, la découverte de \gls{zod} n'a pas été le fruit d'une recherche ciblée, mais d'une rencontre fortuite sur GitHub, où la \gls{librairie} apparaissait fréquemment dans des projets \gls{ts} traitant de la validation de \gls{schema}. Avant de l'adopter, deux alternatives ont été évaluées: TypeBox\footnote{\textbf{TypeBox}: \gls{librairie} de validation de \gls{schema} \gls{ts} basé sur \gls{json}, développée par Haydn Paterson \parencite{noauthor_typebox_nodate}}  et ArkType\footnote{\textbf{ArkType}: \gls{librairie} de validation et d'inférence de types pour \gls{ts}, axée sur la performance et une \gls{syntaxe} inspirée de la notion native du langage \parencite{noauthor_arktype_nodate}}. TypeBox propose une approche similaire à \gls{zod}, tandis qu'ArkType repose sur une \gls{syntaxe} sensiblement différente, dont la prise en main s'est révélée moins immédiate. Le choix s'est finalement porté sur \gls{zod} pour la concision et la lisibilité de sa \gls{syntaxe}, un critère important dans l'optique de maintenir un code accessible aux contributeurs potentiels du projet.
 
 Par ailleurs, cette itération a permis d'implémenter plusieurs fonctionnalités \textit{Can} identifiées au tableau \ref{tab:objectifs_moscow}, dont le temps disponible n'avait pas permis l'intégration lors des itérations précédentes: l'affichage des \textit{sprites} de personnages avec positionnement dynamique, les transitions entre scènes et dialogues, la gestion des polices d'écriture via des variables \acrshort{css}, et la prise en charge d'un \textit{placeholder} dynamique pour les champs de saisie.
 
 
 \subsubsubsection{Do}
 
-L'intégration de Zod s'est articulée autour de deux \glspl{schema} de validation distincts. Le premier, \texttt{storySchema}, décrit la structure attendue du fichier \acrshort{json} de scénario: types de n\oe{}uds, présence des champs obligatoires, valeurs autorisées pour les propriétés énumérées. Le second, \texttt{saveSchema}, couvre la structure des fichiers de sauvegarde afin de détecter et de rejeter tout fichier corrompu ou modifié manuellement avant qu'il ne soit transmis au moteur. En cas d'écart par rapport au \gls{schema} défini (champ manquant, type incorrect, structure invalide) Zod retourne un message d'erreur explicite indiquant précisément la localisation et la nature du problème, ce qui constitue un mécanisme de détection d'erreurs déterministe et un retour direct pour l'auteur.
+L'intégration de \gls{zod} s'est articulée autour de deux \glspl{schema} de validation distincts. Le premier, \texttt{storySchema}, décrit la structure attendue du fichier \acrshort{json} de scénario: types de n\oe{}uds, présence des champs obligatoires, valeurs autorisées pour les propriétés énumérées. Le second, \texttt{saveSchema}, couvre la structure des fichiers de sauvegarde afin de détecter et de rejeter tout fichier corrompu ou modifié manuellement avant qu'il ne soit transmis au moteur. En cas d'écart par rapport au \gls{schema} défini (champ manquant, type incorrect, structure invalide) \gls{zod} retourne un message d'erreur explicite indiquant précisément la localisation et la nature du problème, ce qui constitue un mécanisme de détection d'erreurs déterministe et un retour direct pour l'auteur.
 
 % TODO — Insère ici une capture d'écran ou un listing d'un message d'erreur Zod 
 % tel qu'il s'affiche à l'auteur. C'est l'élément le plus concret de cette 
@@ -404,7 +403,7 @@ Afin de couvrir les cas d'erreur de manière systématique, des fichiers de test
 
 \subsubsubsection{Check}
 
-Les tests négatifs réalisés à l'issue de cette itération ont couvert l'ensemble des cas décrits ci-dessus. Dans chaque cas, Zod a retourné un message d'erreur explicite et le moteur est resté dans un état stable, confirmant le comportement attendu, comme illustré à la figure \ref{fig:zod_erreurs}.
+Les tests négatifs réalisés à l'issue de cette itération ont couvert l'ensemble des cas décrits ci-dessus. Dans chaque cas, \gls{zod} a retourné un message d'erreur explicite et le moteur est resté dans un état stable, confirmant le comportement attendu, comme illustré à la figure \ref{fig:zod_erreurs}.
 
 \begin{figure}[htbp]
     \centering
@@ -417,7 +416,7 @@ Les tests négatifs réalisés à l'issue de cette itération ont couvert l'ense
         \includegraphics[height=4.85cm]{img/zod_missing_field_1.png}
         \caption{Champs obligatoires omis}
     \end{subfigure}
-    \caption{Messages d'erreur retournés par Zod lors de la validation du fichier JSON (Auteur 2026)}
+    \caption{Messages d'erreur retournés par \gls{zod} lors de la validation du fichier JSON (Auteur 2026)}
     \label{fig:zod_erreurs}
 \end{figure}
 
