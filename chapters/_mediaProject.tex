@@ -1,13 +1,13 @@
 \section{Mise en \oe{}uvre} \label{chap:MediaProject}
 
-Le Media Project constitue la partie centrale de ce travail. Il s'agit de concevoir et de développer \textbf{NamelessStory}, un moteur de \gls{vn} \gls{opensource}, entièrement piloté par des fichiers texte au format \gls{json}. L'auteur rédige son histoire dans un fichier \gls{json} conforme au \gls{schema} défini, puis déploie sur le web, soit en compilant l'application \gls{reactjs} en fichiers statiques via \texttt{npm run build}, soit en utilisant une plateforme d'intégration continue telle que Vercel\footnote{Vercel est une plateforme de déploiement cloud spécialisée dans les applications web statiques et les frameworks \gls{js}. Elle automatise la compilation et la mise en ligne à chaque modification du dépôt source. \parencite{noauthor_vercel_nodate}} ou GitHub Pages\footnote{GitHub Pages est un service d'hébergement statique intégré à GitHub, permettant de publier automatiquement le contenu d'un dépôt sous forme de site web accessible via une URL publique, sans configuration serveur. \parencite{noauthor_documentation_nodate}}. Le \gls{vn} final est ainsi accessible depuis n'importe quel navigateur internet moderne, sans installation requise côté joueur. Le code source du projet est accessible publiquement sur GitHub à l'adresse suivante: \url{https://github.com/NamelessProj/NamelessStory}.
+Le Media Project constitue la partie centrale de ce travail. Il s'agit de concevoir et de développer \textbf{\ns}, un moteur de \gls{vn} \gls{opensource}, entièrement piloté par des fichiers texte au format \gls{json}. L'auteur rédige son histoire dans un fichier \gls{json} conforme au \gls{schema} défini, puis déploie sur le web, soit en compilant l'application \gls{reactjs} en fichiers statiques via \texttt{npm run build}, soit en utilisant une plateforme d'intégration continue telle que Vercel\footnote{Vercel est une plateforme de déploiement cloud spécialisée dans les applications web statiques et les frameworks \gls{js}. Elle automatise la compilation et la mise en ligne à chaque modification du dépôt source. \parencite{noauthor_vercel_nodate}} ou GitHub Pages\footnote{GitHub Pages est un service d'hébergement statique intégré à GitHub, permettant de publier automatiquement le contenu d'un dépôt sous forme de site web accessible via une URL publique, sans configuration serveur. \parencite{noauthor_documentation_nodate}}. Le \gls{vn} final est ainsi accessible depuis n'importe quel navigateur internet moderne, sans installation requise côté joueur. Le code source du projet est accessible publiquement sur GitHub à l'adresse suivante: \url{https://github.com/NamelessProj/NamelessStory}.
 
 Le développement a suivi une approche itérative, chaque itération correspondant à un ensemble de fonctionnalités implémentées, testées et évaluées avant de passer à l'étape suivante.
 
 
 \subsection{Évolution du périmètre: de la librairie à l'application} 
 
-L'intention initiale de ce projet était de développer \ns sous forme d'une \gls{librairie} \gls{reactjs} publiable sur \gls{npm}, intégrable par un développeur tiers via une simple commande d'installation. Cette approche aurait permis de distribuer le moteur comme un composant réutilisable, indépendamment de toute application hôte.
+L'intention initiale de ce projet était de développer \nsits sous forme d'une \gls{librairie} \gls{reactjs} publiable sur \gls{npm}, intégrable par un développeur tiers via une simple commande d'installation. Cette approche aurait permis de distribuer le moteur comme un composant réutilisable, indépendamment de toute application hôte.
 
 Afin d'apprendre à mettre en \oe{}uvre cette architecture, deux ressources ont été consultées: une playlist YouTube d'Imran Hussain (son nom d'utilisateur \textit{Imran Codes}) en 2024, intitulée \textit{Building a React Component Library: A Senior Developer's Guide}\parencite{imran_codes_1_2024} (ciblant \gls{reactjs} 16), et un article textuel d'Alex Eagleson publié sur dev.to en novembre 2021, mis à jour en décembre 2022 \parencite{noauthor_how_2021} (ciblant \gls{reactjs} 17 et rollup\footnote{Rollup est un outil de bundling \gls{js} spécialisé dans la création de \gls{librairie} distribuables. En mode \gls{librairie} (\textit{\gls{librairie} mode}), il compile le code source en un ou plusieurs fichiers optimisés, accompagnés des définitions de types \gls{ts}, prêts à être publiés comme \gls{package} \gls{npm}. \parencite{noauthor_introduction_nodate}} V2). Les deux ressources reposaient sur la même approche: configurer rollup en mode \gls{librairie} via un fichier \texttt{rollup.config.js}, en combinant les plugins \texttt{@rollup/plugin-typescript}, \texttt{@rollup/plugin-commonjs} et \texttt{rollup-plugin-dts}.
 
@@ -22,7 +22,7 @@ Face à ces obstacles et aux contraintes de temps du projet, la décision a ét�
 
 \subsection{Objectifs du Media Project} \label{sec:objMediaProject}
 
-L'objectif principal de ce projet est d'offrir une alternative entièrement textuelle aux moteurs de \gls{vn} existants, facile à utiliser et à mettre en ligne. Contrairement aux solutions actuelles, telles que RenPy ou Twine, qui nécessitent l'apprentissage d'un langage de script dédié ou l'installation d'un environnement de développement, \ns permet à tout auteur disposant de connaissances de base en \gls{json} de créer et de publier un \gls{vn} fonctionnel.
+L'objectif principal de ce projet est d'offrir une alternative entièrement textuelle aux moteurs de \gls{vn} existants, facile à utiliser et à mettre en ligne. Contrairement aux solutions actuelles, telles que RenPy ou Twine, qui nécessitent l'apprentissage d'un langage de script dédié ou l'installation d'un environnement de développement, \nsits permet à tout auteur disposant de connaissances de base en \gls{json} de créer et de publier un \gls{vn} fonctionnel.
 
 En proposant une solution \gls{opensource}, le projet laisse la possibilité aux personnes possédant des connaissances en développement de modifier et d'étendre les fonctionnalités selon leurs besoins. L'\gls{opensource} permet également à toute personne intéressée de contribuer activement au développement du moteur.
 
@@ -55,7 +55,7 @@ Les objectifs sont définis selon la méthode de priorisation \textit{MoSCoW}\fo
 
 \subsubsection{Stack technique et outils}
 
-Le développement de \ns repose sur les technologies et outils suivants:
+Le développement de \nsits repose sur les technologies et outils suivants:
 
 \begin{table}[htbp]
     \centering
@@ -91,7 +91,7 @@ Ce modèle a été retenu pour sa capacité à intégrer les retours d'évaluati
 
 \subsubsection{Contrainte de déploiement}
 
-Contrairement aux moteurs de jeux traditionnels qui compilent le projet en un exécutable natif, \ns repose sur des technologies web. Pour créer un \gls{vn} avec ce moteur, l'auteur doit télécharger le projet, puis rédiger son histoire dans un fichier \gls{json} selon le \gls{schema} défini. Le résultat peut ensuite être mis en ligne de deux manières:
+Contrairement aux moteurs de jeux traditionnels qui compilent le projet en un exécutable natif, \nsits repose sur des technologies web. Pour créer un \gls{vn} avec ce moteur, l'auteur doit télécharger le projet, puis rédiger son histoire dans un fichier \gls{json} selon le \gls{schema} défini. Le résultat peut ensuite être mis en ligne de deux manières:
 
 \begin{itemize}
     \item En compilant l'application \gls{reactjs} en fichiers statiques via la commande \texttt{npm run build}, puis en hébergeant ces fichiers sur n'importe quel serveur web ou hébergeur statique.
@@ -114,7 +114,7 @@ Pour des raisons de temps, le périmètre fonctionnel du moteur est limité aux 
 
 \subsection{Étapes de développement}
 
-Le développement de \ns s'est déroulé en trois itérations successives, chacune suivant  le cycle PDCA défini au chapitre \ref{sec:PDCA}. Les objectifs de chaque itération ont été définis en amont selon la priorisation MoSCoW établie au tableau \ref{tab:objectifs_moscow}, et ajustés en fonction des résultats observés à l'issue de chaque cycle.
+Le développement de \nsits s'est déroulé en trois itérations successives, chacune suivant  le cycle PDCA défini au chapitre \ref{sec:PDCA}. Les objectifs de chaque itération ont été définis en amont selon la priorisation MoSCoW établie au tableau \ref{tab:objectifs_moscow}, et ajustés en fonction des résultats observés à l'issue de chaque cycle.
 
 
 \subsubsection{Première itération: les bases d'un VN}
@@ -189,7 +189,7 @@ La figure \ref{fig:NamelessStoryV1} présente l'état du moteur à l'issue de ce
         \includegraphics[width=\textwidth]{img/NamelessStory_V1_text.png}
         \caption{Affichage d'un dialogue}
     \end{subfigure}
-    \caption{NamelessStory à l'issue de la première itération (Auteur 2026)}
+    \caption{\ns à l'issue de la première itération (Auteur 2026)}
     \label{fig:NamelessStoryV1}
 \end{figure}
 
@@ -228,7 +228,7 @@ Pour la sauvegarde, un \gls{webworker} dédié (\texttt{saveWorker}) a été mis
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\linewidth]{img/schema_web-worker.jpeg}
-    \caption{Séparation du fil principal et du \gls{webworker} pour l'opération de sauvegarde dans NamelessStory (Auteur 2026)}
+    \caption{Séparation du fil principal et du \gls{webworker} pour l'opération de sauvegarde dans \ns (Auteur 2026)}
     \label{fig:schemaWebWorker}
 \end{figure}
 
