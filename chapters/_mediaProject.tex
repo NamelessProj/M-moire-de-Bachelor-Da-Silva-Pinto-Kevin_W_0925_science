@@ -11,7 +11,7 @@ L'intention initiale de ce projet était de développer \nsits sous forme d'une 
 
 Afin d'apprendre à mettre en \oe{}uvre cette architecture, deux ressources ont été consultées: une playlist YouTube d'Imran Hussain (son nom d'utilisateur \textit{Imran Codes}) en 2024, intitulée \textit{Building a React Component Library: A Senior Developer's Guide}\parencite{imran_codes_1_2024} (ciblant \gls{reactjs} 16), et un article textuel d'Alex Eagleson publié sur dev.to en novembre 2021, mis à jour en décembre 2022 \parencite{noauthor_how_2021} (ciblant \gls{reactjs} 17 et rollup\footnote{Rollup est un outil de bundling \gls{js} spécialisé dans la création de \gls{librairie} distribuables. En mode \gls{librairie} (\textit{\gls{librairie} mode}), il compile le code source en un ou plusieurs fichiers optimisés, accompagnés des définitions de types \gls{ts}, prêts à être publiés comme \gls{package} \gls{npm}. \parencite{noauthor_introduction_nodate}} V2). Les deux ressources reposaient sur la même approche: configurer rollup en mode \gls{librairie} via un fichier \texttt{rollup.config.js}, en combinant les plugins \texttt{@rollup/plugin-typescript}, \texttt{@rollup/plugin-commonjs} et \texttt{rollup-plugin-dts}.
 
-Dans les deux cas, la commande de build (\texttt{npm run build}) échouait. les erreurs rencontrées relevaient de la configuration rollup, dont les exigences ont évolué avec les versions successives de l'outil. L'article d'Eagleson lui-même signale ce problème: une note intégrée au texte indique que certains outils ont été mis à jour et que les instructions telles qu'écrites ne fonctionnent plus. \parencite{noauthor_how_2021} Les commentaires des deux ressources, datant eux aussi d'environ un an, proposaient des correctifs partiels qui n'ont pas permis de résoudre le problème dans le contexte de \gls{reactjs} 19 et des versions actuelles de rollup.
+Dans les deux cas, la commande de build (\texttt{npm run build}) échouait. Les erreurs rencontrées relevaient de la configuration rollup, dont les exigences ont évolué avec les versions successives de l'outil. L'article d'Eagleson lui-même signale ce problème: une note intégrée au texte indique que certains outils ont été mis à jour et que les instructions telles qu'écrites ne fonctionnent plus. \parencite{noauthor_how_2021} Les commentaires des deux ressources, datant eux aussi d'environ un an, proposaient des correctifs partiels qui n'ont pas permis de résoudre le problème dans le contexte de \gls{reactjs} 19 et des versions actuelles de rollup.
 
 Aucune ressource plus récente, reposant sur une configuration adaptée à \gls{reactjs} 19, n'a pu être identifiée, les tutoriels disponibles utilisaient tous la même approche de configuration, devenue incompatible avec les versions actuelles de l'outillage. Il n'est pas exclu que certaines erreurs rencontrées aient résulté d'une mauvaise interprétation des étapes de configuration de ma part, cette possibilité ne peut être écartée.
 
@@ -38,7 +38,7 @@ Les objectifs sont définis selon la méthode de priorisation \textit{MoSCoW}\fo
         \hline
         Must & Effet machine à écrire & Affichage du texte caractère après caractère, simulant une machine à écrire. \\
         \addlinespace
-        Must & Gestion des scènes & Navigation enter scènes, permettant les changements de décor et la progression narrative. \\
+        Must & Gestion des scènes & Navigation entre scènes, permettant les changements de décor et la progression narrative. \\
         \addlinespace
         Must & Gestion des choix & Présentation de choix au joueur, orientant la narration vers des routes différentes. \\
         \addlinespace
@@ -228,7 +228,7 @@ La figure \ref{fig:NamelessStoryV1} présente l'état du moteur à l'issue de ce
         \includegraphics[width=\textwidth]{img/NamelessStory_V1_text.png}
         \caption{Affichage d'un dialogue}
     \end{subfigure}
-    \caption{\ns à l'issue de la première itération (Auteur 2026)}
+    \caption{\ns\space à l'issue de la première itération (Auteur 2026)}
     \label{fig:NamelessStoryV1}
 \end{figure}
 
@@ -378,11 +378,11 @@ Les figures \ref{fig:profiling_renders} et \ref{fig:profiling_maxdur} illustrent
         \legend{Avant optimisation, Après optimisation}
         \end{axis}
     \end{tikzpicture}
-    \caption{Durée maximale de \gls{rendu} par session avant et après optimisation (commit \texttt{9831b9e}) mesuré via React DevTools Profiler (Auteur 2026)}
+    \caption{Durée maximale de \gls{rendu} par session avant et après optimisation (commit \texttt{9831b9e}) mesurée via React DevTools Profiler (Auteur 2026)}
     \label{fig:profiling_maxdur}
 \end{figure}
 
-Les mesures révèlent un résultat nuancé. Le nombre de \glspl{rendu} a diminué de 28.5\% (688 → 492), confirmant l'effet de \texttt{React.memo}: des re-rendus inutiles ont été éliminés. En revanche, la durée moyenne par \gls{rendu} a augmenté (0.165ms → 0.321ms), et le pic maximal est passé de 3ms à 18.3ms. Ce comportement est cohérent avec la stratégie de précomputation adoptée par le composant \texttt{Typerwriter}: le coût de calcul est concentré sur le \gls{rendu} initial plutôt que distribué sur chaque caractère affiché. Pour des performances globales comparables, la version optimisée impose donc une charge moindre au fil principal du navigateur sur la durée d'une session.
+Les mesures révèlent un résultat nuancé. Le nombre de \glspl{rendu} a diminué de 28.5\% (688 → 492), confirmant l'effet de \texttt{React.memo}: des re-rendus inutiles ont été éliminés. En revanche, la durée moyenne par \gls{rendu} a augmenté (0.165ms → 0.321ms), et le pic maximal est passé de 3ms à 18.3ms. Ce comportement est cohérent avec la stratégie de précomputation adoptée par le composant \texttt{Typewriter}: le coût de calcul est concentré sur le \gls{rendu} initial plutôt que distribué sur chaque caractère affiché. Pour des performances globales comparables, la version optimisée impose donc une charge moindre au fil principal du navigateur sur la durée d'une session.
 
 
 \subsubsubsection{Act}
@@ -403,11 +403,7 @@ Par ailleurs, cette itération a permis d'implémenter plusieurs fonctionnalité
 
 \subsubsubsection{Do}
 
-L'intégration de \gls{zod} s'est articulée autour de deux \glspl{schema} de validation distincts. Le premier, \texttt{storySchema}, décrit la structure attendue du fichier \acrshort{json} de scénario: types de n\oe{}uds, présence des champs obligatoires, valeurs autorisées pour les propriétés énumérées. Le second, \texttt{saveSchema}, couvre la structure des fichiers de sauvegarde afin de détecter et de rejeter tout fichier corrompu ou modifié manuellement avant qu'il ne soit transmis au moteur. En cas d'écart par rapport au \gls{schema} défini (champ manquant, type incorrect, structure invalide) \gls{zod} retourne un message d'erreur explicite indiquant précisément la localisation et la nature du problème, ce qui constitue un mécanisme de détection d'erreurs déterministe et un retour direct pour l'auteur.
-
-% TODO — Insère ici une capture d'écran ou un listing d'un message d'erreur Zod 
-% tel qu'il s'affiche à l'auteur. C'est l'élément le plus concret de cette 
-% itération.
+L'intégration de \gls{zod} s'est articulée autour de deux \glspl{schema} de validation distincts. Le premier, \texttt{storySchema}, décrit la structure attendue du fichier \acrshort{json} de scénario: types de n\oe{}uds, présence des champs obligatoires, valeurs autorisées pour les propriétés énumérées. Le second, \texttt{saveSchema}, couvre la structure des fichiers de sauvegarde afin de détecter et de rejeter tout fichier corrompu ou modifié manuellement avant qu'il ne soit transmis au moteur. En cas d'écart par rapport au \gls{schema} défini (champ manquant, type incorrect, structure invalide), \gls{zod} retourne un message d'erreur explicite indiquant précisément la localisation et la nature du problème, ce qui constitue un mécanisme de détection d'erreurs déterministe et un retour direct pour l'auteur.
 
 Afin de couvrir les cas d'erreur de manière systématique, des fichiers de test dédiés ont été ajoutés au dépôt dans un dossier \texttt{tests/}. Ces fichiers représentent intentionnellement des scénarios invalides: \acrshort{json} à la \gls{syntaxe} cassé (virgule manquante, guillemet non fermé), fichiers avec des champs obligatoires absents, et fichiers avec des valeurs de type incorrect. Ces fichiers sont exclus du \textit{build} de production via un \gls{plugin} Vite dédié.
 
@@ -432,11 +428,6 @@ Les tests négatifs réalisés à l'issue de cette itération ont couvert l'ense
 \end{figure}
 
 La validation des fichiers de sauvegarde a également été testée en fournissant des fichiers modifiés manuellement, qui ont été correctement rejetés avec un message d'erreur remontant jusqu'à l'écran titre.
-
-% TODO — Si tu as rencontré des cas où Zod ne retournait pas exactement le 
-% message attendu, ou où le schéma a dû être ajusté après les premiers tests, 
-% mentionne-le ici. L'honnêteté sur les ajustements intermédiaires renforce 
-% la crédibilité de l'évaluation.
 
 
 \subsubsubsection{Act}
