@@ -67,17 +67,28 @@ Le développement de \nsits repose sur les technologies et outils suivants:
         \hline
         \gls{reactjs} & \Gls{librairie} \gls{js} utilisée pour le rendu du moteur dans le navigateur. \\
         \addlinespace
-        Vite & Outil de build et serveur de développement, permettant un rechargement à chaud rapide lors du développement. \\
+        Vite\tablefootnote{Outil de build \gls{frontend} développà par Evan You. \parencite{noauthor_vite_nodate}} & Outil de build et serveur de développement, permettant un rechargement à chaud rapide lors du développement. \\
         \addlinespace
-        \gls{ts} & Surcouche typée de \gls{js}, utilisée pour renforcer la robustesse du code et faciliter la détection d'erreurs. \\
+        \gls{ts} & Surcouche typée de \gls{js}, utilisée pour renforcer la robustesse du code et faciliter la détection d'erreurs avant l'exécution. \\
         \addlinespace
         \gls{json} & Format de description du contenu narratif, servant de source unique de vérité pour le moteur \\
         \addlinespace
-        GitHub & Plateforme d'hébergement du code source et la gestion des versions via Git. \\
+        GitHub\tablefootnote{Plateforme d'hébergement de code source et de gestion de versions basée sur \gls{git}. \parencite{noauthor_build_nodate}} & Plateforme d'hébergement du code source et la gestion des versions via \gls{git}. \\
         \hline
     \end{tabular}
     \label{tab:stack}
 \end{table}
+
+
+\subsubsubsection{Mécanisme d'optimisation React.js} \label{sec:optim_react}
+
+\gls{reactjs} propose plusieurs mécanismes permettant de réduire le nombre de \glspl{rendu} inutiles et d'améliorer les performances d'une application. Trois d'entre eux ont été utilisés dans le cadre de ce projet \parencite{noauthor_reference_nodate}:
+
+\texttt{React.memo} est une fonction qui \glslink{override}{court-circuite} le rendu d'un composant si ses \texttt{props} n'ont pas changé depuis le rendu précédent. Sans ce mécanisme, tout changement d'état d'un composant parent déclenche le recalcul de l'ensemble de ses composants enfants, qu'ils soient concernés ou non par le changement.
+
+\texttt{useMemo} est un \gls{hook} \gls{reactjs} permettant de mettre en cache le résultat d'un calcul coûteux entre deux \glspl{rendu}. Le calcul n'est relancé que si l'une de ses dépendances déclarées a changé, évitant ainsi des recalculs inutiles à chaque \gls{rendu}.
+
+\texttt{useRef} est un \gls{hook} permettant de persister une valeur entre les \glspl{rendu} sans déclencher de \glslink{rendu}{re-rendu} lors de sa modification. Il est utilisé pour stocker des références à des éléments du \acrshort{dom} ou des valeurs internes dont le changement ne doit pas provoquer de mise à jour de l'interface.
 
 
 \subsubsection{Méthode de développement}
@@ -247,7 +258,7 @@ L'objectif de cette itération était d'améliorer les performances et la mainte
 
 \subsubsubsection{Do}
 
-L'optimisation du rendu a porté sur l'ensemble des composants du moteur. Chaque composant a été mémorisé via \texttt{React.memo}, ce qui permet à \gls{reactjs} de court-circuiter le rendu d'un composant si ses \textit{props} n'ont pas changé depuis le rendu précédent. Pour les calculs coûteux effectués à l'intérieur des composants, le \textit{hook} \texttt{useMemo} a été utilisé afin de mettre les résultats en cache entre les rendus. Des références (\texttt{useRef}) ont également remplacé certains états React où une valeur devait persister sans déclencher de re-rendu. Le composant \texttt{Typewriter} a notamment fait l'objet d'une refactorisation significative: les instantanés \acrshort{html} et les délais entre caractères sont désormais précalculés en une seule passe avant le début de l'animation, évitant tout recalcul durant la frappe.
+L'optimisation du rendu a porté sur l'ensemble des composants du moteur. Chaque composant a été mémorisé via \texttt{React.memo} (voir section \ref{sec:optim_react}), ce qui permet à \gls{reactjs} de court-circuiter le rendu d'un composant si ses \textit{props} n'ont pas changé depuis le rendu précédent. Pour les calculs coûteux effectués à l'intérieur des composants, le \textit{hook} \texttt{useMemo} a été utilisé afin de mettre les résultats en cache entre les rendus. Des références (\texttt{useRef}) ont également remplacé certains états React où une valeur devait persister sans déclencher de re-rendu. Le composant \texttt{Typewriter} a notamment fait l'objet d'une refactorisation significative: les instantanés \acrshort{html} et les délais entre caractères sont désormais précalculés en une seule passe avant le début de l'animation, évitant tout recalcul durant la frappe.
 
 En parallèle, le traitement de la mise en forme du texte a été revu pour des raisons de sécurité et de robustesse. La propriété React \texttt{dangerouslySetInnerHTML} qui permettait d'injecter directement du \acrshort{html} dans le \acrshort{dom}, a été remplacée par un couple de fonctions dédiées: \texttt{escapeHtml}, qui neutralise les caractères spéciaux avant tout traitement, et \texttt{htmlToReactNode}, qui convertit la chaîne résultante en n\oe{}uds React natifs. Cette approche supprime le risque d'injection de contenu malveillant tout en conservant la flexibilité du balisage personnalisé. Pour garder cette personnalisation des balises dans le texte, un \gls{parseur} inspiré de \gls{markdown} a été mis en place.
 
