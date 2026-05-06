@@ -109,7 +109,166 @@ Contrairement aux moteurs de jeux traditionnels qui compilent le projet en un ex
     \item En connectant le dépôt à une plateforme d'intégration continue telle que Vercel ou GitHub Pages, qui se charge automatiquement de la compilation et du déploiement à chaque modification du projet.
 \end{itemize}
 
-Dans les deux cas, le \gls{vn} final est accessible depuis n'importe quel navigateur internet moderne, sans installation requise côté joueur.
+Dans les deux cas, le \gls{vn} final est accessible depuis n'importe quel navigateur internet moderne, sans installation requise côté joueur, voir la figure \ref{fig:deploiement-flux}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance = 0.45cm and 1cm,
+        every node/.style = {font=\small, align=center},
+        box/.style = {
+            rectangle, rounded corners=3pt,
+            draw=clrBorder, line width=0.8pt,
+            minimum width=3.8cm, minimum height=0.82cm,
+            inner sep=5pt
+        },
+        auteur/.style = {box, fill=clrAuteur},
+        build/.style  = {box, fill=clrBuild},
+        cloud/.style  = {box, fill=clrCloud},
+        player/.style = {box, fill=clrPlayer},
+        alt/.style    = {box, fill=clrAlt},
+        arrow/.style  = {-{Latex[length=5pt,width=4pt]},
+                         line width=0.8pt, color=clrArrow},
+        lbl/.style    = {font=\scriptsize\itshape, color=clrNote},
+    ]
+
+\newcommand{\vs}{0.45cm}
+
+%% ── Colonnes CI/CD et Manuelle d'abord (ancres absolues) ───────────────────
+ 
+% Voie CI/CD : colonne gauche  x = -\hs/2
+\node[cloud] at (-2cm, -0.5cm) (cicd)
+    {Déclenchement CI/CD\\
+     \footnotesize{Push détecté par Vercel / GitHub Pages}};
+ 
+\node[build,  below=\vs of cicd]   (buildci)
+    {\texttt{tsc -b \&\& vite build}\\
+     \footnotesize{Compilation TypeScript puis bundling Vite}};
+ 
+\node[cloud,  below=\vs of buildci] (dist_ci)
+    {Génération du dossier \texttt{dist/}\\
+     \footnotesize{HTML, JS, CSS minifiés et Service Worker (PWA)}};
+ 
+\node[cloud,  below=\vs of dist_ci] (deploy_ci)
+    {Déploiement automatique\\
+     \footnotesize{URL publique ex. \texttt{mon-vn.vercel.app}}};
+ 
+\draw[arrow] (cicd)    -- (buildci);
+\draw[arrow] (buildci) -- (dist_ci);
+\draw[arrow] (dist_ci) -- (deploy_ci);
+ 
+% Voie manuelle : colonne droite  x = +\hs/2
+\node[build] at (6cm, -0.5cm) (buildman)
+    {\texttt{npm run build} en local\\
+     \footnotesize{\texttt{tsc -b \&\& vite build}}};
+ 
+\node[alt,   below=\vs of buildman] (dist_man)
+    {Dossier \texttt{dist/} local\\
+     \footnotesize{Fichiers statiques prêts à héberger}};
+ 
+\node[alt,   below=\vs of dist_man] (upload)
+    {Upload sur hébergeur statique\\
+     \footnotesize{Netlify, Cloudflare Pages, FTP, etc.}};
+ 
+\node[alt,   below=\vs of upload]   (deploy_man)
+    {Déploiement manuel\\
+     \footnotesize{URL publique fournie par l'hébergeur}};
+ 
+\draw[arrow] (buildman) -- (dist_man);
+\draw[arrow] (dist_man) -- (upload);
+\draw[arrow] (upload)   -- (deploy_man);
+ 
+%% ── Colonne Auteur : centrée à x=0, au-dessus des voies ────────────────────
+ 
+% Le bas de la colonne auteur (push) est à \vg au-dessus de y=0 (niveau cicd/buildman)
+% Hauteur d'un nœud ≈ 0.82cm + \vs = ~1.82cm par nœud, 5 nœuds → ~7.28cm
+% On empile de bas en haut en partant de push
+ 
+\node[auteur] at (1cm, 3cm) (push)
+    {Commit et push sur GitHub\\
+     \footnotesize{\texttt{git add . \&\& git commit \&\& git push}}};
+ 
+\node[auteur, above=0.45cm of push]   (apptsx)
+    {Configuration de \texttt{src/App.tsx}\\
+     \footnotesize{Propriété \texttt{scriptFile="mon\_histoire"}}};
+ 
+\node[auteur, above=0.45cm of apptsx] (assets)
+    {Ajout des assets\\
+     \footnotesize{images \texttt{public/assets/} et musiques \texttt{public/audio/}}};
+ 
+\node[auteur, above=0.45cm of assets] (json)
+    {Rédaction du fichier JSON\\
+     \footnotesize{histoire, personnages, paramètres}};
+ 
+\node[auteur, above=0.45cm of json]   (dl)
+    {Téléchargement du projet\\
+     \footnotesize{\texttt{git clone} ou ZIP GitHub}};
+ 
+\draw[arrow] (dl)     -- (json);
+\draw[arrow] (json)   -- (assets);
+\draw[arrow] (assets) -- (apptsx);
+\draw[arrow] (apptsx) -- (push);
+ 
+%% ── Flèches push → voies ────────────────────────────────────────────────────
+ 
+\draw[arrow] (push.south) -- ++(0, -1cm)
+    -| node[lbl, above=3pt, near start] {voie CI/CD} ([yshift=0.8cm]cicd.north);
+ 
+\draw[arrow] (push.south) -- ++(0, -1cm)
+    -| node[lbl, above=3pt, near start] {voie manuelle} ([yshift=0.8cm] buildman.north);
+ 
+%% ── Zone joueur : centrée à x=0, sous les voies ────────────────────────────
+ 
+\node[player] at (2cm, -7.6cm) (browser)
+    {Navigateur du joueur\\
+     \footnotesize{Chargement de l'URL publique}};
+ 
+\node[player, below=0.45cm of browser] (zod)
+    {Validation Zod du JSON\\
+     \footnotesize{Schéma vérifié à l'exécution}};
+ 
+\node[player, below=0.45cm of zod]     (worker)
+    {Traitement via Web Worker\\
+     \footnotesize{Chargement hors fil principal}};
+ 
+\node[player, below=0.45cm of worker]  (vn)
+    {Rendu du VN\\
+     \footnotesize{Composant \texttt{VNPlayer} actif}};
+ 
+\draw[arrow] (deploy_ci)  |- node[lbl, right=2pt, near end] {} (browser.west);
+\draw[arrow] (deploy_man) |- (browser.east);
+\draw[arrow] (browser) -- (zod);
+\draw[arrow] (zod)     -- (worker);
+\draw[arrow] (worker)  -- (vn);
+ 
+%% ── Boîtes de regroupement ───────────────────────────────────────────────────
+ 
+\begin{scope}[on background layer]
+  \node[draw=clrBorder, dotted, rounded corners=5pt, fill=clrAuteur!20,
+        fit=(dl)(json)(assets)(apptsx)(push), inner sep=8pt,
+        label={[font=\footnotesize\bfseries, text=clrBorder]above:Préparation (Auteur)}
+       ] {};
+ 
+  \node[draw=clrBorder, dotted, rounded corners=5pt, fill=clrCloud!20,
+        fit=(cicd)(buildci)(dist_ci)(deploy_ci), inner sep=8pt,
+        label={[font=\footnotesize\bfseries, text=clrBorder]above:Voie CI/CD (Vercel / GitHub Pages)}
+       ] {};
+ 
+  \node[draw=clrBorder, dotted, rounded corners=5pt, fill=clrAlt!20,
+        fit=(buildman)(dist_man)(upload)(deploy_man), inner sep=8pt,
+        label={[font=\footnotesize\bfseries, text=clrBorder]above:Voie manuelle (hébergeur statique)}
+       ] {};
+ 
+  \node[draw=clrBorder, dotted, rounded corners=5pt, fill=clrPlayer!20,
+        fit=(browser)(zod)(worker)(vn), inner sep=8pt,
+        label={[font=\footnotesize\bfseries, text=clrBorder]above:Exécution (Joueur)}
+       ] {};
+\end{scope}
+        
+    \end{tikzpicture}
+    \caption{Flux de déploiement de \nsit, de la configuration locale à l'exécution dans le navigateur (Auteur 2026)}
+    \label{fig:deploiement-flux}
+\end{figure}
 
 \subsubsection{Contrainte de format}
 
@@ -209,7 +368,125 @@ Comme la page de titre, les crédits et les scènes auront des images de fond. P
 
 La raison pour laquelle j'ai commencé par les écrans de titre et de crédits au lieu du c\oe{}ur du projet, le \gls{vn}, est que je voulais d'abord me consacrer aux éléments simples qui n'allaient pas avoir beaucoup d'évolution. Une fois ces écrans réalisés, je pouvais me consacrer entièrement au \gls{vn} tout en sachant que les autres écrans étaient déjà faits.
 
-Une fois ces éléments réalisés, j'ai commencé à travailler sur le composant que je considère comme le plus important: l'affichage du texte, avec l'effet machine à écrire. Pour rendre ce composant plus puissant, mon intention était de faire en sorte qu'il puisse \glslink{parseur}{parser} des balises \acrshort{html} et de pouvoir mettre en place une \gls{syntaxe} de pauses afin de donner du tonus aux textes. J'ai donc créé un système de \gls{tokenisation} du texte. L'idée est simple: avant l'affichage, le texte brut est découpé en unités atomiques, les \textit{tokens}, qui peuvent être soit du texte ordinaire, soit des balises \acrshort{html}, ou encore des temps de pause. Cette séparation permet à l'effet machine à écrire de n'animer que les caractères visibles, sans traiter les balises comme du texte à afficher. Sans cette étape intermédiaire, afficher \texttt{<b>mot</b>} caractère par caractère aurait risqué de produire des balises partielles visibles à l'écran, ou un \acrshort{html} mal formé.
+Une fois ces éléments réalisés, j'ai commencé à travailler sur le composant que je considère comme le plus important: l'affichage du texte, avec l'effet machine à écrire. Pour rendre ce composant plus puissant, mon intention était de faire en sorte qu'il puisse \glslink{parseur}{parser} des balises \acrshort{html} et de pouvoir mettre en place une \gls{syntaxe} de pauses afin de donner du tonus aux textes. J'ai donc créé un système de \gls{tokenisation} du texte. L'idée est simple: avant l'affichage, le texte brut est découpé en unités atomiques, les \textit{tokens}, qui peuvent être soit du texte ordinaire, soit des balises \acrshort{html}, ou encore des temps de pause, comme l'illustre la figure \ref{fig:tokenisation-flux}. Cette séparation permet à l'effet machine à écrire de n'animer que les caractères visibles, sans traiter les balises comme du texte à afficher. Sans cette étape intermédiaire, afficher \texttt{<b>mot</b>} caractère par caractère aurait risqué de produire des balises partielles visibles à l'écran, ou un \acrshort{html} mal formé.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+    node distance = 0.55cm and 2.2cm,
+    every node/.style = {font=\small, align=center},
+    box/.style = {
+        rectangle, rounded corners=3pt,
+        draw=clrBorder, line width=0.8pt,
+        minimum width=4.2cm, minimum height=0.9cm,
+        inner sep=5pt
+    },
+    input/.style   = {box, fill=clrInput},
+    process/.style = {box, fill=clrProcess},
+    token/.style   = {rectangle, rounded corners=3pt,
+                      draw=clrBorder, line width=0.7pt, fill=clrToken,
+                      minimum width=3.0cm, minimum height=0.8cm,
+                      inner sep=4pt, font=\small, align=center},
+    output/.style  = {box, fill=clrOutput},
+    arrow/.style   = {-{Latex[length=5pt,width=4pt]},
+                      line width=0.8pt, color=clrArrow},
+    darrow/.style  = {-{Latex[length=4pt,width=3.5pt]},
+                      line width=0.7pt, color=clrArrow, dashed},
+    lbl/.style     = {font=\scriptsize\itshape, color=clrNote}
+    ]
+
+%% ── Colonne principale (gauche) ─────────────────────────────────────────────
+ 
+\node[input] (raw)
+    {Texte brut \texttt{text}\\
+     \footnotesize{(champ du fichier JSON)}};
+ 
+\node[process, below=of raw] (escape)
+    {\texttt{escapeHtml()}\\
+     \footnotesize{Protège \texttt{\&}, \texttt{<}, \texttt{>} du HTML}};
+ 
+\node[process, below=of escape] (vars)
+    {\texttt{getTextWithCharacters()}\\
+     \footnotesize{Résout \texttt{\{\{Alice\}\}} en balise colorée}};
+ 
+\node[process, below=of vars] (markup)
+    {\texttt{parseMarkup()}\\
+     \footnotesize{Convertit \texttt{[b]}, \texttt{[color]}, \texttt{[link]} en HTML}};
+ 
+\node[process, below=of markup] (tokenize)
+    {\texttt{tokenizeHtmlWithPauses()}\\
+     \footnotesize{Sépare balises, texte et pauses}};
+ 
+\node[process, below=1.5cm of tokenize] (precompute)
+    {\texttt{precomputeSteps()}\\
+     \footnotesize{Précalcul O(n) des snapshots HTML et délais}};
+ 
+\node[process, below=of precompute] (react)
+    {\texttt{htmlToReactNode()}\\
+     \footnotesize{Snapshots HTML convertis en noeuds React}};
+ 
+\node[output, below=of react] (render)
+    {Composant \texttt{Typewriter}\\
+     \footnotesize{Affiche un snapshot par tick via \texttt{setTimeout}}};
+ 
+%% ── Flèches verticales ──────────────────────────────────────────────────────
+\draw[arrow] (raw)        -- (escape);
+\draw[arrow] (escape)     -- (vars);
+\draw[arrow] (vars)       -- (markup);
+\draw[arrow] (markup)     -- (tokenize);
+\draw[arrow] (tokenize)   -- node[lbl, right=2pt] {vers tokens} (precompute);
+\draw[arrow] (precompute) -- (react);
+\draw[arrow] (react)      -- (render);
+ 
+%% ── Annotations latérales (gauche) ─────────────────────────────────────────
+\node[lbl, left=4pt of escape]    {sécurité};
+\node[lbl, left=4pt of vars]      {interpolation};
+\node[lbl, left=4pt of markup]    {mise en forme};
+\node[lbl, left=4pt of tokenize]  {découpage};
+\node[lbl, left=4pt of precompute]{optimisation};
+\node[lbl, left=4pt of react]     {memoïsation};
+ 
+%% ── Tableau de tokens (droite) ──────────────────────────────────────────────
+\node[token, right=of tokenize, yshift= 1.6cm] (tok_open)
+    {\texttt{openTag}\\
+     \footnotesize{ex. \texttt{<b>}}};
+ 
+\node[token, below=0.35cm of tok_open] (tok_close)
+    {\texttt{closeTag}\\
+     \footnotesize{ex. \texttt{</b>}}};
+ 
+\node[token, below=0.35cm of tok_close] (tok_self)
+    {\texttt{selfClosingTag}\\
+     \footnotesize{ex. \texttt{<br/>}}};
+ 
+\node[token, below=0.35cm of tok_self] (tok_text)
+    {\texttt{text}\\
+     \footnotesize{caractères visibles}};
+ 
+\node[token, below=0.35cm of tok_text] (tok_pause)
+    {\texttt{pause}\\
+     \footnotesize{\texttt{\textbackslash .}=1000 ms, \texttt{\textbackslash ,}=500 ms}};
+ 
+%% Boîte englobante tokens
+\begin{scope}[on background layer]
+  \node[draw=clrBorder, dashed, rounded corners=4pt,
+        fill=clrToken!25,
+        fit=(tok_open)(tok_close)(tok_self)(tok_text)(tok_pause),
+        inner sep=8pt,
+        label={[font=\footnotesize\bfseries, text=clrBorder]above:\texttt{Token[]} — types possibles}
+       ] (tokbox) {};
+\end{scope}
+ 
+%% ── Flèches vers/depuis le tableau de tokens ────────────────────────────────
+\draw[darrow] (tokenize.east)  -- ([xshift=-2pt, yshift=1.15cm]tokbox.west)
+              node[midway, lbl, above=12pt] {produit};
+ 
+\draw[darrow] ([yshift=-1.6cm]tokbox.west)  |- (precompute.east);
+    
+    \end{tikzpicture}
+    \caption{Flux de tokenisation du composant \texttt{Typewriter} (Auteur 2026)}
+    \label{fig:tokenisation-flux}
+\end{figure}
 
 Une fois tous ces éléments fonctionnels, le temps était venu pour moi de mettre en place la logique première des \gls{vn}, une navigation entre dialogues et entre scènes. J'ai créé un composant de dialogue, contenant le texte et, par la suite, également le nom de la personne qui parle. J'ai aussi créé le composant de scène, dans lequel le texte et l'image de fond sont réunis. Pour l'interactivité, lors d'un clic ou lorsque le joueur appuie sur la touche \textit{Entrée}, soit le dialogue change pour le prochain de la scène courante, soit, si nous sommes au dernier dialogue de la scène, nous sommes amenés à la scène définie par la clé \texttt{next} du dernier dialogue, ou à la page des crédits si cette clé est absente ou si la valeur de la clé est \texttt{"\_\_end\_\_"}.
 
