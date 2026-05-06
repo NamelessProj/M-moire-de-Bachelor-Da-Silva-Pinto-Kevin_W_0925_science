@@ -28,7 +28,7 @@ En proposant une solution \gls{opensource}, le projet laisse la possibilité aux
 
 Les objectifs sont définis selon la méthode de priorisation \textit{MoSCoW}\footnote{La méthode MoSCoW est une technique de priorisation des exigences issues de la gestion de projet agile. L'acronyme désigne quatre niveaux de priorité: \textit{Must have} (indispensable), \textit{Should have} (important mais non bloquant), \textit{Could have} (souhaitable si le temps le permet) et \textit{Won't have} (hors périmètre pour cette itération). \parencite{clegg_case_1994}}:
 
-\begin{table}[htbp]
+\begin{table}[H]
     \centering
     \caption{Objectifs du Media Project selon la priorisation MoSCoW}
     \renewcommand{\arraystretch}{1.5}
@@ -57,7 +57,7 @@ Les objectifs sont définis selon la méthode de priorisation \textit{MoSCoW}\fo
 
 Le développement de \nsits repose sur les technologies et outils suivants:
 
-\begin{table}[htbp]
+\begin{table}[H]
     \centering
     \caption{Stack technique et outil utilisés}
     \renewcommand{\arraystretch}{1.5}
@@ -301,7 +301,7 @@ J'ai commencé par créer le projet. Pour ce faire, il me fallait choisir un lan
 
 Avant même de commencer à créer un seul composant, j'ai commencé à réfléchir à la structure que je souhaitais utiliser pour le fichier \gls{json} qui contiendra l'histoire. Je voulais quelque chose de personnalisable, afin de laisser un maximum de liberté aux personnes souhaitant utiliser ce projet. Pour atteindre cet objectif, il m'a fallu séparer plusieurs éléments:
 
-\begin{table}[htbp]
+\begin{table}[H]
     \centering
     \caption{Séparation des éléments principaux du fichier JSON}
     \renewcommand{\arraystretch}{1.5}
@@ -321,7 +321,7 @@ Avant même de commencer à créer un seul composant, j'ai commencé à réfléc
 
 Pourquoi ces choix? Pourquoi ne pas mettre les personnages dans l'histoire? Plusieurs réponses à ces questions. Pour commencer, cela donne une structure simple et lisible, tout est séparé selon des objectifs bien précis: ce qui aide l'auteur (les paramètres), ce qui sera utilisé plusieurs fois (les personnages) et le récit. Les personnages, à l'image des variables, sont susceptibles d'apparaître dans de nombreuses scènes. Les centraliser évite ainsi toute répétition dans le fichier. 
 
-\begin{listing}[htbp]
+\begin{listing}[H]
 \begin{minted}{json}
 {
     "settings": {
@@ -399,7 +399,7 @@ Une fois ces éléments réalisés, j'ai commencé à travailler sur le composan
  
 \node[input] (raw)
     {Texte brut \texttt{text}\\
-     \footnotesize{(champ du fichier JSON)}};
+     \footnotesize{(champ du fichier \gls{json})}};
  
 \node[process, below=of raw] (escape)
     {\texttt{escapeHtml()}\\
@@ -494,7 +494,7 @@ Un autre élément ajouté fut la possibilité de faire des choix. J'ai veillé 
 
 La figure \ref{fig:NamelessStoryV1} présente l'état du moteur à l'issue de cette première itération.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.47\textwidth}
         \includegraphics[width=\textwidth]{img/NamelessStory_V1_home.png}
@@ -537,16 +537,93 @@ L'objectif de cette itération était d'améliorer les performances et la mainte
 
 L'optimisation du rendu a porté sur l'ensemble des composants du moteur. Chaque composant a été mémorisé via \texttt{React.memo} (voir section \ref{sec:optim_react}), ce qui permet à \gls{reactjs} de court-circuiter le rendu d'un composant si ses \textit{props} n'ont pas changé depuis le rendu précédent. Pour les calculs coûteux effectués à l'intérieur des composants, le \textit{hook} \texttt{useMemo} a été utilisé afin de mettre les résultats en cache entre les rendus. Des références (\texttt{useRef}) ont également remplacé certains états React où une valeur devait persister sans déclencher de re-rendu. Le composant \texttt{Typewriter} a notamment fait l'objet d'une refactorisation significative: les instantanés \acrshort{html} et les délais entre caractères sont désormais précalculés en une seule passe avant le début de l'animation, évitant tout recalcul durant la frappe.
 
+L'extrait de code \ref{lst:typewriter} illustre la stratégie d'optimisation du composant \texttt{Typewriter}. Avant le début de l'animation, \texttt{precomputeSteps} calcule en une seule passe l'ensemble des \glslink{snaphtml}{snapshots HTML} et des délais associés à chaque caractère. Ces snapshots sont ensuite convertis en n\oe{}uds React via un second \texttt{useMemo}, dont les dépendances sont strictement séparées du premier. Durant l'animation, le \texttt{useEffect} de tick se limite à lire \texttt{nodeSnapshots[currentStep]} et de planifier le prochain appel via \texttt{setTimeout} avec le délai précompute \texttt{delays[currentStep]}: aucun calcul n'est effectué à chaque frappe. 
+
+\begin{listing}[H]
+\begin{minted}{ts}
+// Pré-calcul unique : 0(n) avant l'animation
+const precomputed = useMemo(
+    () => TypewriterUtils.precomputeSteps(tokens, speed),
+    [tokens, speed]
+);
+
+// Conversion des snapshots HTML en nœuds react (une seule fois)
+const nodeSnapshots: ReactNode[] = useMemo(
+    () => precomputed.htmlSnapshots.map(htmlToReactNode),
+    [precomputed]
+);
+
+// Avancement : lecture directe à l'index | 0(1) par tick
+useEffect(() => {
+    if (currentStep >= totalSteps) {
+        if (!completedRef.current) {
+            completedRef.current = true;
+            onComplete?.();
+        }
+        return;
+    }
+    const delay: number = precomputed.delays[currentStep] ?? speed;
+    const timeout: number = setTimeout(
+        () => setCurrentStep((prev) => prev + 1),
+        delay
+    );
+    return () => clearTimeout(timeout);
+}, [currentStep, totalSteps, precomputed, speed, onComplete]);
+\end{minted}
+\caption{Précomputation des instantanés HTML et des délais dans le composant \textit{Typewriter} (Auteur 2026)}
+\label{lst:typewriter}
+\end{listing}
+
 En parallèle, le traitement de la mise en forme du texte a été revu pour des raisons de sécurité et de robustesse. La propriété React \texttt{dangerouslySetInnerHTML} qui permettait d'injecter directement du \acrshort{html} dans le \acrshort{dom}, a été remplacée par un couple de fonctions dédiées: \texttt{escapeHtml}, qui neutralise les caractères spéciaux avant tout traitement, et \texttt{htmlToReactNode}, qui convertit la chaîne résultante en n\oe{}uds React natifs. Cette approche supprime le risque d'injection de contenu malveillant tout en conservant la flexibilité du balisage personnalisé. Pour garder cette personnalisation des balises dans le texte, un \gls{parseur} inspiré de \gls{markdown} a été mis en place.
 
 Pour la sauvegarde, un \gls{webworker} dédié (\texttt{saveWorker}) a été mis en place. Le fil principal transmet l'état courant au \textit{worker} par échange de messages, celui-ci exécute \texttt{JSON.stringify()} dans son propre fil d'exécution, puis retourne la chaîne sérialisée au fil principal, comme illustré à la figure \ref{fig:schemaWebWorker}. Cette communication est entièrement asynchrone: l'interface utilisateur reste réactive pendant toute la durée de l'opération, quelle que soit la taille de l'objet à sérialiser.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{img/schema_web-worker.jpeg}
     \caption{Séparation du fil principal et du \gls{webworker} pour l'opération de sauvegarde dans \ns (Auteur 2026)}
     \label{fig:schemaWebWorker}
 \end{figure}
+
+L'extrait de code \ref{lst:saveworker} présente les deux composants de cette architecture. Côté fil secondaire, le \texttt{worker} reçoit via \texttt{postMessage} un objet contenant l'état courant et le nom du cookie cible, exécute \texttt{JSON.stringify} dans son propre fil d'exécution, puis retourne la chaîne sérialisée accompagnée du nom du cookie. Ce couplage garantit que le \textit{worker} ne conserve aucune donnée entre deux appels: il reçoit l'intégralité des informations nécessaires à chaque message et peut être réutilisé pour n'importe quelle opération de sauvegarde sans initialisation supplémentaire. Côté fil principal, le \textit{worker} est instancié une seule fois à l'initialisation du composant via \texttt{useEffect} et est conservé dans une référence \texttt{useRef} pour éviter des instanciations répétées. La fonction de rappel \texttt{onmessage} reçoit le résultat de manière asynchrone et déclenche l'écriture du cookie sans jamais avoir bloqué le fil de rendu.
+
+\begin{listing}[H]
+\begin{minted}{ts}
+// workers/saveWorkers.ts (fil secondaire)
+self.addEventListener("message",
+    (e: MessageEvent<SaveWorkerMessage>) => {
+        const { state, cookieName } = e.data;
+        const serialized = JSON.stringify(state);
+        (self as unknown as Worker).postMessage(
+            { serialized, cookieName } satisfies SaveWorkerResponse
+        );
+    }
+);
+
+
+// VisualNovel/index.tsx (fil principal)
+const saveWorkerRef = useRef<Worker | null>(null);
+
+useEffect(() => {
+    const worker = new Worker(
+        new URL('../../../workers/saveWorker.ts', import.meta.url),
+        { type: 'module' }
+    );
+    worker.addEventListener('message',
+        (e: MessageEvent<SaveWorkerResponse>) => {
+            saveState(e.data.cookieName, e.data.serialized);
+        }
+    );
+    saveWorkerRef.current = worker;
+    return () => {
+        worker.terminate();
+        saveWorkerRef.current = null;
+    };
+}, []);
+\end{minted}
+\caption{Implémentation du \texttt{saveWorker}: protocole de communication entre le fil principal et le fil secondaire (Auteur 2026)}
+\label{lst:saveworker}
+\end{listing}
 
 
 \subsubsubsection{Check}
@@ -557,7 +634,7 @@ Afin d'évaluer l'impact des optimisations sur les performances de rendu, cinq s
 
 Les tableaux \ref{tab:profiling_before} et \ref{tab:profiling_after} présentent les quatre métriques relevées: le nombre total de \gls{rendu}, la durée moyenne par \gls{rendu}, la durée maximale observée et la durée cumulée de l'ensemble des \glspl{rendu} de la session.
 
-\begin{table}[htbp]
+\begin{table}[H]
     \centering
     \caption{Mesures de performances avant optimisation (5 sessions)}
     \renewcommand{\arraystretch}{1.5}
@@ -578,7 +655,7 @@ Les tableaux \ref{tab:profiling_before} et \ref{tab:profiling_after} présentent
     \label{tab:profiling_before}
 \end{table}
 
-\begin{table}[htbp]
+\begin{table}[H]
     \centering
     \caption{Mesures de performances après optimisation (5 sessions)}
     \renewcommand{\arraystretch}{1.5}
@@ -601,7 +678,7 @@ Les tableaux \ref{tab:profiling_before} et \ref{tab:profiling_after} présentent
 
 Les figures \ref{fig:profiling_renders} et \ref{fig:profiling_maxdur} illustrent respectivement l'évolution du nombre de \gls{rendu} et de la durée maximale entre les deux versions.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
         \begin{axis}[
@@ -630,7 +707,7 @@ Les figures \ref{fig:profiling_renders} et \ref{fig:profiling_maxdur} illustrent
     \label{fig:profiling_renders}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
         \begin{axis}[
@@ -682,6 +759,63 @@ Par ailleurs, cette itération a permis d'implémenter plusieurs fonctionnalité
 
 L'intégration de \gls{zod} s'est articulée autour de deux \glspl{schema} de validation distincts. Le premier, \texttt{storySchema}, décrit la structure attendue du fichier \acrshort{json} de scénario: types de n\oe{}uds, présence des champs obligatoires, valeurs autorisées pour les propriétés énumérées. Le second, \texttt{saveSchema}, couvre la structure des fichiers de sauvegarde afin de détecter et de rejeter tout fichier corrompu ou modifié manuellement avant qu'il ne soit transmis au moteur. En cas d'écart par rapport au \gls{schema} défini (champ manquant, type incorrect, structure invalide), \gls{zod} retourne un message d'erreur explicite indiquant précisément la localisation et la nature du problème, ce qui constitue un mécanisme de détection d'erreurs déterministe et un retour direct pour l'auteur.
 
+L'extrait de code \ref{lst:storyschema} présente un extrait du \texttt{VNStorySchema}. La validation s'articule en deux niveaux. le premier est déclaratif: chaque champ du fichier \gls{json} est typé explicitement via les primitives \gls{zod} (\texttt{z.string()}, \texttt{z.number().positive()}, \texttt{z.enum([...])}), ce qui permet de détecter à l'exécution tout champ manquant, tout type incorrect ou toute valeur hors des options autorisées. Le second niveau, implémenté via \texttt{superRefine}, effectue une validation sémantique cross-champs impossible à exprimer avec des types seuls: il vérifie que la scène référencée par \texttt{startingScene} existe bien dans le bloc \texttt{story} et que l'ensemble des cibles de navigation (champs \texttt{next} des dialogues et des options) pointe vers des scènes déclarées. En cas d'écart, \texttt{ctx.addIssue} produit un message d'erreur incluant le chemin exact du champ fautif, tel qu'illustré à la figure \ref{fig:zod_erreurs}.
+
+\begin{listing}[H]
+\begin{minted}{ts}
+const DialogueSchema = z.object({
+    name: z.string(),
+    text: z.string(),
+    textSpeed: z.number().positive().optional(),
+    options: z.array(OptionSchema).optional(),
+    sprite: SpriteSchema.optional(),
+    next: z.string().optional(),
+    transition: DialogueTransitionSchema.optional(),
+    // ...
+});
+
+export const VNStorySchema = z.object({
+    settings: SettingsSchema,
+    characters: z.record(z.string(), CharacterTypeSchema),
+    story: z.record(z.string(), SceneTypeSchema),
+}).superRefine((data, ctx) => {
+    // Vérifie que startingScene référence une scène existante
+    if (!data.story[data.settings.startingScene]) {
+        ctx.addIssue({
+            code: "custom",
+            message: `"${data.settings.startingScene}" does not exist in Story`,
+            path: ["settings", "startingScene"],
+        });
+    }
+    // Vérifie que toutes les cibles de navigation existent
+    for (const [sceneId, scene] of Object.entries(data.story)) {
+        scene.dialogues.forEach((dialogue, i) => {
+            const targets = [
+                ...(dialogue.options ?? []).map(
+                    o => ({value: o.next, path: [/*...*/, i, "options"]})
+                ),
+                ... (dialogue.next ? [
+                    {value: dialogue.next, path: [/*...*/, i, "next"]}
+                ] : []),
+            ];
+            for (const target of targets) {
+                const [targetScene] = target.value.split(":");
+                if (!data.story[targetScene] && targetScene !== END_STORY_TOKEN) {
+                    ctx.addIssue({
+                        code: "custom",
+                        message: `Scene "${targetScene}" does not exist`,
+                        path: ["story", ...target.path],
+                    });
+                }
+            }
+        });
+    }
+});
+\end{minted}
+\caption{Extrait du \texttt{VNStorySchema}: validation déclarative et vérification sémantique des références de navigation (Auteur 2026)}
+\label{lst:storyschema}
+\end{listing}
+
 Afin de couvrir les cas d'erreur de manière systématique, des fichiers de test dédiés ont été ajoutés au dépôt dans un dossier \texttt{tests/}. Ces fichiers représentent intentionnellement des scénarios invalides: \acrshort{json} à la \gls{syntaxe} cassé (virgule manquante, guillemet non fermé), fichiers avec des champs obligatoires absents, et fichiers avec des valeurs de type incorrect. Ces fichiers sont exclus du \textit{build} de production via un \gls{plugin} Vite dédié.
 
 
@@ -689,7 +823,7 @@ Afin de couvrir les cas d'erreur de manière systématique, des fichiers de test
 
 Les tests négatifs réalisés à l'issue de cette itération ont couvert l'ensemble des cas décrits ci-dessus. Dans chaque cas, \gls{zod} a retourné un message d'erreur explicite et le moteur est resté dans un état stable, confirmant le comportement attendu, comme illustré à la figure \ref{fig:zod_erreurs}.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.47\textwidth}
         \includegraphics[height=4.85cm]{img/zod_invalid_syntax_1.png}
