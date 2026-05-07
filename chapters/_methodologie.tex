@@ -11,7 +11,7 @@ Le processus global s'organise autour de trois axes: un cycle de développement 
 
 Le modèle PDCA (\textit{Plan}, \textit{Do}, \textit{Check}, \textit{Act}), formalisé par W. Edwards Deming dans le cadre de l'amélioration continue des processus \parencite{deming_out_1986}, constitue le cadre méthodologique de ce projet. Chaque itération de développement suit ce cycle en quatre phases:
 
-\begin{table}[htbp]
+\begin{table}[H]
     \centering
     \caption{Définition du cycle PDCA utilisée}
     \renewcommand{\arraystretch}{1.5}
@@ -37,7 +37,7 @@ Ce modèle a été retenu pour sa capacité à intégrer les retours d'évaluati
 
 Le développement s'est déroulé en trois étapes d'itérations successives, décrites en détail au chapitre \ref{chap:MediaProject}:
 
-\begin{table}[htbp]
+\begin{table}[H]
     \centering
     \caption{Objectif par itération}
     \renewcommand{\arraystretch}{1.5}
@@ -84,6 +84,39 @@ L'utilisation de \gls{ts} comme surcouche typée de \gls{js} permet de détecter
 \subsubsection{Sécurité du code}
 
 Le moteur opère entièrement côté client, dans le navigateur, sans serveur \gls{backend}. Cette architecture supprime une surface d'attaque importante: il n'y a ni base de données exposée, ni gestion d'authentification, ni transmission de données utilisateur vers un serveur tiers. Le contenu narratif est statique et ne transite pas par un serveur applicatif. La validation des fichiers de sauvegarde par \gls{zod} permet par ailleurs d'empêcher l'injection de données malformées susceptibles de mettre le moteur dans un état indéterminé.
+
+
+\subsection{Objectifs du Media Project} \label{sec:objMediaProject}
+
+L'objectif principal de ce projet est d'offrir une alternative entièrement textuelle aux moteurs de \gls{vn} existants, facile à utiliser et à mettre en ligne. Contrairement aux solutions actuelles, telles que RenPy ou Twine, qui nécessitent l'apprentissage d'un langage de script dédié ou l'installation d'un environnement de développement, \nsits permet à tout auteur disposant de connaissances de base en \gls{json} de créer et de publier un \gls{vn} fonctionnel.
+
+En proposant une solution \gls{opensource}, le projet laisse la possibilité aux personnes possédant des connaissances en développement de modifier et d'étendre les fonctionnalités selon leurs besoins. L'\gls{opensource} permet également à toute personne intéressée de contribuer activement au développement du moteur.
+
+Les objectifs sont définis selon la méthode de priorisation \gls{moscow} \parencite{clegg_case_1994}:
+
+\begin{table}[H]
+    \centering
+    \caption{Objectifs du Media Project selon la priorisation MoSCoW}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{p{2cm} p{4.5cm} p{6cm}}
+        \hline
+        \textbf{Priorité} & \textbf{Fonctionnalité} & \textbf{Description} \\
+        \hline
+        Must & Effet machine à écrire & Affichage du texte caractère après caractère, simulant une machine à écrire. \\
+        \addlinespace
+        Must & Gestion des scènes & Navigation entre scènes, permettant les changements de décor et la progression narrative. \\
+        \addlinespace
+        Must & Gestion des choix & Présentation de choix au joueur, orientant la narration vers des routes différentes. \\
+        \addlinespace
+        Should & Gestion des saisies & Stockage d'une valeur saisie par le joueur, réutilisable dans le récit via une clé. \\
+        \addlinespace
+        Can & Fonctionnalités additionnelles & Toute autre fonctionnalité envisageable selon le temps disponible (sons, images, transitions). \\
+        \hline
+    \end{tabular}
+    \label{tab:objectifs_moscow}
+\end{table}
+
+\clearpage
 
 
 \subsection{Limites méthodologiques}

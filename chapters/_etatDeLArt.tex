@@ -71,18 +71,4 @@ Ink, développé par Inkle Studios, est un langage de scripting narratif spécif
 
 Dans le cadre de ce projet, \gls{json} présente plusieurs avantages. Sa \gls{syntaxe} à base de clés et valeurs est intuitive, lisible par n'importe quel éditeur de texte et ne nécessite aucun outil spécialisé pour être rédigée. Il constitue ainsi un choix naturel pour permettre à un auteur, même sans compétences techniques avancées, de décrire une histoire de manière structurée. En outre, \gls{json} est nativement supporté par \gls{js} et est donc directement interprétable dans un navigateur sans aucune dépendance supplémentaire, contrairement à \gls{yaml} ou Ink.
 
-Un risque inhérent à \gls{json} réside dans sa sensibilité aux erreurs de \gls{syntaxe}: une virgule manquante ou un guillemet non fermé rend le fichier invalide. Ce risque est atténué dans ce projet par l'utilisation de la bibliothèque \gls{zod}, ce qui permet de valider à l'exécution non seulement la \gls{syntaxe} du fichier, mais aussi la conformité de sa structure au \gls{schema} attendu par le moteur, avec des messages d'erreurs explicites.
-
-
-
-\subsection{Objectifs}
-
-L'état de l'art met en évidence plusieurs constats. Le \gls{vn} est un genre en pleine croissance, mais la création de tels jeux reste largement conditionnée à l'utilisation d'outils graphiques de bureau, à l'image de RenPy. Les approches no-code et low-code ont démocratisé la création de jeux, mais n'ont pas encore exploré la piste d'une écriture entièrement textuelle, structurée et déployable directement sur le web.
-
-L'objectif de ce travail est donc d'étudier la faisabilité d'un moteur de \gls{vn} reposant sur un fichier \gls{json} comme source de contenu, rendu directement dans un navigateur web sans nécessiter d'installation ni de compilation.
-
-
-
-\subsection{Contraintes et limites}
-
-L'absence d'interprétation sémantique du langage naturel implique que le format d'écriture devra respecter des règles précises. Un effort particulier sera fourni pour que ces règles restent suffisamment lisibles pour un auteur humain, tout en étant exploitables de manière déterministe par le moteur. Le format \gls{json} répond à cette contrainte, à condition de définir un schéma clair et documenté.
+Un risque inhérent à \gls{json} réside dans sa sensibilité aux erreurs de \gls{syntaxe}: une virgule manquante ou un guillemet non fermé rend le fichier invalide. Ce risque est atténué dans ce projet par l'utilisation de la bibliothèque \gls{zod}, ce qui permet de valider à l'exécution non seulement la \gls{syntaxe} du fichier, mais aussi la conformité de sa structure au \gls{schema} attendu par le moteur, avec des messages d'erreur explicites.
